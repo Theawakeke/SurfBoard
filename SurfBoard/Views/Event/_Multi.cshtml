@@ -1,0 +1,30 @@
+﻿
+<div class="my-0 p-3 bg-white rounded shadow-sm examp shadow-sm scrollbar-dusty-grass square thin " style="height:456px;width:auto;">
+    @foreach (var na in ViewBag.view)
+    {<div class="border-bottom border-gray">
+            <h4 class=" ml-3 pb-2 mb-0 col-10" style="@na.Type_Color"><i class="@na.Type_icon" style="@na.Type_Color;"></i>&nbsp;&nbsp;@na.Polls_Name</h4>
+        </div>
+    }
+
+
+    <div class="media text-muted p-3">
+
+        <div class="media-body pb-3 mb-0 lh-125">
+
+            @foreach (KeyValuePair<string, decimal> kvp in ViewBag.obj)
+            {
+                <h5 class=" text-dark mb-1 col-4"><strong>@kvp.Key </strong></h5>
+                <div class="progress mb-2" style="width:460px">
+
+                    <div class="progress-bar progress-bar-striped bg-info progress-bar-animated" role="progressbar" style="width: @kvp.Value%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">&nbsp; @kvp.Value%</div>
+                </div>
+            }
+
+
+
+        </div>
+    </div>
+
+</div>
+
+

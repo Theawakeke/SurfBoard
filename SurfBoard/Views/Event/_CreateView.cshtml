@@ -1,0 +1,126 @@
+﻿<div id="ViewCreate">
+    <form class="form-horizontal" autocomplete="off">
+
+        <div class="form-group">
+            <div class="col-md-10">
+                <label style="color:#92a8d1">Event Name</label>
+                <div class="input-group mb-3">
+                    <span class="input-group-prepend">
+                        <span class="input-group-text" style="border-color:#92a8d1;">
+                            <span class="fa fa-window-maximize"></span>
+                        </span>
+                    </span>
+
+                    <input type="text" class="form-control" id="Event_Name" name="Event_Name" placeholder="Your Event Name" required maxlength="30" style="border-color:#92a8d1" />
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-10">
+                <label style="color:#92a8d1">Event Code</label>
+                <div class="input-group mb-3">
+                    <span class="input-group-prepend">
+                        <span class="input-group-text" style="border-color:#92a8d1">
+                            <span class="fa fa-hashtag"></span>
+                        </span>
+                    </span>
+
+                    <input type="text" class="form-control text-uppercase" id="Event_Code" name="Event_Code" placeholder="ex. K123" required maxlength="4" style="border-color:#92a8d1" />
+
+                </div>
+
+                <h6 id='result'></h6>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-10">
+                <label style="color:#92a8d1">Start Date</label>
+                <div class="input-group mb-3">
+                    <span class="input-group-prepend">
+                        <span class="input-group-text" style="border-color:#92a8d1">
+                            <span class="fa fa-calendar"></span>
+                        </span>
+                    </span>
+                    <input type="text" class="form-control datepicker" id="Start_Date" name="Start_Date" placeholder="Click to add Date" required style="border-color:#92a8d1" />
+                </div>
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <div class="col-md-10">
+                <label style="color:#92a8d1">Last Date</label>
+                <div class="input-group mb-3">
+                    <span class="input-group-prepend">
+                        <span class="input-group-text" style="border-color:#92a8d1">
+                            <span class="fa fa-calendar"></span>
+                        </span>
+                    </span>
+                    <input type="text" class="form-control datepicker" id="End_Date" name="End_Date" placeholder="Click to add Date" required style="border-color:#92a8d1" />
+                </div>
+            </div>
+        </div>
+        <br />
+        <div class="form-group">
+            <div class="col-md-10">
+                <div id="CheckLimit">
+                    <label for="SetPassword" style="color:#92a8d1">
+                        <input type="checkbox" id="SetPassword" />
+                        <span>Click here if you want to set password for this Event</span>
+                    </label>
+
+                    <div id="MultiNumber" style="display: none;padding-bottom:10px">
+
+                        <input type="password" class="form-control " style="border-color:#92a8d1" id="EventPassword"  maxlength="30" />
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </form>
+
+
+</div>
+
+@section scripts{
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+
+            $('#Start_Date').datetimepicker({
+                format: 'DD/MM/YYYY',
+                minDate: moment().subtract(1, 'days')
+
+
+            });
+            $('#End_Date').datetimepicker({
+                useCurrent: false
+                , format: 'DD/MM/YYYY'
+            });
+            $("#Start_Date").on("dp.change", function (e) {
+
+                $('#End_Date').data("DateTimePicker").minDate(e.date);
+            });
+            $("#End_Date").on("dp.change", function (e) {
+                $('#Start_Date').data("DateTimePicker").maxDate(e.date);
+            });
+
+        });
+
+            $(function () {
+            $("#SetPassword").click(function () {
+                if ($(this).is(":checked")) {
+                    $("#SetPassword").attr("checked", true);
+                    $("#MultiNumber").show();
+                } else {
+                    $("#SetPassword").attr("checked", false);
+                    $("#MultiNumber").hide();
+                }
+            });
+        });
+    </script>
+}

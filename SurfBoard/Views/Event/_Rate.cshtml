@@ -1,0 +1,40 @@
+﻿
+<div class="my-0 p-3  bg-white rounded shadow-sm examp shadow-sm scrollbar-dusty-grass square thin" style="width:auto;height:456px">
+    @foreach (var na in ViewBag.Name)
+    {
+        <div class="border-bottom border-gray">
+            <h4 class=" ml-3 pb-2 mb-0 col-10" style="@na.Type_Color"><i class="@na.Type_icon" style="@na.Type_Color;"></i>&nbsp;&nbsp;@na.Polls_Name</h4>
+        </div>
+    }
+
+    <div class="container pt-3">
+        <center>
+            @if (ViewBag.PostCal != 0)
+            {
+                <input value="Average Rating @ViewBag.PostCal" class="text-center rounded-pill border-0 mb-1" style="width:200px;height:auto" readonly />
+            }
+            else
+            {
+                <input value="Don't have any vote yet. " class="text-center rounded-pill border-0 mb-1" style="width:200px;height:auto" readonly />
+            }
+        </center>
+        @foreach (KeyValuePair<int?, decimal> kvp in ViewBag.obj)
+        {
+
+            <h5><strong class="pl-2 text-dark mb-3 pt-1 pb-1">  @kvp.Key Stars. </strong></h5>
+            <div class="progress">
+
+                <div class="progress-bar progress-bar-striped bg-warning progress-bar-animated" role="progressbar" style="width: @kvp.Value%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">&nbsp; @kvp.Value%</div>
+            </div>
+        }
+
+    </div>
+</div>
+
+
+
+@section scripts{
+
+
+
+}

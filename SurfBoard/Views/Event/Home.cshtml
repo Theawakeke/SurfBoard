@@ -1,0 +1,416 @@
+﻿
+@{
+    ViewBag.Title = "Home";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    if (Session["User_ID"] == null)
+    {
+        Response.Redirect("~/Home/Index");
+    }
+}
+
+
+
+<div class="page-wrapper chiller-theme toggled">
+    <a id="show-sidebar" class="btn btn-sm btn-dark" href="#">
+        <i class="fa fa-bars"></i>
+    </a>
+    <nav id="sidebar" class="sidebar-wrapper">
+        <div class="sidebar-content">
+            <div class="sidebar-brand">
+                <a href="#"></a>
+                <div id="close-sidebar">
+                    <i class="fa fa-times"></i>
+                </div>
+                <div>
+                    <div class="input-group">
+                        @*<img src="~/Content/pics/Black and Turquoise Automotive Logo.png"  />*@
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- sidebar-search  -->
+            <div class="sidebar-menu">
+                <ul>
+                    <li class="header-menu">
+                        <span>General</span>
+                    </li>
+
+                    <li>
+                        <a href="@Url.Action("Home", "Event")">
+                            <i class="fa fa-folder"></i>
+                            <span>Documentation</span>
+
+                        </a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("DashBoard", "Dashboard")">
+                            <i class="fa fa-bar-chart"></i>
+                            <span>Analytics</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("EnterEvent", "Outer")">
+                            <i class="fa fa-search"></i>
+                            <span>Go Survey</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <!-- sidebar-menu  -->
+        </div>
+        <!-- sidebar-content  -->
+        <div class="sidebar-footer">
+            <a href="#">
+
+            </a>
+            <a href="#">
+
+            </a>
+            <a href="#">
+                <i class="fa fa-cog"></i>
+
+            </a>
+            <a onclick="location.href='@Url.Action("Logout", "Home")';return false;">
+                <i class="fa fa-power-off"></i>
+            </a>
+        </div>
+    </nav>
+    <!-- sidebar-wrapper  -->
+    <main class="page-content">
+        <div class="container-fluid">
+            <h2 style="text-align:center">EVENT</h2>
+            <hr>
+            <div class="container">
+
+                <button class="btn btn-outline-info" data-toggle="modal" data-target="#Modal_Create">Create Event</button>
+
+
+                <div class="modal" role="dialog" id="Modal_Create">
+
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header" style="background-color:cornflowerblue">
+                                <h5 class="modal-title" style="color:white;">Create Event</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <div id="ViewCreatePlatform">
+
+                                </div>
+
+                            </div>
+                            <div class="modal-footer">
+
+                                <button type="button" onclick="validate()" class="btn btn-primary" style="width:auto">Create</button>
+                            </div>
+
+                        </div>
+                    </div>
+
+
+                </div>
+
+
+
+
+                <br /><br />
+
+
+
+
+
+                <div class="list-group">
+                    <div class="card border-0 shadow-sm " style="height:auto">
+                        <div id="announcement">
+                        </div>
+                    </div>
+                </div>
+                @if (ViewBag.CountList >= 1)
+                {
+                    foreach (var ev in ViewBag.MyEventlist)
+                    {
+
+                        <div class="list-group">
+
+                            <div class="card border-0 shadow-sm " style="height:auto;">
+
+                                <div class="card-body flex-column ">
+                                    <div class="" style="position:absolute; right:1px;">
+                                            <span class="fa fa-pencil-square-o btn  mt-3 mr-2" style="font-size:25px;" data-toggle="modal" data-target="#exampleModal" data-whatever="@ev.Event_ID"></span>
+
+                                            <span class='fa fa-trash-o btn rounded-circle mt-3 mr-5' style='font-size:25px' data-toggle='modal' data-target='#DeleteModal' data-whatever='@ev.Event_ID' data-Name='@ev.Event_Name'></span>
+                                        </div>
+                                    <div class="align-items-start list-group-item-action pl-2 " onclick="MainPage(@ev.Event_ID)" id="@ev.Event_ID">
+                                        <div class="form-inline">
+                                            <h4 class="card-title " style="color:#9F614D">@ev.Event_Name</h4>
+                                            <small class="card-title d-xl-inline-flex text-uppercase" style="font-size:medium; color:lightgrey">&nbsp; #@ev.Event_Code</small>
+                                        </div>
+
+                                        <p class="card-text">@ev.Start_Date.ToString("dd/MM/yyyy")   To   @ev.End_Date.ToString("dd/MM/yyyy")</p>
+                                    </div>
+
+
+                                </div>
+
+                            </div>
+                        </div>
+                    }
+                }
+                else
+                {
+                    <div class="list-group">
+                        <div class="card border-0 shadow-sm " style="height:105px;width:auto">
+                            <div class="text-center">
+                                <h3 style="color:#F7E3CA;padding-top:30px">Don't have any Event</h3>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+
+        </div>
+
+
+    </main>
+</div>
+<!-- page-content" -->
+<!-- page-wrapper -->
+
+
+@section scripts{
+
+    <link href="~/Style_Sheets/Sitebar.css" rel="stylesheet" />
+    @*--------  site bar ----------*@
+    <script>
+        $(".sidebar-dropdown > a").click(function () {
+            $(".sidebar-submenu").slideUp(200);
+            if (
+                $(this)
+                    .parent()
+                    .hasClass("active")
+            ) {
+                $(".sidebar-dropdown").removeClass("active");
+                $(this)
+                    .parent()
+                    .removeClass("active");
+            } else {
+                $(".sidebar-dropdown").removeClass("active");
+                $(this)
+                    .next(".sidebar-submenu")
+                    .slideDown(200);
+                $(this)
+                    .parent()
+                    .addClass("active");
+            }
+        });
+
+        $("#close-sidebar").click(function () {
+            $(".page-wrapper").removeClass("toggled");
+        });
+        $("#show-sidebar").click(function () {
+            $(".page-wrapper").addClass("toggled");
+        });
+
+
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            $(window).keydown(function (event) {
+                if (event.keyCode == 13) {
+                    event.preventDefault();
+                    return false;
+                }
+            });
+        });
+    </script>
+    <script>
+        $('#Modal_Create').on('show.bs.modal', function (event) {
+            var modal = $(this)
+             $.ajax({
+                    type: "GET",
+                    url: '@Url.Action("_CreateView","Event")',
+                    dataType: "html",
+                    data: { },
+                    success: function (data) {
+
+                        modal.find('.modal-body').html(data);
+                         RandomCode(4);
+                    }
+
+
+
+                });
+        })
+
+    function RandomCode(length) {
+               var result           = '';
+               var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+               var charactersLength = characters.length;
+            for (var i = 0; i < length; i++) {
+                result += characters.charAt(Math.floor(Math.random() * charactersLength));
+        }
+        var modal = $('#Modal_Create');
+        modal.find('#Event_Code').val(result);
+        return false;
+        }
+
+    </script>
+
+    @*-------- add Event ------*@
+    <script>
+        function validateCode(Event_Code) {
+            var re = /[0-9a-zA-Z]{4}$/;
+            return re.test(Event_Code);
+        }
+
+        function validate() {
+
+            var Event_Code = $("#Event_Code").val();
+            $("#result").text("");
+
+            if (validateCode(Event_Code)) {
+                Crea();
+            } else {
+
+                $("#result").text("Event Code is Not Valid. Need 4 letters");
+                $("#result").css("color", "red");
+            }
+            return false;
+        };
+    </script>
+
+    <script>
+        function validateEdit(Code) {
+            var re = /[0-9a-zA-Z]{4}$/;
+            return re.test(Code);
+        }
+
+        function validateEditBtn() {
+            var Code = $("#Code").val();
+            if (Code == "") {
+                Code = $("#SubCode").val();
+            }
+
+            $("#resultEdit").text("");
+
+            if (validateCode(Code)) {
+                Edit();
+            } else {
+
+                $("#resultEdit").text("Event Code is Not Valid. Need 4 letters");
+                $("#resultEdit").css("color", "red");
+            }
+            return false;
+        };
+    </script>
+    <script>
+
+
+            function Crea() {
+                var E_Name = $("#Event_Name").val();
+                var E_Code = $("#Event_Code").val();
+                var S_Date = $("#Start_Date").val();
+                var E_Date = $("#End_Date").val();
+
+                if (S_Date == "") {
+                    S_Date = "01/01/01"
+                }
+                if (E_Date == "") {
+                    E_Date = "01/01/01"
+                }
+               var EventPassword = $("#EventPassword").val();
+                 var SetPassword = $("#SetPassword").is(':checked') ? 'true' : 'false';
+            if (SetPassword == 'false') {
+                EventPassword = null ;
+            }
+            else {
+                if (EventPassword == "") {
+                    EventPassword = "ErrorCaseWhiteSpace";
+                }
+            }
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("Create","Event")',
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    data: JSON.stringify({ Event_Name: E_Name, Event_Code: E_Code, Start_Date: S_Date, End_Date: E_Date , Event_Password: EventPassword }),
+                    success: function (data) {
+
+
+                        alert(data.Result)
+                        console.log(data.Result)
+
+
+
+                        if (data.Event != "") {
+                            $(".modal-body input").val("")
+                            $('.close').click();
+                            var eventlist = data.Event;
+                            var enddate = moment(eventlist.End_Date).add(543, 'year').add(1,'day').format('DD/MM/YYYY');
+                            var startdate = moment(eventlist.Start_Date).add(543, 'year').add(1,'day').format('DD/MM/YYYY');
+                            var rows ="<div class='card-body flex-column '>"
+                                +"<div class='' style='position:absolute; right:1px;'>"
+                                + "<span class='fa fa-pencil-square-o btn  mt-3 mr-2' style='font-size:25px;' data-toggle='modal' data-target='#exampleModal' data-whatever='" + eventlist.Event_ID + "'></span>"
+                                + "<span class='fa fa-trash-o btn rounded-circle mt-3 mr-5' style='font-size:25px' data-toggle='modal' data-target='#DeleteModal' data-whatever='" + eventlist.Event_ID + "' data-Name='" + eventlist.Event_Name + "'></span>"
+                                +"</div>"
+                                + "<div class='align-items-start list-group-item-action pl-2 ' onclick='MainPage(" + eventlist.Event_ID + ")' id='" + eventlist.Event_ID + "'>"
+                                + "<div class='form-inline'>"
+                                + "<h4 class='card-title ' style='color:#9F614D'>" + eventlist.Event_Name + "</h4>"
+                                + "<small class='card-title d-xl-inline-flex' style='font-size:medium; color:lightgrey'>&nbsp; # " + eventlist.Event_Code + "</small>"
+                                + "</div>"
+                                + "<p class='card-text'>" + startdate + " " + "To" + " " + enddate + "</p>"
+                                + "</div>"
+                                + "</div>";
+
+                            $('#announcement').append(rows);
+
+
+                        }
+
+                        else {
+
+                            console.log("do not thing")
+                        }
+
+                    },
+                    error: function () {
+                        console.log("Error Again.")
+                    }
+                });
+                }
+
+    </script>
+    @*---------- Link page ------------*@
+    <script>
+
+
+        function MainPage(ID) {
+
+
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("LinkPage","Event")',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                data: JSON.stringify({ ID }),
+                success: function (result) {
+                     window.location.href=result.Url;
+                }
+
+
+
+            });
+        }
+
+    </script>
+
+
+}
+
+
+
+

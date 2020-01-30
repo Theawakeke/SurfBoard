@@ -1,0 +1,35 @@
+﻿
+<div class="my-0 p-3 bg-white rounded shadow-sm  examp shadow-sm scrollbar-dusty-grass square thin" style="height:456px;width:auto">
+    @foreach (var na in ViewBag.view)
+    {<div class="border-bottom border-gray">
+            <h4 class=" ml-3 pb-2 mb-0 col-10" style="@na.Type_Color"><i class="@na.Type_icon" style="@na.Type_Color"></i>&nbsp;&nbsp;@na.Polls_Name</h4>
+        </div>
+    }
+
+    @if (ViewBag.ThisTextCount != 0)
+    {
+
+        foreach (var tnc in ViewBag.ThisTextnCloud)
+        {
+            <div class="media text-muted pt-2 " style="height:auto">
+
+                <div class="media-body pb-2 mb-0 lh-125 border-bottom border-gray">
+
+                    <h5 class=" pl-3 border-gray pb-1 mb-0 small"># @tnc.Outer.Outer_ID</h5>
+                    <div class="" style="column-width:400px">
+                        <h4><strong class="pl-5 text-dark mb-3 ">@tnc.Outer.Outer_Text</strong></h4>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+    @if (ViewBag.ThisTextCount == 0)
+    {
+
+
+        <div class=" text-center pt-5">
+            <h4><strong class="">Don't have any text yet.</strong></h4>
+        </div>
+
+    }
+</div>

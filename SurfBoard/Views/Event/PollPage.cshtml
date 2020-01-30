@@ -1,0 +1,837 @@
+﻿
+@{
+    ViewBag.Title = "Poll";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    if (Session["User_ID"] == null)
+    {
+        Response.Redirect("~/Home/Index");
+    }
+}
+
+
+
+<div class="page-wrapper chiller-theme toggled">
+    <a id="show-sidebar" class="btn btn-sm btn-dark" href="#">
+        <i class="fa fa-bars"></i>
+    </a>
+    <nav id="sidebar" class="sidebar-wrapper">
+        <div class="sidebar-content">
+            <div class="sidebar-brand">
+                <a href="#"></a>
+                <div id="close-sidebar">
+                    <i class="fa fa-times"></i>
+                </div>
+                <div>
+                    <div class="input-group">
+                        @*<img src="~/Content/pics/Black and Turquoise Automotive Logo.png"  />*@
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- sidebar-search  -->
+            <div class="sidebar-menu">
+                <ul>
+                    <li class="header-menu">
+                        <span>General</span>
+                    </li>
+
+                    <li>
+                        <a href="@Url.Action("Home", "Event")">
+                            <i class="fa fa-folder"></i>
+                            <span>Documentation</span>
+
+                        </a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("DashBoard", "Dashboard")">
+                            <i class="fa fa-bar-chart"></i>
+                            <span>Analytics</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("EnterEvent", "Outer")">
+                            <i class="fa fa-search"></i>
+                            <span>Go Survey</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <!-- sidebar-menu  -->
+        </div>
+        <!-- sidebar-content  -->
+        <div class="sidebar-footer">
+            <a href="#">
+
+            </a>
+            <a href="#">
+
+            </a>
+            <a href="#">
+                <i class="fa fa-cog"></i>
+
+            </a>
+            <a onclick="location.href='@Url.Action("Logout", "Home")';return false;">
+                <i class="fa fa-power-off"></i>
+            </a>
+        </div>
+    </nav>
+    <!-- sidebar-wrapper  -->
+    <main class="page-content">
+        <div class="container-fluid">
+            <h2  style="text-align:center">POLL</h2>
+            <hr>
+            <div class="container">
+
+                <input type="button" onclick="window.location.href = 'Home';" value="Back" name="button" class="btn example_c">
+
+
+                @*---dropdownbutton---*@
+              
+                <div class="btn-group" role="group">
+                    <button id="btnGroupDrop1" data-toggle="dropdown" type="button" class="btn btn-primary-outline dropdown-toggle " style="color:#6d8db6;" aria-haspopup="true" aria-expanded="false">
+                        Create Poll<span class="caret" style="color:#92a8d1;"></span>
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                        @foreach (var item in ViewBag.MyPolist)
+                        {
+
+
+                            <li>
+                                <a class="dropdown-item " data-toggle="modal" data-target="#Modal_CreatePoll" onclick="Selected(@item.Polls_Type_ID)" id="@item.Polls_Type_ID" name="@item.Polls_Type_Name"><i class="@item.Type_icon" style="@item.Type_Color;"></i>&nbsp;&nbsp;@item.Polls_Type_Name</a>
+                            </li>
+
+
+
+                        }
+                    </ul>
+                </div>
+                @*---Modal---*@
+                <div id="Modal_CreatePoll" class="modal" role="dialog">
+                    <div class="modal-dialog">
+
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                            <div class="modal-header" style="background-color:cornflowerblue">
+                                <h5 class="modal-title" style="color:white">Create Poll</h5>
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+                            </div>
+                            <div class="modal-body">
+                                <form class="form-horizontal" autocomplete="off">
+                                    <div class="form-group">
+                                        <div class="col-md-10">
+                                            <label style="color:#92a8d1">Selected Type</label>
+                                            <select id="myselect" class="form-control mb-3" style="border-color:#92a8d1">
+
+                                                @foreach (var item in ViewBag.MyPolist)
+                                                {
+
+                                                    <option data-modal-show="@item.Polls_Type_ID" value="@item.Polls_Type_ID"> @item.Polls_Type_Name</option>
+                                                }
+                                            </select>
+
+
+
+                                            <label style="color:#92a8d1">Name</label>
+                                            <input type="text" id="PollName" name="PollName" class="form-control mb-2" maxlength="40" placeholder=" Your Poll Question Name" style="border-color:#92a8d1" required>
+
+                                            <div id="MultipleChoice" class="hide_first">
+
+                                                <small style="color: gray">Your Options (Max 10 Options)</small><br />
+                                                <div class="input_fields_container_part mb-2">
+
+                                                    <div class="input-group abc" style="height:auto">
+
+                                                        <input type="text" class="form-control" id="NumOptions" name="Options" placeholder="Add Options" maxlength="30" style="border-color:#92a8d1" />
+
+                                                        <span class="input-group-addon remove_field " style="font-size: 2em; color: Tomato; margin-left:10px">
+                                                            <i class="fa fa-remove "></i>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                <div class="form-inline">
+                                                    <button type="button" class="add_more_button btn btn-outline-secondary m-1">Add Field</button>
+                                                    <small id="Limit" style="color:red;display:none">Can't Add More Options</small><br />
+                                                </div>
+
+                                                <br />
+                                                <label for="checkMulti" class="pt-2" style="color:#92a8d1">
+                                                    <input type="checkbox" id="checkMulti" />
+                                                    <span>Allow to select multiple options</span>
+                                                </label>
+
+                                                <div id="CheckLimit" style="display: none">
+                                                    <label for="SetMulti" style="color:#92a8d1">
+                                                        <input type="checkbox" id="SetMulti" />
+                                                        <span>Limit max number of answers</span>
+                                                    </label>
+
+                                                    <div id="MultiNumber" style="display: none;padding-bottom:10px">
+
+                                                        <input type="number" class="form-control text-center" style="width:100px;border-color:#92a8d1" id="NumberOfAnswer" min="2" value="2" />
+
+                                                    </div>
+                                                    <div id="port">
+                                                    </div>
+
+                                                </div>
+                                                <div id="AddPassport">
+                                                </div>
+
+
+
+
+
+                                            </div>
+
+                                            <div id="OpenText" style="display:none" class="hide_first">
+
+                                            </div>
+                                            <div id="Cloud" style="display:none" class="hide_first">
+
+                                            </div>
+                                        </div>
+                                        <div id="Rating" style="display:none" class="hide_first">
+
+
+
+
+                                            <label class="p-3"> Max Value : </label><input class="form-control text-center d-inline " style="width:70px; font-size:medium ;border-color:#92a8d1" type='number' name='rating' id='star_input' min="0" max="10" />
+
+
+                                            <!-- Rating Stars Box -->
+                                            <div class='rating-stars text-center' id="starr">
+                                                <ul id='stars' style="font-size:13px">
+                                                    <li class='star' data-value='1'>
+                                                        <i class='fa fa-star fa-fw'></i>
+                                                    </li>
+                                                    <li class='star' data-value='2'>
+                                                        <i class='fa fa-star fa-fw'></i>
+                                                    </li>
+                                                    <li class='star' data-value='3'>
+                                                        <i class='fa fa-star fa-fw'></i>
+                                                    </li>
+                                                    <li class='star' data-value='4'>
+                                                        <i class='fa fa-star fa-fw'></i>
+                                                    </li>
+                                                    <li class='star' data-value='5'>
+                                                        <i class='fa fa-star fa-fw'></i>
+                                                    </li>
+                                                    <li class='star' data-value='6'>
+                                                        <i class='fa fa-star fa-fw'></i>
+                                                    </li>
+                                                    <li class='star' data-value='7'>
+                                                        <i class='fa fa-star fa-fw'></i>
+                                                    </li>
+                                                    <li class='star' data-value='8'>
+                                                        <i class='fa fa-star fa-fw'></i>
+                                                    </li>
+                                                    <li class='star' data-value='9'>
+                                                        <i class='fa fa-star fa-fw'></i>
+                                                    </li>
+                                                    <li class='star' data-value='10'>
+                                                        <i class='fa fa-star fa-fw'></i>
+                                                    </li>
+                                                </ul>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </form>
+                                <div class="modal-footer">
+
+                                    <input type="button" class="btn btn-primary" onclick="AddPoll()" value="Submit" />
+
+                                </div>
+                            </div>
+
+
+
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+                @*---BoxPoll---*@
+
+                <div class="grid-container" style="margin-bottom:auto;margin-top:5px;">
+
+                    <div class=" fancy" style="height:457px; width:auto; ">
+
+
+
+                        <div class="list-group examp shadow-sm scrollbar-mean-fruit square thin rounded" style="height:456px;max-width:555px;background-color:white;" id="announce">
+                            <div class="list-group ">
+                                <div id="Polcount">
+                                </div>
+
+                            </div>
+
+                            @foreach (var pi in ViewBag.ThisPo)
+                            {
+
+
+                                <div class="list-group ">
+                                    <div class="card shadow-sm">
+
+                                        <div class="card-body small" id="@pi.Poll.Polls_ID">
+
+                                            <input type="text" id="DeleteTHis" hidden value="@pi.Poll.Polls_Name" />
+
+                                              <span class="fa fa-trash-o float-right pl-3 " style="font-size:25px;margin-top:5px" data-toggle="modal" data-target="#exampleModal" data-whatever="@pi.Poll.Polls_ID"></span>
+                                             <span class="fa fa-pencil-square-o float-right pl-3 " style="font-size:25px; margin-top:6px" data-toggle="modal" data-target="#EditModal" data-whatever="@pi.Poll.Polls_ID"></span>
+                                            <label class="switch switch-handle float-right " name="IsActive" data-val="@pi.Poll.Polls_ID">
+                                                <input type="checkbox" id="Toggle" name="btnt" data-val="@pi.Poll.Polls_ID" data-type="@pi.Poll.Polls_Type_ID" data-bind="btn @pi.Poll.IsActive">
+                                                <span class="slider round"></span>
+                                            </label>
+
+                                            <i class="@pi.Polls_Type.Type_icon float-left p-sm-1 " style=" font-size:20px;@pi.Polls_Type.Type_Color;"></i>
+
+                                            <h6 class="card-title text-uppercase m-1 " style="@pi.Polls_Type.Type_Color;">@pi.Polls_Type.Polls_Type_Name</h6>
+
+
+                                            <h5 class="card-title mt-2  p-1 m-1" style="color:darkgrey">@pi.Poll.Polls_Name</h5>
+
+
+
+
+                                        </div>
+                                    </div>
+
+                                </div>
+                            }
+
+                        </div>
+                    </div>
+
+                    @*---BoxSet---*@
+
+                    <div class="fancytwo" style="height:457px; width:auto">
+
+                        <div class="list-group ">
+                            <div class="card shadow-sm border-0 " id="data_place" style="max-width:555px;height:456px">
+                                <div class="card-body ">
+
+                                    <h4 class="card-title text-center p-5" style="color:mediumseagreen">Don't Have Any Poll Active.</h4>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+
+    </main>
+</div>
+<!-- page-content" -->
+<!-- page-wrapper -->
+
+@section scripts{
+    <link href="~/Style_Sheets/Star.css" rel="stylesheet" />
+    <link href="~/Style_Sheets/PollBox.css" rel="stylesheet" />
+    <link href="~/Style_Sheets/SwitchButton.css" rel="stylesheet" />
+
+    <link href="~/Style_Sheets/Sitebar.css" rel="stylesheet" />
+    <link href="~/Style_Sheets/ScrollQuestion.css" rel="stylesheet" />
+
+    <script src="~/Scripts/jquery.signalR-2.4.1.min.js"></script>
+    <script src="~/signalr/hubs"></script>
+    @*--------  site bar ----------*@
+    <script>
+        $(".sidebar-dropdown > a").click(function () {
+            $(".sidebar-submenu").slideUp(200);
+            if (
+                $(this)
+                    .parent()
+                    .hasClass("active")
+            ) {
+                $(".sidebar-dropdown").removeClass("active");
+                $(this)
+                    .parent()
+                    .removeClass("active");
+            } else {
+                $(".sidebar-dropdown").removeClass("active");
+                $(this)
+                    .next(".sidebar-submenu")
+                    .slideDown(200);
+                $(this)
+                    .parent()
+                    .addClass("active");
+            }
+        });
+
+        $("#close-sidebar").click(function () {
+            $(".page-wrapper").removeClass("toggled");
+        });
+        $("#show-sidebar").click(function () {
+            $(".page-wrapper").addClass("toggled");
+        });
+
+
+    </script>
+
+
+    <script>
+        $(function () {
+            $("#checkMulti").click(function () {
+                if ($(this).is(":checked")) {
+                    $("#checkMulti").attr("checked", true);
+                    $("#CheckLimit").show();
+                    $("#AddPassport").hide();
+                } else {
+                    $("#SetMulti").attr("checked", false);
+                    $("#SetMulti").prop("checked", false);
+                    $("#checkMulti").attr("checked", false);
+                    $("#CheckLimit").hide();
+                    $("#AddPassport").show();
+                }
+            });
+        });
+
+        $(function () {
+            $("#SetMulti").click(function () {
+                if ($(this).is(":checked")) {
+                    $("#SetMulti").attr("checked", true);
+                    $("#MultiNumber").show();
+                    $("#port").hide();
+                } else {
+                    $("#SetMulti").attr("checked", false);
+                    $("#MultiNumber").hide();
+                    $("#port").show();
+                }
+            });
+        });
+
+
+
+    </script>
+
+    <script>
+            $(document).ready(function () {
+
+                    var IdsD = @ViewBag.ThisActive;
+                    $.ajax({
+                        type: "POST",
+                        url: '@Url.Action("FindIsActive","Event")',
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        data: JSON.stringify({ EventID: IdsD }),
+                        success: function (data) {
+                            if (data.CheckAct == "1") {
+                                var id = data.ID;
+                                var type = data.Type;
+                                returnPartial(id, type);
+                            }
+                            if (data.CheckAct == "3") {
+                                var rows = '<div class="card-body ">'
+
+                                    + '<h4 class="card-title text-center p-5" style="color:mediumseagreen">'+"Please Active One Poll. "+'</h4>'
+
+                            +'</div>'
+
+                                 $('#data_place').html(rows);
+                            }
+
+                        },
+                        error: function () {
+                            console.log("Error Again.")
+                        }
+                    })
+
+            });
+    </script>
+    @*---Dropdown---*@
+    <script>
+
+        function Selected(id) {
+
+            $('#myselect').val(id)
+            funMyModel(id);
+        }
+
+
+
+
+        $('select').on('change', function () {
+            var str = "";
+            str = this.value;
+            funMyModel(str);
+        });
+
+        function funMyModel(val) {
+
+
+            if (val == "1") {
+                vall = "MultipleChoice";
+            }
+            if (val == "2") {
+                vall = "OpenText";
+            }
+            if (val == "3") {
+                vall = "Cloud";
+            }
+            if (val == "4") {
+                vall = "Rating";
+            }
+
+            //reset Options
+            $("input[name='Options']").val("");
+            //reset Star
+            $('#star_input').val("");
+            var stars = $("li").parent().children('li.star');
+
+
+            for (i = 0; i < stars.length; i++) {
+                $(stars[i]).removeClass('selected');
+            }
+
+            $("#MultiNumber").hide();
+            $("#SetMulti").prop("checked", false);
+            $("#SetMulti").attr("checked", false);
+            $("#CheckLimit").hide();
+            $("#checkMulti").prop("checked", false);
+            $("#checkMulti").attr("checked", false);
+
+
+
+            //Set display:none for all first
+            $(".hide_first").css("display", "none");
+
+
+
+            //Show the one we clicked
+            $("#" + vall).css("display", "block");
+
+
+        }
+
+    </script>
+
+    @*---Add input---*@
+    <script>
+        $(document).ready(function () {
+            var max_fields_limit = 10; //set limit for maximum input fields
+            var x = 1; //initialize counter for text box
+            $('.add_more_button').click(function (e) { //click event on add more fields button having class add_more_button
+                e.preventDefault();
+                if (x < max_fields_limit) { //check conditions
+                    x++; //counter increment
+                    $('.input_fields_container_part').append('<div class="input-group"><input type="text" class="form-control" name="Options" placeholder="Add Options" maxlength="30" style="width:100px;border-color:#92a8d1"/><span class="input-group-addon remove_field" style="font-size: 2em; color: Tomato;margin-left:10px;"><i class="fa fa-remove " ></i></span>'); //add input field
+                    $("#Limit").hide();
+                }
+                else {
+                    $("#Limit").show();
+                }
+            });
+            $('.input_fields_container_part').on("click", ".remove_field", function (e) { //user click on remove text links
+                e.preventDefault(); $(this).parent('div').remove(); x--;
+                $("#Limit").hide();
+            })
+        });
+
+
+    </script>
+
+    @*---Addpoll---*@
+    <script>
+
+        function AddPoll() {
+            var PoT = $("#myselect").val();
+            var PoN = $("#PollName").val();
+            var Rat = $("#star_input").val();
+             var Opt = "";
+            $("input[name='Options']").each(function() {
+             Opt = Opt + "|" + $(this).val();
+            });
+
+            if (Rat == "") {
+                Rat = 0;
+
+            }
+
+            var NumberMulti = "";
+            var multi = $("#checkMulti").is(':checked') ? 'true' : 'false';
+            if (multi == 'false') {
+                NumberMulti = 11 ;
+            }
+            var Setmulti = $("#SetMulti").is(':checked') ? 'true' : 'false';
+            if (Setmulti == 'false') {
+                NumberMulti = 11 ;
+            }
+            else {
+                NumberMulti = $("#NumberOfAnswer").val();
+            }
+
+
+
+
+            $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("AddPoll","Event")',
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    data: JSON.stringify({ PollTypes: PoT, PollName: PoN , OPts: Opt, Ratng: Rat, NumMulti:NumberMulti, Ismulti:multi}),
+                success: function (data) {
+                    debugger;
+                        if (data.Poll != "") {
+
+                            alert(data.Result)
+                            $('.close').click();
+                            window.location.reload();
+
+                        }
+                        else {
+                            alert(data.Result)
+
+
+                        }
+
+                    },
+                    error: function () {
+                        console.log("Error Again.")
+                    }
+                });
+
+
+
+        }
+    </script>
+
+
+    @*---Star Rating---*@
+
+    <script>
+        $(document).ready(function () {
+
+
+            /* 1. Visualizing things on Hover - See next part for action on click */
+            $('#stars li').on('mouseover', function () {
+                var onStar = parseInt($(this).data('value'), 10); // The star currently mouse on
+
+                // Now highlight all the stars that's not after the current hovered star
+                $(this).parent().children('li.star').each(function (e) {
+                    if (e < onStar) {
+                        $(this).addClass('hover');
+                    }
+                    else {
+                        $(this).removeClass('hover');
+                    }
+                });
+
+            }).on('mouseout', function () {
+                $(this).parent().children('li.star').each(function (e) {
+                    $(this).removeClass('hover');
+                });
+            });
+
+
+
+
+
+            /* 2. Action to perform on click */
+            $('#stars li').on('click', function () {
+                var onStar = parseInt($(this).data('value'), 10); // The star currently selected
+                var stars = $(this).parent().children('li.star');
+
+                for (i = 0; i < stars.length; i++) {
+                    $(stars[i]).removeClass('selected');
+                }
+
+                for (i = 0; i < onStar; i++) {
+                    $(stars[i]).addClass('selected');
+                }
+
+
+                // JUST RESPONSE (Not needed)
+                var ratingValue = parseInt($('#stars li.selected').last().data('value'), 10);
+                //var msg = "";
+                //if (ratingValue > 1) {
+                //    msg = "Thanks! You rated this " + ratingValue + " stars.";
+                //}
+                //else {
+                //    msg = "We will improve ourselves. You rated this " + ratingValue + " stars.";
+                //}
+                //responseMessage(msg);
+
+                $('#star_input').val(ratingValue);
+
+            });
+
+
+        });
+
+        $("#star_input").change(function () {
+
+
+            var onStar = parseInt(this.value, 10); // The star currently selected
+            var stars = $("li").parent().children('li.star');
+
+
+            for (i = 0; i < stars.length; i++) {
+                $(stars[i]).removeClass('selected');
+            }
+
+
+            for (i = 0; i < onStar; i++) {
+                $(stars[i]).addClass('selected');
+            }
+            console.log(this.value);
+        });
+
+
+    </script>
+
+
+    @*---IsACtive---*@
+    <script>
+
+
+
+        $("input[name='btnt']").each(function () {
+            $("input[name='btnt']").prop("checked", false).change();
+        })
+
+        $("input[data-bind~='True']").each(function callSignalR() {
+            $("input[data-bind~='True']").prop("checked", true).change();
+
+
+        })
+
+
+
+    </script>
+
+    <script>
+
+                $(document).ready(function () {
+
+
+                    $("label[name='IsActive']").change(function () {
+
+
+
+                        var Id = $(this).data('val');
+                        var checkStatus = $(this).find('input:checkbox').is(':checked') ? 'true' : 'false';
+
+                        $.ajax({
+                            type: "POST",
+                            url: '@Url.Action("UpdateNtf", "Event")',
+                            data: {
+                                id: Id,
+                                status: checkStatus
+                            },
+                            dataType: 'json',
+                            success: function (s) {
+
+
+                                ChangeChecked(s.ID);
+                                callSignalR(s)
+
+
+                            },
+                            error: function () {
+                                console.log('something went wrong - debug it!');
+                            }
+                        })
+
+                    });
+                })
+                //---- how to lopp it ----
+                function ChangeChecked(s) {
+
+                        $("input[name='btnt']").each(function () {
+                             $("input[name='btnt']").prop("checked", false)
+                        })
+
+                    $("input[data-val~='" + s + "']").each(function () {
+                        $("input[data-val~='" + s + "']").prop("checked", true)
+                        })
+                }
+
+                 function callSignalR(s) {
+                     $.ajax({
+                         type: "GET",
+                         url: '@Url.Action("CallSignalR")',
+                         data: { 
+                             id: s.ID,
+                             type: s.TID
+                         },
+                         success: function () {
+
+
+                         },
+                         error: function () {
+                             alert("Hey! Something Eorror.");
+                         }
+                     })
+                 }
+
+                 ////start hub
+          $(function () {
+
+              var hubNotif = $.connection.myHub;
+              var myHub = $.connection.sentimentsHub;
+
+                    hubNotif.client.updatedData = function (id, type,checkid) {
+
+                        if (checkid == "@Session["Event_ID"]") {
+                    returnPartial(id, type);
+                }
+
+                    };
+
+            $.connection.hub.start(function () {
+
+                    });
+        })
+
+
+
+
+
+             function returnPartial(id,type) {
+                 var url = "";
+                  var ID = id;
+                 if (type == 1) {
+                     url = "/Event/_Multi"
+                  }
+                   if (type == 2) {
+                      url = "/Event/_Text"
+                  }
+                   if (type == 3) {
+                      url = "/Event/_Cloud"
+                      }
+                    if (type == 4) {
+                      url = "/Event/_Rate"
+                     }
+
+
+                $.ajax({
+                    type: "GET",
+                    url: url,
+                    data: {
+                        ID: ID
+                    },
+                    dataType: 'html',
+                    success: function (data) {
+                       $('#data_place').html(data);
+
+                    },
+                    error: function () {
+                        alert("Hey! Something Eorror.");
+                    }
+                })
+            }
+
+
+
+    </script>
+
+}

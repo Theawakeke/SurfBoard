@@ -1,0 +1,16 @@
+﻿.example_c {
+    color: #92a8d1 !important;
+    text-transform: uppercase;
+    text-decoration: none;
+    background: #ffffff;
+    border: 4px solid #92a8d1 !important;
+    display: inline-block;
+    transition: all 0.3s ease 0s;
+}
+
+    .example_c:hover {
+        color: #ffffff !important;
+        background: #92a8d1;
+        border-color: #92a8d1 !important;
+        transition: all 0.3s ease 0s;
+    }

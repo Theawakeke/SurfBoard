@@ -1,0 +1,260 @@
+﻿
+@{
+    ViewBag.Title = "QuestionsPage";
+    if (Session["Event_ID"] == null)
+    {
+        Response.Redirect("~/Home/Index");
+
+    }
+
+
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <nav class="navbar navbar-fixed-top " style="padding-top:20px;padding-bottom:20px">
+        <a class="navbar-brand"></a>
+    </nav>
+
+
+
+
+
+    <div>
+        <span onclick="window.location.href ='EnterEvent';" style="font-size:35px" class="fa fa-arrow-left"></span>
+
+        <div class="list-group ">
+
+            <div class="card " id="QuestionsBox" style="width:800px;height:auto;align-self:center;border-color:  #92a8d1;">
+                <div class="card-body ">
+
+                    <h4 class="card-title text-center p-5" style="color:  #92a8d1">Don't Have Any Poll Active.<span class="text-uppercase"> @Session["Event_Code"]</span> </h4>
+
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </div>
+</div>
+@section scripts{
+    <script src="~/Scripts/jquery.signalR-2.4.1.min.js"></script>
+    <script src="~/signalr/hubs"></script>
+
+    <link href="~/Style_Sheets/RadioBtn.css" rel="stylesheet" />
+    <link href="~/Style_Sheets/ScrollQuestion.css" rel="stylesheet" />
+    <link href="~/Style_Sheets/Star.css" rel="stylesheet" />
+    <link href="~/Style_Sheets/FaFaHover.css" rel="stylesheet" />
+    <link href="~/Style_Sheets/InputTextQ.css" rel="stylesheet" />
+
+    <script>
+        $(document).ready(function () {
+            $(window).keydown(function (event) {
+                if (event.keyCode == 13) {
+                    event.preventDefault();
+                    return false;
+                }
+            });
+        });
+    </script>
+    <script>
+         $(document).ready(function () {
+
+             var IdsD = @ViewBag.ThisActive;
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("FindIsActive","Outer")',
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    data: JSON.stringify({ EventID: IdsD }),
+                    success: function (data) {
+                        if (data.CheckAct == "1") {
+                            var id = data.ID;
+                            var type = data.Type;
+                            returnQuestionPartial(id, type);
+                        }
+
+                    },
+                    error: function () {
+                        console.log("Error Again.")
+                    }
+                })
+
+        });
+    </script>
+
+    <script>
+        function returnQuestionPartial(id, type) {
+            var url = "";
+
+            if (type == 1) {
+                url = "/Outer/_QMulti"
+            }
+            if (type == 2) {
+                url = "/Outer/_QText"
+            }
+            if (type == 3) {
+                url = "/Outer/_QCloud"
+            }
+            if (type == 4) {
+                url = "/Outer/_QRate"
+            }
+
+
+            $.ajax({
+                type: "GET",
+                url: url,
+                data: {
+                    pid: id
+                },
+                dataType: 'html',
+                success: function (data) {
+                    $('#QuestionsBox').html(data);
+
+                },
+                error: function () {
+                    alert("Hey! Something Eorror.");
+                }
+            })
+        }
+
+        $(function () {
+
+            var hubNotif = $.connection.myHub;
+
+            hubNotif.client.updatedData = function (id, type,checkid) {
+                if (checkid == "@Session["Event_ID"]") {
+                    returnQuestionPartial(id, type);
+                }
+
+            };
+
+            $.connection.hub.start().done(function () {
+
+            });
+        })
+    </script>
+    <script>
+
+
+        function AddThis() {
+            var PId =$("#test").attr("data-id")
+            var PType = $("#test").attr("data-bind")
+            var text = $("#Text").val();
+
+            var Opt = "";
+            $(".option-input:checked").each(function () {
+                var a = $(this).attr("data-id");
+                var b = a.toString();
+                Opt = Opt + " " + b;
+            });
+            var MaxMulti = $("#check").attr("data-Multi");
+            var Rate = $("#star_input").val();
+
+            if (text == undefined) {
+                text = null
+            }
+            if (Rate == undefined) {
+                Rate = 0
+            }
+            if (MaxMulti == undefined) {
+                MaxMulti = 10
+            }
+            if (Opt == "") {
+                Opt = 0
+            }
+
+
+            $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("AddAnswer","Outer")',
+                    //contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                data: { PollTypes: PType, PollID: PId, Text: text, Options: Opt, Rate: Rate ,MaxMulti:MaxMulti},
+                success: function (data) {
+                    if (data.Check == 1) {
+                        alert(data.Result)
+
+                        CallSignalR(data)
+
+                    }
+                     if (data.Check == 2) {
+                        alert(data.Result)
+
+                         window.location.href = '@Url.Action("EnterEvent", "Outer")';
+
+                    }
+                     if (data.Check == 0) {
+
+                    alert(data.Result)
+                        }
+
+
+                    },
+                error: function () {
+                        alert("Can't Send Anything. Please Wait until Admin Active Some Polls. ")
+                        console.log("Error Again.")
+                    }
+                });
+
+        }
+        function CallSignalR(data) {
+                 $.ajax({
+                     type: "GET",
+                     url: '@Url.Action("CallSignalR")',
+                     data: {
+                         id: data.id,
+                         type: data.type
+                     },
+                     success: function () {
+
+
+                     },
+                     error: function () {
+                         alert("Hey! Something Eorror.");
+                     }
+                 })
+             }
+
+    </script>
+    <script>
+        function SetShowAnswer(id, type) {
+            var url = "";
+
+            if (type == 1) {
+                url = "/Outer/_SetMulti"
+            }
+            if (type == 2) {
+                url = "/Outer/_SetText"
+            }
+            if (type == 3) {
+                url = "/Outer/_SetCloud"
+            }
+            if (type == 4) {
+                url = "/Outer/_SetRate"
+            }
+
+
+            $.ajax({
+                type: "GET",
+                url: url,
+                data: {
+                    pid: id
+                },
+                dataType: 'html',
+                success: function (data) {
+                    $('#QuestionsBox').html(data);
+
+                },
+                error: function () {
+                    alert("Hey! Something Eorror.");
+                }
+            })
+        }
+    </script>
+}
+
+

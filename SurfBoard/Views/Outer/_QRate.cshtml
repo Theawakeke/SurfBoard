@@ -1,0 +1,120 @@
+﻿<form class="form-horizontal" autocomplete="off">
+    <div class="my-0 p-3 bg-white rounded shadow-sm">
+        @foreach (var t in ViewBag.MyQRate)
+        {
+            <h4 class="border-bottom border-gray pb-2 mb-0 text-center" id="test" data-id="@t.Polls_ID" data-bind="@t.Polls_Type_ID">@t.Polls_Name</h4>
+
+
+            <div class="media text-muted pt-3">
+
+                <div class="media-body pb-2 mb-0 lh-125 ">
+                    <div class=" m-lg-3 align-content-center">
+                        <div class='rating-stars text-center' id="starr">
+
+                            <ul id='stars'>
+                                @for (int i = 1; i < ViewBag.whatRate.Rating + 1; i++)
+                                {
+                                    <li class='star' style="font-size:medium" id="rate" data-value='@i'>
+                                        <i class='fa fa-star fa-fw'></i>
+                                    </li>
+                                }
+
+                            </ul>
+                        </div>
+                    </div>
+                    <label class="p-3 " hidden> You rated this </label><input class=" text-center d-inline " readonly style="width:70px; font-size:medium; visibility:hidden;" name='rating' id='star_input' min="1" max="10" />
+
+
+                </div>
+            </div>
+
+        }
+        <button type="button" style="width:735px;height:auto;align-self:center;background-color:  #92a8d1;color:white;" class="btn " onclick="AddThis()">Send</button>
+
+    </div>
+
+</form>
+
+@section scripts{
+
+
+    <script>
+        $(document).ready(function () {
+
+            /* 1. Visualizing things on Hover - See next part for action on click */
+            $('#stars li').on('mouseover', function () {
+                var onStar = parseInt($(this).data('value'), 10); // The star currently mouse on
+
+                // Now highlight all the stars that's not after the current hovered star
+                $(this).parent().children('li.star').each(function (e) {
+                    if (e < onStar) {
+                        $(this).addClass('hover');
+                    }
+                    else {
+                        $(this).removeClass('hover');
+                    }
+                });
+
+            }).on('mouseout', function () {
+                $(this).parent().children('li.star').each(function (e) {
+                    $(this).removeClass('hover');
+                });
+            });
+
+
+
+
+
+            /* 2. Action to perform on click */
+            $('#stars li').on('click', function () {
+                var onStar = parseInt($(this).data('value'), 10); // The star currently selected
+                var stars = $(this).parent().children('li.star');
+
+                for (i = 0; i < stars.length; i++) {
+                    $(stars[i]).removeClass('selected');
+                }
+
+                for (i = 0; i < onStar; i++) {
+                    $(stars[i]).addClass('selected');
+                }
+
+
+                // JUST RESPONSE (Not needed)
+                var ratingValue = parseInt($('#stars li.selected').last().data('value'), 10);
+                //var msg = "";
+                //if (ratingValue > 1) {
+                //    msg = "Thanks! You rated this " + ratingValue + " stars.";
+                //}
+                //else {
+                //    msg = "We will improve ourselves. You rated this " + ratingValue + " stars.";
+                //}
+                //responseMessage(msg);
+
+                $('#star_input').val(ratingValue);
+
+            });
+
+
+        });
+
+        $("#star_input").change(function () {
+
+
+            var onStar = parseInt(this.value, 10); // The star currently selected
+            var stars = $("li").parent().children('li.star');
+
+
+            for (i = 0; i < stars.length; i++) {
+                $(stars[i]).removeClass('selected');
+            }
+
+
+            for (i = 0; i < onStar; i++) {
+                $(stars[i]).addClass('selected');
+            }
+            console.log(this.value);
+        });
+
+    </script>
+
+}

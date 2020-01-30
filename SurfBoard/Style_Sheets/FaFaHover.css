@@ -1,0 +1,52 @@
+﻿
+.fa-trash-o {
+    color: gray;
+}
+
+
+    .fa-trash-o:hover {
+        color: red;
+        border-color: red;
+    }
+
+.fa-pencil-square-o {
+    color: gray;
+}
+
+
+    .fa-pencil-square-o:hover {
+        color: #ffd800;
+        border-color: #ffd800;
+    }
+
+
+.fa-arrow-left {
+    color: #92a8d1;
+}
+
+
+    .fa-arrow-left :hover {
+        color: #92a8d1;
+        border-color: #92a8d1;
+    }
+
+
+
+.fa-home {
+    color: gray;
+}
+
+
+    .fa-home :hover {
+        color: #92a8d1;
+        border-color: #92a8d1;
+    }
+
+    .fa-home:visited {
+        text-decoration: none;
+        color: #92a8d1;
+    }
+
+    .fa-home:link {
+        text-decoration: none;
+    }

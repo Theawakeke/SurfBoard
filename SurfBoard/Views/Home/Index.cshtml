@@ -1,0 +1,239 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="container">
+    <div class="row">
+        <div class="col">
+
+        </div>
+        <div class="col">
+            <button type="button" class="btn btn-outline-info border-0 " style="margin-top:30px;float:right;position:relative" data-toggle="modal" data-target="#myReg">
+                SIGN UP
+            </button>
+            <div>
+                <img src="~/Content/pics/Black and Turquoise Automotive Logo.png" style="margin-top:-60px" />
+
+
+                <button type="button" class="btn btn-outline-secondary" data-toggle="modal" data-target="#myLogin" style="width:140px;height:60px;margin-left:100px">
+                    SIGN IN
+                </button>
+
+                <button type="button" class="btn btn-outline-secondary " onclick="Linkpage()" style="width:140px;height:60px;margin-left:80px">
+                    SURVEY
+                </button>
+
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+
+
+
+
+
+<div class="container">
+
+
+    <!-- Button to Open the Modal -->
+    <!-- The Modal -->
+    <div class="modal fade" id="myReg" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog ">
+            <div class="modal-content ">
+
+                <!-- Modal Header -->
+                <div class="modal-header  text-center">
+                    <h4 class="modal-title w-100 font-weight-bold ">Register</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer d-flex justify-content-center">
+                    <button type="button" class="btn btn-info" onclick="CrateUser()">Summit</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- The Modal -->
+    <div class="modal fade" id="myLogin" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog ">
+            <div class="modal-content ">
+
+                <!-- Modal Header -->
+                <div class="modal-header  text-center">
+                    <h4 class="modal-title w-100 font-weight-bold ">Login</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer d-flex justify-content-center">
+                    <button type="button" class="btn btn-secondary" onclick="LoginUser()">Log in</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+
+@section scripts{
+
+
+
+    <link href="~/Style_Sheets/BG.css" rel="stylesheet" />
+
+
+    @*------ Modal ------*@
+    <script>
+        $('#myReg').on('show.bs.modal', function (event) {
+            var modal = $(this)
+
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("_Register","Home")',
+                dataType: "html",
+                success: function (data) {
+                    modal.find('.modal-body').html(data);
+                }
+            })
+        });
+    </script>
+    <script>
+        $('#myLogin').on('show.bs.modal', function (event) {
+            var modal = $(this)
+
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("_Login","Home")',
+                dataType: "html",
+                success: function (data) {
+                    modal.find('.modal-body').html(data);
+                }
+            })
+        });
+    </script>
+
+
+    @*------- Add User ------*@
+
+    <script>
+
+        function CrateUser() {
+            var F = $("#FirstName").val();
+            var L = $("#LastName").val();
+            var E = $("#Email").val();
+            var P = $("#Password").val();
+            var PP = $("#ConfirmPassword").val();
+
+            
+
+            $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("CrateUser","Home")',
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                data: JSON.stringify({ FirstName: F, LastName: L, password:P, Email: E , ConfirmPassword:PP }),
+                success: function (data) {
+                    debugger;
+                        if (data.Poll != "") {
+
+                            alert(data.Result)
+                            $('.close').click();
+
+
+                        }
+                        else {
+                            alert(data.Result)
+
+
+                        }
+
+                    },
+                    error: function () {
+                        console.log("Error Again.")
+                    }
+                });
+
+
+
+        }
+    </script>
+
+    @*------- Login User ------*@
+
+    <script>
+
+        function LoginUser() {
+
+            var E = $("#Email").val();
+            var P = $("#Password").val();
+
+            $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("Autherize","Home")',
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                data: JSON.stringify({  password:P, Email: E }),
+                success: function (data) {
+                    debugger;
+                        if (data.Poll != "") {
+
+                            alert(data.Result)
+                            $('.close').click();
+
+                          window.location.href = '@Url.Action("Home", "Event")';
+
+                        }
+                        else {
+                            alert(data.Result)
+
+
+                        }
+
+                    },
+                    error: function () {
+                        console.log("Error Again.")
+                    }
+                });
+
+
+
+        }
+    </script>
+
+
+    <script>
+
+        function Linkpage() {
+         $.ajax({
+                type: "GET",
+                dataType: "html",
+                success: function (data) {
+                    window.location.href = '@Url.Action("EnterEvent","Outer")';
+                }
+            })
+
+        }
+    </script>
+}

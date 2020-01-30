@@ -1,0 +1,576 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="ProjectJobModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Event">
+          <Key>
+            <PropertyRef Name="Event_ID" />
+          </Key>
+          <Property Name="Event_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Event_Code" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Event_Name" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Start_Date" Type="date" Nullable="false" />
+          <Property Name="End_Date" Type="date" Nullable="false" />
+          <Property Name="Users_ID" Type="int" Nullable="false" />
+          <Property Name="Event_Password" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Options">
+          <Key>
+            <PropertyRef Name="Options_ID" />
+          </Key>
+          <Property Name="Options_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Polls_ID" Type="int" Nullable="false" />
+          <Property Name="Options_Name" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="Outer">
+          <Key>
+            <PropertyRef Name="Outer_ID" />
+          </Key>
+          <Property Name="Outer_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Polls_ID" Type="int" Nullable="false" />
+          <Property Name="Outer_Rating" Type="int" />
+          <Property Name="Outer_Text" Type="nvarchar(max)" />
+          <Property Name="Outer_Name" Type="nvarchar" MaxLength="50" />
+          <Property Name="OuterSes_ID" Type="varchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="OuterOptions">
+          <Key>
+            <PropertyRef Name="Options_Outer_ID" />
+          </Key>
+          <Property Name="Outer_ID" Type="int" />
+          <Property Name="Options_Outer_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Options_ID" Type="int" />
+        </EntityType>
+        <EntityType Name="Polls">
+          <Key>
+            <PropertyRef Name="Polls_ID" />
+          </Key>
+          <Property Name="Polls_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Polls_Type_ID" Type="int" Nullable="false" />
+          <Property Name="Polls_Name" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Event_ID" Type="int" Nullable="false" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+          <Property Name="Rating" Type="int" />
+          <Property Name="IsMulti" Type="bit" Nullable="false" />
+          <Property Name="MaxMulti" Type="int" />
+          <Property Name="LimitPerson" Type="int" />
+        </EntityType>
+        <EntityType Name="Polls_Type">
+          <Key>
+            <PropertyRef Name="Polls_Type_ID" />
+          </Key>
+          <Property Name="Polls_Type_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Polls_Type_Name" Type="nvarchar(max)" />
+          <Property Name="Type_Color" Type="nvarchar(max)" />
+          <Property Name="Type_icon" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="User_ID" />
+          </Key>
+          <Property Name="User_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FirstName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="LastName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Email" Type="varchar(max)" Nullable="false" />
+          <Property Name="Password" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Ses_ID" Type="varchar(max)" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Event_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Event" Type="Self.Event" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="User_ID" />
+            </Principal>
+            <Dependent Role="Event">
+              <PropertyRef Name="Users_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Options_Polls">
+          <End Role="Polls" Type="Self.Polls" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Options" Type="Self.Options" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Polls">
+              <PropertyRef Name="Polls_ID" />
+            </Principal>
+            <Dependent Role="Options">
+              <PropertyRef Name="Polls_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Polls_Event">
+          <End Role="Event" Type="Self.Event" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Polls" Type="Self.Polls" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Event">
+              <PropertyRef Name="Event_ID" />
+            </Principal>
+            <Dependent Role="Polls">
+              <PropertyRef Name="Event_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Polls_Polls_Type">
+          <End Role="Polls_Type" Type="Self.Polls_Type" Multiplicity="1" />
+          <End Role="Polls" Type="Self.Polls" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Polls_Type">
+              <PropertyRef Name="Polls_Type_ID" />
+            </Principal>
+            <Dependent Role="Polls">
+              <PropertyRef Name="Polls_Type_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Survey_Polls">
+          <End Role="Polls" Type="Self.Polls" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Outer" Type="Self.Outer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Polls">
+              <PropertyRef Name="Polls_ID" />
+            </Principal>
+            <Dependent Role="Outer">
+              <PropertyRef Name="Polls_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SurveyOptions_Options">
+          <End Role="Options" Type="Self.Options" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="OuterOptions" Type="Self.OuterOptions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Options">
+              <PropertyRef Name="Options_ID" />
+            </Principal>
+            <Dependent Role="OuterOptions">
+              <PropertyRef Name="Options_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SurveyOptions_Survey">
+          <End Role="Outer" Type="Self.Outer" Multiplicity="0..1" />
+          <End Role="OuterOptions" Type="Self.OuterOptions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Outer">
+              <PropertyRef Name="Outer_ID" />
+            </Principal>
+            <Dependent Role="OuterOptions">
+              <PropertyRef Name="Outer_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ProjectJobModelStoreContainer">
+          <EntitySet Name="Event" EntityType="Self.Event" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Options" EntityType="Self.Options" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Outer" EntityType="Self.Outer" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OuterOptions" EntityType="Self.OuterOptions" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Polls" EntityType="Self.Polls" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Polls_Type" EntityType="Self.Polls_Type" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Event_Users" Association="Self.FK_Event_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Event" EntitySet="Event" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Options_Polls" Association="Self.FK_Options_Polls">
+            <End Role="Polls" EntitySet="Polls" />
+            <End Role="Options" EntitySet="Options" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Polls_Event" Association="Self.FK_Polls_Event">
+            <End Role="Event" EntitySet="Event" />
+            <End Role="Polls" EntitySet="Polls" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Polls_Polls_Type" Association="Self.FK_Polls_Polls_Type">
+            <End Role="Polls_Type" EntitySet="Polls_Type" />
+            <End Role="Polls" EntitySet="Polls" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Survey_Polls" Association="Self.FK_Survey_Polls">
+            <End Role="Polls" EntitySet="Polls" />
+            <End Role="Outer" EntitySet="Outer" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SurveyOptions_Options" Association="Self.FK_SurveyOptions_Options">
+            <End Role="Options" EntitySet="Options" />
+            <End Role="OuterOptions" EntitySet="OuterOptions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SurveyOptions_Survey" Association="Self.FK_SurveyOptions_Survey">
+            <End Role="Outer" EntitySet="Outer" />
+            <End Role="OuterOptions" EntitySet="OuterOptions" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ProjectJobModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Event">
+          <Key>
+            <PropertyRef Name="Event_ID" />
+          </Key>
+          <Property Name="Event_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Event_Code" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Event_Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Start_Date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="End_Date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Users_ID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Users" Relationship="Self.FK_Event_Users" FromRole="Event" ToRole="Users" />
+          <NavigationProperty Name="Polls" Relationship="Self.FK_Polls_Event" FromRole="Event" ToRole="Polls" />
+          <Property Name="Event_Password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Options">
+          <Key>
+            <PropertyRef Name="Options_ID" />
+          </Key>
+          <Property Name="Options_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Polls_ID" Type="Int32" Nullable="false" />
+          <Property Name="Options_Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Polls" Relationship="Self.FK_Options_Polls" FromRole="Options" ToRole="Polls" />
+          <NavigationProperty Name="OuterOptions" Relationship="Self.FK_SurveyOptions_Options" FromRole="Options" ToRole="OuterOptions" />
+        </EntityType>
+        <EntityType Name="Outer">
+          <Key>
+            <PropertyRef Name="Outer_ID" />
+          </Key>
+          <Property Name="Outer_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Polls_ID" Type="Int32" Nullable="false" />
+          <Property Name="Outer_Rating" Type="Int32" />
+          <Property Name="Outer_Text" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Outer_Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="OuterSes_ID" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Polls" Relationship="ProjectJobModel.FK_Survey_Polls" FromRole="Outer" ToRole="Polls" />
+          <NavigationProperty Name="OuterOptions" Relationship="ProjectJobModel.FK_SurveyOptions_Survey" FromRole="Outer" ToRole="OuterOptions" />
+        </EntityType>
+        <EntityType Name="OuterOptions">
+          <Key>
+            <PropertyRef Name="Options_Outer_ID" />
+          </Key>
+          <Property Name="Outer_ID" Type="Int32" />
+          <Property Name="Options_Outer_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Options_ID" Type="Int32" />
+          <NavigationProperty Name="Options" Relationship="Self.FK_SurveyOptions_Options" FromRole="OuterOptions" ToRole="Options" />
+          <NavigationProperty Name="Outer" Relationship="ProjectJobModel.FK_SurveyOptions_Survey" FromRole="OuterOptions" ToRole="Outer" />
+        </EntityType>
+        <EntityType Name="Polls">
+          <Key>
+            <PropertyRef Name="Polls_ID" />
+          </Key>
+          <Property Name="Polls_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Polls_Type_ID" Type="Int32" Nullable="false" />
+          <Property Name="Polls_Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Event_ID" Type="Int32" Nullable="false" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="Rating" Type="Int32" />
+          <Property Name="IsMulti" Type="Boolean" Nullable="false" />
+          <Property Name="MaxMulti" Type="Int32" />
+          <NavigationProperty Name="Event" Relationship="Self.FK_Polls_Event" FromRole="Polls" ToRole="Event" />
+          <NavigationProperty Name="Options" Relationship="Self.FK_Options_Polls" FromRole="Polls" ToRole="Options" />
+          <Property Name="LimitPerson" Type="Int32" />
+          <NavigationProperty Name="Outer" Relationship="ProjectJobModel.FK_Survey_Polls" FromRole="Polls" ToRole="Outer" />
+          <NavigationProperty Name="Polls_Type" Relationship="ProjectJobModel.FK_Polls_Polls_Type" FromRole="Polls" ToRole="Polls_Type" />
+        </EntityType>
+        <EntityType Name="Polls_Type">
+          <Key>
+            <PropertyRef Name="Polls_Type_ID" />
+          </Key>
+          <Property Name="Polls_Type_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Polls_Type_Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Type_Color" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Type_icon" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Polls" Relationship="ProjectJobModel.FK_Polls_Polls_Type" FromRole="Polls_Type" ToRole="Polls" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="User_ID" />
+          </Key>
+          <Property Name="User_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Event" Relationship="Self.FK_Event_Users" FromRole="Users" ToRole="Event" />
+          <Property Name="Ses_ID" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <Association Name="FK_Event_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Event" Type="Self.Event" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="User_ID" />
+            </Principal>
+            <Dependent Role="Event">
+              <PropertyRef Name="Users_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Polls_Event">
+          <End Role="Event" Type="Self.Event" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Polls" Type="Self.Polls" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Event">
+              <PropertyRef Name="Event_ID" />
+            </Principal>
+            <Dependent Role="Polls">
+              <PropertyRef Name="Event_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Options_Polls">
+          <End Role="Polls" Type="Self.Polls" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Options" Type="Self.Options" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Polls">
+              <PropertyRef Name="Polls_ID" />
+            </Principal>
+            <Dependent Role="Options">
+              <PropertyRef Name="Polls_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SurveyOptions_Options">
+          <End Role="Options" Type="Self.Options" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="OuterOptions" Type="Self.OuterOptions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Options">
+              <PropertyRef Name="Options_ID" />
+            </Principal>
+            <Dependent Role="OuterOptions">
+              <PropertyRef Name="Options_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ProjectJobEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Event" EntityType="Self.Event" />
+          <EntitySet Name="Options" EntityType="Self.Options" />
+          <EntitySet Name="Outer" EntityType="Self.Outer" />
+          <EntitySet Name="OuterOptions" EntityType="Self.OuterOptions" />
+          <EntitySet Name="Polls" EntityType="Self.Polls" />
+          <EntitySet Name="Polls_Type" EntityType="Self.Polls_Type" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+          <EntitySet Name="Users" EntityType="Self.Users" />
+          <AssociationSet Name="FK_Event_Users" Association="Self.FK_Event_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Event" EntitySet="Event" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Polls_Event" Association="Self.FK_Polls_Event">
+            <End Role="Event" EntitySet="Event" />
+            <End Role="Polls" EntitySet="Polls" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Options_Polls" Association="Self.FK_Options_Polls">
+            <End Role="Polls" EntitySet="Polls" />
+            <End Role="Options" EntitySet="Options" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SurveyOptions_Options" Association="Self.FK_SurveyOptions_Options">
+            <End Role="Options" EntitySet="Options" />
+            <End Role="OuterOptions" EntitySet="OuterOptions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Survey_Polls" Association="ProjectJobModel.FK_Survey_Polls">
+            <End Role="Polls" EntitySet="Polls" />
+            <End Role="Outer" EntitySet="Outer" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SurveyOptions_Survey" Association="ProjectJobModel.FK_SurveyOptions_Survey">
+            <End Role="Outer" EntitySet="Outer" />
+            <End Role="OuterOptions" EntitySet="OuterOptions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Polls_Polls_Type" Association="ProjectJobModel.FK_Polls_Polls_Type">
+            <End Role="Polls_Type" EntitySet="Polls_Type" />
+            <End Role="Polls" EntitySet="Polls" />
+          </AssociationSet>
+        </EntityContainer>
+        <Association Name="FK_Survey_Polls">
+          <End Type="ProjectJobModel.Polls" Role="Polls" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="ProjectJobModel.Outer" Role="Outer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Polls">
+              <PropertyRef Name="Polls_ID" />
+            </Principal>
+            <Dependent Role="Outer">
+              <PropertyRef Name="Polls_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SurveyOptions_Survey">
+          <End Type="ProjectJobModel.Outer" Role="Outer" Multiplicity="0..1" />
+          <End Type="ProjectJobModel.OuterOptions" Role="OuterOptions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Outer">
+              <PropertyRef Name="Outer_ID" />
+            </Principal>
+            <Dependent Role="OuterOptions">
+              <PropertyRef Name="Outer_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Polls_Polls_Type">
+          <End Type="ProjectJobModel.Polls_Type" Role="Polls_Type" Multiplicity="1" />
+          <End Type="ProjectJobModel.Polls" Role="Polls" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Polls_Type">
+              <PropertyRef Name="Polls_Type_ID" />
+            </Principal>
+            <Dependent Role="Polls">
+              <PropertyRef Name="Polls_Type_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ProjectJobModelStoreContainer" CdmEntityContainer="ProjectJobEntities">
+          <EntitySetMapping Name="Event">
+            <EntityTypeMapping TypeName="ProjectJobModel.Event">
+              <MappingFragment StoreEntitySet="Event">
+                <ScalarProperty Name="Event_Password" ColumnName="Event_Password" />
+                <ScalarProperty Name="Event_ID" ColumnName="Event_ID" />
+                <ScalarProperty Name="Event_Code" ColumnName="Event_Code" />
+                <ScalarProperty Name="Event_Name" ColumnName="Event_Name" />
+                <ScalarProperty Name="Start_Date" ColumnName="Start_Date" />
+                <ScalarProperty Name="End_Date" ColumnName="End_Date" />
+                <ScalarProperty Name="Users_ID" ColumnName="Users_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Options">
+            <EntityTypeMapping TypeName="ProjectJobModel.Options">
+              <MappingFragment StoreEntitySet="Options">
+                <ScalarProperty Name="Options_ID" ColumnName="Options_ID" />
+                <ScalarProperty Name="Polls_ID" ColumnName="Polls_ID" />
+                <ScalarProperty Name="Options_Name" ColumnName="Options_Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Outer">
+            <EntityTypeMapping TypeName="ProjectJobModel.Outer">
+              <MappingFragment StoreEntitySet="Outer">
+                <ScalarProperty Name="OuterSes_ID" ColumnName="OuterSes_ID" />
+                <ScalarProperty Name="Outer_ID" ColumnName="Outer_ID" />
+                <ScalarProperty Name="Polls_ID" ColumnName="Polls_ID" />
+                <ScalarProperty Name="Outer_Rating" ColumnName="Outer_Rating" />
+                <ScalarProperty Name="Outer_Text" ColumnName="Outer_Text" />
+                <ScalarProperty Name="Outer_Name" ColumnName="Outer_Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OuterOptions">
+            <EntityTypeMapping TypeName="ProjectJobModel.OuterOptions">
+              <MappingFragment StoreEntitySet="OuterOptions">
+                <ScalarProperty Name="Outer_ID" ColumnName="Outer_ID" />
+                <ScalarProperty Name="Options_Outer_ID" ColumnName="Options_Outer_ID" />
+                <ScalarProperty Name="Options_ID" ColumnName="Options_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Polls">
+            <EntityTypeMapping TypeName="ProjectJobModel.Polls">
+              <MappingFragment StoreEntitySet="Polls">
+                <ScalarProperty Name="LimitPerson" ColumnName="LimitPerson" />
+                <ScalarProperty Name="Polls_ID" ColumnName="Polls_ID" />
+                <ScalarProperty Name="Polls_Type_ID" ColumnName="Polls_Type_ID" />
+                <ScalarProperty Name="Polls_Name" ColumnName="Polls_Name" />
+                <ScalarProperty Name="Event_ID" ColumnName="Event_ID" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="Rating" ColumnName="Rating" />
+                <ScalarProperty Name="IsMulti" ColumnName="IsMulti" />
+                <ScalarProperty Name="MaxMulti" ColumnName="MaxMulti" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Polls_Type">
+            <EntityTypeMapping TypeName="ProjectJobModel.Polls_Type">
+              <MappingFragment StoreEntitySet="Polls_Type">
+                <ScalarProperty Name="Polls_Type_ID" ColumnName="Polls_Type_ID" />
+                <ScalarProperty Name="Polls_Type_Name" ColumnName="Polls_Type_Name" />
+                <ScalarProperty Name="Type_Color" ColumnName="Type_Color" />
+                <ScalarProperty Name="Type_icon" ColumnName="Type_icon" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="ProjectJobModel.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="ProjectJobModel.Users">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="Ses_ID" ColumnName="Ses_ID" />
+                <ScalarProperty Name="User_ID" ColumnName="User_ID" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

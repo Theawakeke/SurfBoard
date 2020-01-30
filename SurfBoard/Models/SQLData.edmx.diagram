@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="ec05f56c44f541bca2dbdd9698a79c65" Name="Diagram1">
+        <EntityTypeShape EntityType="ProjectJobModel.Event" Width="1.5" PointX="3" PointY="2.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProjectJobModel.Options" Width="1.5" PointX="7.5" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProjectJobModel.Outer" Width="1.5" PointX="7.5" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProjectJobModel.OuterOptions" Width="1.5" PointX="9.75" PointY="2.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProjectJobModel.Polls" Width="1.5" PointX="5.25" PointY="2" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProjectJobModel.Polls_Type" Width="1.5" PointX="4.75" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProjectJobModel.sysdiagrams" Width="1.5" PointX="0.875" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProjectJobModel.Users" Width="1.5" PointX="0.75" PointY="2.5" IsExpanded="true" />
+        <AssociationConnector Association="ProjectJobModel.FK_Event_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="ProjectJobModel.FK_Polls_Event" ManuallyRouted="false" />
+        <AssociationConnector Association="ProjectJobModel.FK_Options_Polls" ManuallyRouted="false" />
+        <AssociationConnector Association="ProjectJobModel.FK_SurveyOptions_Options" ManuallyRouted="false" />
+        <AssociationConnector Association="ProjectJobModel.FK_Survey_Polls" />
+        <AssociationConnector Association="ProjectJobModel.FK_SurveyOptions_Survey" />
+        <AssociationConnector Association="ProjectJobModel.FK_Polls_Polls_Type" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

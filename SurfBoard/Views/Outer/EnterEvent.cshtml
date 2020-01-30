@@ -1,0 +1,111 @@
+﻿
+@{
+    ViewBag.Title = "EnterEvent";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="container">
+    <nav class="navbar navbar-fixed-top " style="padding-top:20px;padding-bottom:20px">
+        <a class="navbar-brand"></a>
+
+    </nav>
+
+
+    <div>
+
+    </div>
+    <div class="container d-inline-block">
+        <form class="form-inline form-group" style="padding-left:10px">
+            <a href="@Url.Action("Back", "Home")" class="fa fa-home" style="font-size:40px;">
+            </a>
+
+            <label for="Code" style="margin-left:25px">
+                <span class="input-group-prepend">
+                    <span class="input-group-text bg-light border-light form-control ">
+                        <span class="fa fa-hashtag "></span>
+                    </span>
+                </span>
+            </label>
+            <input class="form-control text-uppercase" style="border-color:  #92a8d1;" autocomplete="off" id="Code" type="text" placeholder="Search New Code" maxlength="4">
+            <button class="btn example_c" style="margin-left:20px;" onclick="CheckNewEnter()" type="button">Search</button>
+        </form>
+
+        <div class="list-group m-2" id="announcement">
+
+
+        </div>
+
+    </div>
+
+</div>
+
+@section scripts{
+    <link href="~/Style_Sheets/FaFaHover.css" rel="stylesheet" />
+    <link href="~/Style_Sheets/EnterStyle.css" rel="stylesheet" />
+
+    @*---Block Input Enter---*@
+    <script>
+        $(document).ready(function () {
+            $(window).keydown(function (event) {
+                if (event.keyCode == 13) {
+                    event.preventDefault();
+                    return false;
+                }
+            });
+        });
+    </script>
+    <script>
+        function CheckNewEnter() {
+            var Code = $("#Code").val();
+            if (Code == "") {
+                return false;
+            }
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("LinkCode","Outer")',
+                 ontentType: "application/json; charset=utf-8",
+                dataType: "json",
+                data: { Code },
+                success: function (data) {
+
+                   $('.rows').remove();
+
+                    $.each(data, function (key, val) {
+                        var Star =  moment(val.Start_Date).add(543, 'year').add(1,'day').format('DD/MM/YYYY');
+                        var End =  moment(val.End_Date).add(543, 'year').add(1,'day').format('DD/MM/YYYY');
+                        var rows = '<div class="list-group rows" style="width:1000px">'
+                            + '<div class="card border-gray shadow-sm  w-50  " style="border-color:#92a8d1">'
+                            + '<div class="card-body d-flex flex-column align-items-start list-group-item-action" onclick="LinkQuestionPage(' + val.Event_ID + ')" id="' + val.Event_ID + '">'
+                            + '<h4 style="font-size:smaller;color:#92a8d1" class="card-title ">' + val.Event_Name + ' </h4>'
+                            + '<p style="font-size:smaller" class="card-text">  ' + Star + '   To   ' + End + ' </p>'
+                            + '</div>'
+                            + '</div>'
+                            + '</div>'; 
+                        $('#announcement').append(rows);
+                    });
+                },
+                error: function () {
+                    console.log("Error Again.")
+                }
+            });
+        }
+    </script>
+    <script>
+        function LinkQuestionPage(ID) {
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("LinkQuestionPage","Outer")',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                data: JSON.stringify({ ID }),
+                success: function (result) {
+                    window.location.href = result.Url;
+                }
+            })
+        }
+
+
+    </script>
+}
+

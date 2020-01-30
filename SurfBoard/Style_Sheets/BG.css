@@ -1,0 +1,10 @@
+﻿body {
+    background-position: center;
+    background-size: cover;
+    background-attachment: fixed;
+    background-position-y: top;
+    background-repeat: space;
+    background-color: #212426;
+    font-family: 'Roboto Condensed', sans-serif;
+    background-image: url('../Content/pics/desktop-1155613.jpg');
+}
