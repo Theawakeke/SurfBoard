@@ -79,7 +79,7 @@
     <!-- sidebar-wrapper  -->
     <main class="page-content">
         <div class="container-fluid">
-            <h2  style="text-align:center">POLL</h2>
+            <h2 style="text-align:center">POLL</h2>
             <hr>
             <div class="container">
 
@@ -87,7 +87,7 @@
 
 
                 @*---dropdownbutton---*@
-              
+
                 <div class="btn-group" role="group">
                     <button id="btnGroupDrop1" data-toggle="dropdown" type="button" class="btn btn-primary-outline dropdown-toggle " style="color:#6d8db6;" aria-haspopup="true" aria-expanded="false">
                         Create Poll<span class="caret" style="color:#92a8d1;"></span>
@@ -131,10 +131,21 @@
                                                 }
                                             </select>
 
-
-
                                             <label style="color:#92a8d1">Name</label>
                                             <input type="text" id="PollName" name="PollName" class="form-control mb-2" maxlength="40" placeholder=" Your Poll Question Name" style="border-color:#92a8d1" required>
+
+                                            <div id="CheckSetLimit" style="padding-top:10px">
+                                                <label for="SetLimit" style="color:#92a8d1">
+                                                    <input type="checkbox" id="SetLimit" />
+                                                    <span>Set Limit</span>
+                                                </label>
+
+                                                <div id="LimitCount" style="display: none;padding-bottom:10px">
+
+                                                    <input type="number" class="form-control " style="border-color:#92a8d1;width:100px" id="PollLimit" name="PollLimit" min="0" value="0" />
+
+                                                </div>
+                                            </div>
 
                                             <div id="MultipleChoice" class="hide_first">
 
@@ -279,10 +290,10 @@
 
                                         <div class="card-body small" id="@pi.Poll.Polls_ID">
 
-                                            <input type="text" id="DeleteTHis" hidden value="@pi.Poll.Polls_Name" />
+                                            <input type="text" name="DeleteTHis" hidden value="@pi.Poll.Polls_Name" />
 
-                                              <span class="fa fa-trash-o float-right pl-3 " style="font-size:25px;margin-top:5px" data-toggle="modal" data-target="#exampleModal" data-whatever="@pi.Poll.Polls_ID"></span>
-                                             <span class="fa fa-pencil-square-o float-right pl-3 " style="font-size:25px; margin-top:6px" data-toggle="modal" data-target="#EditModal" data-whatever="@pi.Poll.Polls_ID"></span>
+                                            <span class="fa fa-trash-o float-right pl-3 " style="font-size:25px;margin-top:5px" data-toggle="modal" data-target="#exampleModal" data-whatever="@pi.Poll.Polls_ID"></span>
+                                            <span class="fa fa-pencil-square-o float-right pl-3 " style="font-size:25px; margin-top:6px" data-toggle="modal" data-target="#EditModal" data-whatever="@pi.Poll.Polls_ID"></span>
                                             <label class="switch switch-handle float-right " name="IsActive" data-val="@pi.Poll.Polls_ID">
                                                 <input type="checkbox" id="Toggle" name="btnt" data-val="@pi.Poll.Polls_ID" data-type="@pi.Poll.Polls_Type_ID" data-bind="btn @pi.Poll.IsActive">
                                                 <span class="slider round"></span>
@@ -333,16 +344,89 @@
 <!-- page-content" -->
 <!-- page-wrapper -->
 
+<div class="modal" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color:#ff3535">
+                <h5 class="modal-title" id="exampleModalLabel" style="color:white">Delete Action</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+            </div>
+            <div class="modal-footer">
+                <input type="number" id="DeletePI" hidden />
+                <button type="button" class="btn btn-secondary close2" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-danger" onclick="delet()">Summit</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal" id="EditModal" tabindex="-1" role="dialog" aria-labelledby="EditModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color:#ffd800">
+                <h5 class="modal-title" style="color:white">Edit Mode</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary close2" data-dismiss="modal" hidden>Close</button>
+                <button type="button" class="btn btn-secondary" onclick="CheckEditPollBtn()">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
 @section scripts{
     <link href="~/Style_Sheets/Star.css" rel="stylesheet" />
     <link href="~/Style_Sheets/PollBox.css" rel="stylesheet" />
     <link href="~/Style_Sheets/SwitchButton.css" rel="stylesheet" />
-
+    <link href="~/Style_Sheets/FaFaHover.css" rel="stylesheet" />
     <link href="~/Style_Sheets/Sitebar.css" rel="stylesheet" />
     <link href="~/Style_Sheets/ScrollQuestion.css" rel="stylesheet" />
 
     <script src="~/Scripts/jquery.signalR-2.4.1.min.js"></script>
     <script src="~/signalr/hubs"></script>
+
+    <script>
+        $('#exampleModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget) // Button that triggered the modal
+            var recipient = button.data('whatever') // Extract info from data-* attributes
+            // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+            // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+            var modal = $(this)
+            var name = $("input[name='DeleteTHis']").val();
+            modal.find('.modal-body').text('Do You Want to Delete Event ID - ' + name + ' ?')
+            modal.find('.modal-footer input').val(recipient)
+        })
+    </script>
+    <script>
+        $('#EditModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget) // Button that triggered the modal
+            var recipient = button.data('whatever') // Extract info from data-* attributes
+            // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+            // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+            var modal = $(this)
+
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("_LookupEditPoll","Event")',
+                dataType: "html",
+                data: { PID: recipient },
+                success: function (data) {
+                    modal.find('.modal-body').html(data);
+                }
+            })
+        });
+    </script>
     @*--------  site bar ----------*@
     <script>
         $(".sidebar-dropdown > a").click(function () {
@@ -379,6 +463,19 @@
 
 
     <script>
+
+        $(function () {
+            $("#SetLimit").click(function () {
+                if ($(this).is(":checked")) {
+                    $("#SetLimit").attr("checked", true);
+                    $("#LimitCount").show();
+                } else {
+                    $("#SetLimit").attr("checked", false);
+                    $("#LimitCount").hide();
+                }
+            });
+        });
+
         $(function () {
             $("#checkMulti").click(function () {
                 if ($(this).is(":checked")) {
@@ -500,7 +597,6 @@
             $("#checkMulti").attr("checked", false);
 
 
-
             //Set display:none for all first
             $(".hide_first").css("display", "none");
 
@@ -555,7 +651,7 @@
                 Rat = 0;
 
             }
-
+              var PollLimit = "";
             var NumberMulti = "";
             var multi = $("#checkMulti").is(':checked') ? 'true' : 'false';
             if (multi == 'false') {
@@ -571,20 +667,28 @@
 
 
 
+                 var SetLimit = $("#SetLimit").is(':checked') ? 'true' : 'false';
+            if (SetLimit == 'false') {
+                PollLimit = 0;
+            }
+            else {
+
+                PollLimit = $("#PollLimit").val();
+            }
 
             $.ajax({
                     type: "POST",
                     url: '@Url.Action("AddPoll","Event")',
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
-                    data: JSON.stringify({ PollTypes: PoT, PollName: PoN , OPts: Opt, Ratng: Rat, NumMulti:NumberMulti, Ismulti:multi}),
+                    data: JSON.stringify({ PollTypes: PoT, PollName: PoN , OPts: Opt, Ratng: Rat, NumMulti:NumberMulti, Ismulti:multi, Limit:PollLimit}),
                 success: function (data) {
                     debugger;
                         if (data.Poll != "") {
 
                             alert(data.Result)
                             $('.close').click();
-                            window.location.reload();
+                           location.reload();
 
                         }
                         else {
@@ -603,8 +707,136 @@
 
         }
     </script>
+    <script>
+        function delet() {
+            var DPID = $("#DeletePI").val();
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("DeletPoll","Event")',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                data: JSON.stringify({ PollID: DPID }),
+                success: function (alertt) {
+                    alert(alertt);
+                    $('.close2').click();
+                    location.reload();
+                },
+                error: function () {
+                    console.log("Error Again.")
+                }
+            })
+        }
+
+    </script>
+    <script>
+        function CheckEditPollBtn() {
+            var rating = $("#rating").val();
+            if (rating != "" && rating != 0 && rating != undefined) {
+                var Ornot = window.confirm("If you Change your max rating, The previous survey will be change.")
+                if (Ornot) {
+                    EditPollBtn()
+                }
+                else {
+                    alert("Please Set max rating to 0 ")
+                    return false;
+                }
+            }
+            else {
+                EditPollBtn()
+            }
+        }
+
+    </script>
+  <script>
+        function EditPollBtn() {
+            var Name = $("#Name").val();
+            if (Name == "") {
+                Name = $("#SubName").val();
+            }
+            var Type = $("#type").val();
+            var ID = $("#id").val();
+            var rating = $("#rating").val();
+            if (rating == "" || rating == 0) {
+                rating = $("#Subrating").val();
+            }
+            if (rating == undefined) {
+                rating = 0;
+            }
+            var IDOpt = "";
+            $("input[name='Option']").each(function () {
+                var a = $(this).attr("data-cid");
+                if (a == undefined) { a = 0 };
+                var b = a.toString();
+                IDOpt = IDOpt + "|" + b;
+            });
+
+            var Opt = "";
+            $("input[name='Option']").each(function () {
+                var olddata = $(this).val();
+             Opt = Opt + "|" + olddata;
+            });
+
+            var NumberMulti = "";
+            var Setsingle = $("#SetSingle").is(':checked') ? 'true' : 'false';
+            var multi = $("#checkMulti2").is(':checked') ? 'true' : 'false';
+            if (multi == 'false') {
+                multi = $("#SubIsMulti").val();
+                NumberMulti = $("#SubMaxMulti").val();
+            }
+            var Setmulti = $("#SetMulti2").is(':checked') ? 'true' : 'false';
+            if (Setmulti == 'false') {
+                NumberMulti = 11;
+            }
+            else {
+                NumberMulti = $("#NumberOfAnswer2").val();
+            }
+            if (Setsingle == 'true') {
+                multi = 'false';
+                NumberMulti = 11;
+            }
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("EDITEPoll","Event")',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                data: JSON.stringify({ Name: Name , rating : rating, ID :ID, Type:Type, ID_Options:IDOpt, Options:Opt ,NumMulti:NumberMulti ,Ismulti:multi}),
+                success: function (data) {
+                    if (data.Get == 0) {
+                    alert(data.Result);
+                        location.reload();
+                        callSignalREdit(data.s);
+                    }
+                    if (data.Get == 1) {
+
+                    alert(data.Result);
+                    }
+                },
+                error: function () {
+                    console.log("Error Again.")
+                }
+            })
+        }
+
+    </script>
+    <script>
+        function callSignalREdit(s) {
+                 $.ajax({
+                     type: "GET",
+                     url: '@Url.Action("CallSignalR")',
+                     data: {
+                         id: s.signalID,
+                         type: s.signalType
+                     },
+                     success: function () {
 
 
+                     },
+                     error: function () {
+                         alert("Hey! Something Eorror.");
+                     }
+                 })
+             }
+    </script>
     @*---Star Rating---*@
 
     <script>
@@ -694,15 +926,15 @@
 
 
 
-        $("input[name='btnt']").each(function () {
-            $("input[name='btnt']").prop("checked", false).change();
-        })
+                $("input[name='btnt']").each(function () {
+                    $("input[name='btnt']").prop("checked", false).change();
+            })
 
-        $("input[data-bind~='True']").each(function callSignalR() {
-            $("input[data-bind~='True']").prop("checked", true).change();
+                $("input[data-bind~='True']").each(function callSignalR() {
+                    $("input[data-bind~='True']").prop("checked", true).change();
 
 
-        })
+            })
 
 
 
@@ -759,7 +991,7 @@
                      $.ajax({
                          type: "GET",
                          url: '@Url.Action("CallSignalR")',
-                         data: { 
+                         data: {
                              id: s.ID,
                              type: s.TID
                          },

@@ -1,0 +1,145 @@
+﻿<form class="form-horizontal" autocomplete="off">
+    <div class="form-group">
+        <div class="col-md-10">
+            @foreach (var vb in ViewBag.EditViewRate)
+            {
+                <label style="color:#9F614D">Name</label>
+                <input type='text' class='form-control' id='type' name='type' value='@vb.Polls_Type_ID' hidden />
+                <input typeCheckEditPollBtntext' class='form-control' id='id' name='id' value='@vb.Polls_ID' hidden />
+                <input type="text" id="Name" name="Name" class="form-control mb-2" maxlength="40" placeholder="@vb.Polls_Name" style="border-color:#9F614D">
+                <input type="text" id="SubName" name="SubName" class="form-control mb-2" maxlength="40" value="@vb.Polls_Name" hidden>
+            }
+
+            @if (ViewBag.EditViewType[0] == 4)
+            {
+                foreach (var rate in ViewBag.EditViewRate)
+                {
+                    <label style="color:#9F614D"> Max Value : </label>
+                    <input class="form-control text-center d-inline " style="width:58%; font-size:medium;border-color:#9F614D" type='number' name='rating' id='rating' min="0" max="10" placeholder="@rate.Rating" />
+                    <input class="form-control text-center  " style="visibility:hidden; font-size:medium" type='number' name='Subrating' id='Subrating' min="1" max="10" value="@rate.Rating" />
+
+                }
+
+            }
+
+            @if (ViewBag.EditViewType[0] == 1)
+            {
+                <small style="color: gray">Your Options (Max 10 Options)</small><br />
+
+
+                <div class="input_fields_container_part mb-2">
+                    @foreach (var opn in ViewBag.EditViewOption)
+                    {
+                        <div class="input-group abc">
+
+                            <input type="text" class="form-control" id="Option" name="Option" data-cid="@opn.Options_ID" value="@opn.Options_Name" maxlength="30" style="border-color:#9F614D" />
+
+                            <span class="input-group-addon remove_field" style="font-size: 2em; color: Tomato;margin-left:10px;">
+                                <i class="fa fa-remove "></i>
+                            </span>
+                        </div>
+                    }
+                </div>
+                foreach (var rate in ViewBag.EditViewRate)
+                {
+                    <input type="checkbox" id="SubIsMulti" style="visibility:hidden;" value="@rate.IsMulti.ToString()" hidden />
+                    <input class="form-control text-center  " style="visibility:hidden;" type='number' id='SubMaxMulti' value="@rate.MaxMulti" hidden />
+
+                }
+                <div class="form-inline">
+                    <button type="button" class="add_more_button btn btn-outline-secondary m-1">Add Field</button>
+                    <small id="Limit1" style="color:red;display:none">Can't Add More Options</small><br />
+                </div>
+
+                <br />
+                <label for="SetSingle" class="pt-2">
+                    <input type="checkbox" id="SetSingle" />
+                    <span style="color:#9F614D">Change multi to single selection</span>
+                </label>
+                <label for="checkMulti2" class="pt-2">
+                    <input type="checkbox" id="checkMulti2" />
+                    <span style="color:#9F614D">Allow to select multiple options</span>
+                </label>
+
+                <div id="CheckLimit2" style="display: none">
+                    <label for="SetMulti2">
+                        <input type="checkbox" id="SetMulti2" />
+                        <span style="color:#9F614D">Limit max number of answers</span>
+                    </label>
+
+                    <div id="MultiNumber2" style="display: none;padding-bottom:10px">
+
+                        <input type="number" class="form-control text-center" style="width:100px;border-color:#9f614d" id="NumberOfAnswer2" min="2" value="2" />
+
+                    </div>
+                    <div id="port2">
+                    </div>
+
+                </div>
+                <div id="AddPassport2">
+                </div>
+            }
+
+        </div>
+    </div>
+</form>
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            var max_fields_limit = 10; //set limit for maximum input fields
+            var x = @ViewBag.OptionsLength; //initialize counter for text box
+            $('.add_more_button').click(function (e) { //click event on add more fields button having class add_more_button
+                e.preventDefault();
+                if (x < max_fields_limit) { //check conditions
+                    x++; //counter increment
+                    $('.input_fields_container_part').append('<div class="input-group"><input type="text" class="form-control" name="Option" id="Option" placeholder="Add Options" maxlength="30" style="border-color:#9F614D"/><span class="input-group-addon remove_field" style="font-size: 2em; color: Tomato;margin-left:10px;"><i class="fa fa-remove " ></i></span>'); //add input field
+                    $("#Limit1").hide();
+                }
+                else {
+                    $("#Limit1").show();
+                }
+            });
+            $('.input_fields_container_part').on("click", ".remove_field", function (e) { //user click on remove text links
+                e.preventDefault(); $(this).parent('div').remove(); x--;
+                $("#Limit1").hide();
+            })
+        });
+
+
+    </script>
+    <script>
+        $(function () {
+            $("#checkMulti2").click(function () {
+                if ($(this).is(":checked")) {
+                    $("#checkMulti2").attr("checked", true);
+                    $("#CheckLimit2").show();
+                    $("#AddPassport2").hide();
+                } else {
+                    $("#SetMulti2").attr("checked", false);
+                    $("#SetMulti2").prop("checked", false);
+                    $("#checkMulti2").attr("checked", false);
+                    $("#CheckLimit2").hide();
+                    $("#AddPassport2").show();
+                }
+            });
+        });
+
+        $(function () {
+            $("#SetMulti2").click(function () {
+                if ($(this).is(":checked")) {
+                    $("#SetMulti2").attr("checked", true);
+                    $("#MultiNumber2").show();
+                    $("#port2").hide();
+                } else {
+                    $("#SetMulti2").attr("checked", false);
+                    $("#MultiNumber2").hide();
+                    $("#port2").show();
+                }
+            });
+        });
+
+
+
+    </script>
+}
+

@@ -250,7 +250,7 @@ namespace SurfBoard.Controllers
         }
 
         [HttpPost]
-        public ActionResult AddPoll(int PollTypes, string PollName, string OPts, int Ratng, int NumMulti, string Ismulti)
+        public ActionResult AddPoll(int PollTypes, string PollName, string OPts, int Ratng, int NumMulti, string Ismulti, int Limit)
 
         {
 
@@ -325,7 +325,8 @@ namespace SurfBoard.Controllers
                         IsActive = false,
                         Rating = Ratng,
                         IsMulti = IsAllowMulti,
-                        MaxMulti = NumMulti
+                        MaxMulti = NumMulti,
+                        LimitPerson = Limit
 
                     };
                     db.Polls.Add(Pmodel);
@@ -689,5 +690,265 @@ namespace SurfBoard.Controllers
             }
 
         }
+
+        public ActionResult DeletPoll(int PollID)
+        {
+            using (ProjectJobEntities db = new ProjectJobEntities())
+            {
+
+                Polls pollDetail = db.Polls.Find(PollID);
+                db.Polls.Remove(pollDetail);
+                db.SaveChanges();
+
+
+
+                var alertt = "Delete Success";
+                return Json(alertt);
+            }
+
+        }
+        public ActionResult DeletEvent(int EventID)
+        {
+            using (ProjectJobEntities db = new ProjectJobEntities())
+            {
+
+                Event EventDetail = db.Event.Find(EventID);
+                db.Event.Remove(EventDetail);
+                db.SaveChanges();
+
+
+                var alerte = new { Result = "Delete Success" };
+                
+                return Json(alerte);
+            }
+
+        }
+        public ActionResult _LookupEditEvent(int EID)
+        {
+            using (ProjectJobEntities db = new ProjectJobEntities())
+            {
+
+                var EditView = db.Event.Where(x => x.Event_ID == EID).Select(x => new EventViewModel() { Event_ID = x.Event_ID, Event_Code = x.Event_Code, Event_Name = x.Event_Name, End_Date = x.End_Date, Start_Date = x.Start_Date }).ToList();
+
+                ViewBag.EditView = EditView;
+
+
+                return View();
+            }
+
+        }
+        public ActionResult EDITEvent(string Name, string Event_Code, DateTime Start_Date, DateTime End_Date, int ID)
+        {
+            using (ProjectJobEntities db = new ProjectJobEntities())
+            {
+                Eit bussiness = new Eit();
+
+                bool IsDupicate = bussiness.CheckEdit(Event_Code, Start_Date, End_Date, ID);
+                if (!IsDupicate)
+                {
+                    var EditView = db.Event.Where(x => x.Event_ID == ID).SingleOrDefault();
+
+
+                    EditView.Event_Code = Event_Code;
+                    EditView.Start_Date = Start_Date;
+                    EditView.End_Date = End_Date;
+                    EditView.Event_Name = Name;
+
+                    db.SaveChanges();
+
+                    var alerte = new { Result = "Event have been updated." };
+
+                    return Json(alerte);
+                }
+                else
+                {
+
+                    // TempData["msg"] = "<script>alert('Your Timeline is already Exist.');</script>";
+                    var alerte = new { Result = "Your Event Code and Timeline is already exist." };
+                    return Json(alerte);
+
+                }
+            }
+        }
+        public ActionResult _LookupEditPoll(int PID)
+        {
+            using (ProjectJobEntities db = new ProjectJobEntities())
+            {
+
+
+                var EditViewPoll = db.Polls.Where(x => x.Polls_ID == PID).Select(x => new PollView() { Polls_ID = x.Polls_ID, Polls_Type_ID = x.Polls_Type_ID, Polls_Name = x.Polls_Name, Event_ID = x.Event_ID, Rating = x.Rating, IsMulti = x.IsMulti, MaxMulti = x.MaxMulti }).ToList();
+                var typePoll = EditViewPoll.Select(x => x.Polls_Type_ID).ToArray();
+
+                var EditViewOption = db.Options.Where(x => x.Polls_ID == PID).Select(x => new OptionView() { Polls_ID = x.Polls_ID, Options_ID = x.Options_ID, Options_Name = x.Options_Name }).ToList();
+                ViewBag.OptionsLength = EditViewOption.Count();
+                ViewBag.EditViewOption = EditViewOption;
+                ViewBag.EditViewRate = EditViewPoll;
+                ViewBag.EditViewType = typePoll;
+
+                return View();
+            }
+
+        }
+        public ActionResult EDITEPoll(string Name, int rating, int ID, int Type, string ID_Options, string Options, int NumMulti, string Ismulti)
+        {
+            using (ProjectJobEntities db = new ProjectJobEntities())
+            {
+                var EditPollView = db.Polls.Where(x => x.Polls_ID == ID).SingleOrDefault();
+
+                EditPollView.Polls_Name = Name;
+
+                if (Type == 4)
+                {
+                    if (EditPollView.Rating != rating)
+                    {
+                        var SurveyRate = db.Outer.Where(x => x.Polls_ID == ID && x.Outer_Rating > rating).ToArray();
+                        for (int i = 0; i < SurveyRate.Length; i++)
+                        {
+                            db.Outer.Remove(SurveyRate[i]);
+                        }
+                        EditPollView.Rating = rating;
+                    }
+
+
+                }
+                if (Type == 1)
+                {
+                    string[] CheckID_Options = ID_Options.Trim().Split('|');
+                    string[] CheckOptions = Options.Trim().Split('|');
+                    var IDLength = CheckID_Options.Length;
+                    Dictionary<string, string> Repeatedoptions = new Dictionary<string, string>();
+                    for (int i = 0; i < IDLength; i++)
+                    {
+                        if (CheckOptions[i] != "")
+                        {
+                            if (Repeatedoptions.ContainsKey(CheckOptions[i])) // Check if word already exist in dictionary update the count  
+                            {
+                                var alertes = new { Result = "Please check your options, Some option is repeated to other options.", Get = 1 };
+                                return Json(alertes);
+                            }
+                            else
+                            {
+
+                                Repeatedoptions.Add(CheckOptions[i], CheckID_Options[i]);
+                            }
+                        }
+                    }
+
+                    Dictionary<string, int> GetOldoptions = new Dictionary<string, int>();
+                    for (int i = 0; i < IDLength; i++)
+                    {
+                        if (CheckOptions[i] != "")
+                        {
+                            var toint = Convert.ToInt32(CheckID_Options[i]);
+                            if (toint != 0) // Check if word already exist in dictionary update the count  
+                            {
+
+                                GetOldoptions.Add(CheckOptions[i], toint);
+                            }
+                        }
+                    }
+                    Dictionary<string, int> Newoptions = new Dictionary<string, int>();
+                    for (int i = 0; i < IDLength; i++)
+                    {
+                        if (CheckOptions[i] != "")
+                        {
+                            var toint = Convert.ToInt32(CheckID_Options[i]);
+                            if (toint == 0) // Check if word already exist in dictionary update the count  
+                            {
+
+                                Newoptions.Add(CheckOptions[i], toint);
+                            }
+                        }
+                    }
+                    var OptionsLength = GetOldoptions.Count();
+                    var OldOption = db.Options.Where(x => x.Polls_ID == ID).Select(x => x.Options_ID).ToArray();
+                    var OldDataLength = OldOption.Length;
+
+                    if (OptionsLength == OldDataLength)
+                    {
+                        var checkBack = db.Options.Where(x => x.Polls_ID == ID);
+
+                        for (int index = 0; index < OptionsLength; index++)
+                        {
+                            var element = GetOldoptions.ElementAt(index);
+                            var key = element.Key;
+                            if (!checkBack.Any(x => x.Options_Name == key))
+                            {
+                                var OptionID = Convert.ToInt32(element.Value);
+                                var UpdateBack = db.Options.Where(x => x.Polls_ID == ID && x.Options_ID == OptionID).SingleOrDefault();
+                                {
+                                    UpdateBack.Options_Name = key;
+                                };
+
+                            }
+                        }
+                    }
+                    if (OptionsLength < OldDataLength)
+                    {
+                        int[] checkBack = db.Options.Where(x => x.Polls_ID == ID).Select(x => x.Options_ID).ToArray();
+                        var OldStringID = "";
+                        for (int iz = 0; iz < checkBack.Length; iz++)
+                        {
+                            var a = Convert.ToString(checkBack[iz]);
+                            OldStringID = OldStringID + " " + a;
+                        }
+
+                        string[] OldStringID_Split = OldStringID.Trim().Split(' ');
+
+                        var OldStringID_Length = OldStringID_Split.Length;
+                        for (int index = 0; index < OldStringID_Length; index++)
+                        {
+                            var intOldID = Convert.ToInt32(OldStringID_Split[index]);
+                            if (!GetOldoptions.Any(x => x.Value == intOldID))
+                            {
+                                Options OptionDelete = db.Options.Find(intOldID);
+                                db.Options.Remove(OptionDelete);
+
+                            }
+
+                        }
+                    }
+
+                    if (Newoptions.Count != 0)
+                    {
+
+                        foreach (var kvp in Newoptions)
+                        {
+                            if (kvp.Key != "")
+                            {
+                                Options Omodel = new Options()
+                                {
+                                    Polls_ID = ID,
+                                    Options_Name = kvp.Key
+                                };
+                                db.Options.Add(Omodel);
+                            }
+                        }
+                    }
+                    var IsAllowMulti = Convert.ToBoolean(Ismulti);
+                    var UpdateBack2 = db.Polls.Where(x => x.Polls_ID == ID).SingleOrDefault();
+                    {
+                        UpdateBack2.IsMulti = IsAllowMulti;
+                        UpdateBack2.MaxMulti = NumMulti;
+                    };
+
+                }
+
+                db.SaveChanges();
+
+
+                var signalID = db.Polls.Where(x => x.Polls_ID == ID).Select(x => x.Polls_ID).SingleOrDefault();
+                var signalType = db.Polls.Where(x => x.Polls_ID == ID).Select(x => x.Polls_Type_ID).SingleOrDefault();
+                var Signal = new { signalID, signalType };
+                var alerte = new { Result = "Poll have been Updated.", Get = 0, s = Signal };
+
+                return Json(alerte);
+
+            }
+
+        }
+
+
+
     }
 }

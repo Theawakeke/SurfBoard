@@ -247,7 +247,9 @@ namespace SurfBoard.Controllers
 
                         Polls_ID = PollID,
                         Outer_Text = Text,
-                        Outer_Rating = Rate
+                        Outer_Rating = Rate,
+                        Outer_Name = null,
+                        OuterSes_ID = Convert.ToString('1')
 
                     };
                     db.Outer.Add(Pmodel);

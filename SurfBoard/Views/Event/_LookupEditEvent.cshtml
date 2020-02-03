@@ -1,0 +1,103 @@
+﻿<div class="Inputs" autocomplete="off">
+
+    @foreach (var vb in ViewBag.EditView)
+    {
+        <div class="form-group">
+            <div class="col-md-10">
+                <label style="color:#9F614D">Event Name</label>
+                <div class="input-group mb-3">
+                    <span class="input-group-prepend">
+                        <span class="input-group-text" style="border-color:#9F614D">
+                            <span class="fa fa-window-maximize"></span>
+                        </span>
+                    </span>
+                    <input type='text' class='form-control' id='id' name='id' value='@vb.Event_ID' hidden />
+                    <input type='text' class='form-control' id='Name' name='Name' autocomplete="off" placeholder="@vb.Event_Name" style="border-color:#9F614D" />
+                    <input type='text' class='form-control' id='SubName' name='SubName' autocomplete="off" value="@vb.Event_Name" hidden />
+
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-10">
+                <label style="color:#9F614D">Event Code</label>
+                <div class="input-group mb-3">
+                    <span class="input-group-prepend">
+                        <span class="input-group-text" style="border-color:#9F614D">
+                            <span class="fa fa-hashtag"></span>
+                        </span>
+                    </span>
+
+                    <input type='text' class='form-control text-uppercase' id='Code' name='Code' maxlength='4' autocomplete="off" placeholder="@vb.Event_Code" style="border-color:#9F614D" />
+                    <input type='text' class='form-control text-uppercase' id='SubCode' name='SubCode' maxlength='4' autocomplete="off" value="@vb.Event_Code" hidden />
+
+                </div>
+
+                <h6 id='resultEdit'></h6>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-10">
+                <label style="color:#9F614D">Start Date</label>
+                <div class="input-group mb-3">
+                    <span class="input-group-prepend">
+                        <span class="input-group-text" style="border-color:#9F614D">
+                            <span class="fa fa-calendar"></span>
+                        </span>
+                    </span>
+                    <input type='text' class="form-control datepicker Start" id='Start' name='Start' autocomplete="off" value="@vb.Start_Date.ToString("dd/MM/yyyy")" readonly style="border-color:#9F614D" />
+                </div>
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <div class="col-md-10">
+                <label style="color:#9F614D">Last Date</label>
+                <div class="input-group mb-3">
+                    <span class="input-group-prepend">
+                        <span class="input-group-text" style="border-color:#9F614D">
+                            <span class="fa fa-calendar"></span>
+                        </span>
+                    </span>
+                    <input type='text' class="form-control datepicker End" id='End' name='End' autocomplete="off" placeholder="@vb.End_Date.ToString("dd/MM/yyyy")" style="border-color:#9F614D" />
+                    <input type='text' class="form-control datepicker End" id='SubEnd' name='SubEnd' autocomplete="off" value="@vb.End_Date.ToString("dd/MM/yyyy")" hidden />
+
+                </div>
+                <h6 id='resultEditDate'></h6>
+            </div>
+        </div>
+    }
+
+</div>
+
+@section scripts{
+
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            $('.Start').datetimepicker({
+                format: 'DD/MM/YYYY'
+            });
+            $('.End').datetimepicker({
+                useCurrent: false
+                ,format: 'DD/MM/YYYY'
+                ,minDate: moment()
+            });
+            $(".Start").on("dp.change", function (e) {
+
+                $('.End').data("DateTimePicker").minDate(e.date);
+            });
+            $(".End").on("dp.change", function (e) {
+                $('.Start').data("DateTimePicker").maxDate(e.date);
+            });
+
+        });
+
+    </script>
+
+
+}

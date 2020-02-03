@@ -139,10 +139,10 @@
 
                                 <div class="card-body flex-column ">
                                     <div class="" style="position:absolute; right:1px;">
-                                            <span class="fa fa-pencil-square-o btn  mt-3 mr-2" style="font-size:25px;" data-toggle="modal" data-target="#exampleModal" data-whatever="@ev.Event_ID"></span>
+                                        <span class="fa fa-pencil-square-o btn  mt-3 mr-2" style="font-size:25px;" data-toggle="modal" data-target="#exampleModal" data-whatever="@ev.Event_ID"></span>
 
-                                            <span class='fa fa-trash-o btn rounded-circle mt-3 mr-5' style='font-size:25px' data-toggle='modal' data-target='#DeleteModal' data-whatever='@ev.Event_ID' data-Name='@ev.Event_Name'></span>
-                                        </div>
+                                        <span class='fa fa-trash-o btn rounded-circle mt-3 mr-5' style='font-size:25px' data-toggle='modal' data-target='#DeleteModal' data-whatever='@ev.Event_ID' data-Name='@ev.Event_Name'></span>
+                                    </div>
                                     <div class="align-items-start list-group-item-action pl-2 " onclick="MainPage(@ev.Event_ID)" id="@ev.Event_ID">
                                         <div class="form-inline">
                                             <h4 class="card-title " style="color:#9F614D">@ev.Event_Name</h4>
@@ -179,9 +179,54 @@
 <!-- page-content" -->
 <!-- page-wrapper -->
 
+<div class="modal" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color:#ffd800">
+                <h5 class="modal-title" id="exampleModalLabel" style="color:white">Edit Action</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" autocomplete="off">
+                <div id="InputName"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary close2" data-dismiss="modal" hidden>Close</button>
+
+                <button type="button" class="btn btn-secondary" style="width:100px" onclick="validateEditBtn()">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal" id="DeleteModal" tabindex="-1" role="dialog" aria-labelledby="DeleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color:#ff3535">
+                <h5 class="modal-title" id="DeleteModalLabel" style="color:white">Delete Action</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+            </div>
+            <div class="modal-footer">
+                <input type="number" id="DeleteEI" hidden />
+                <button type="button" class="btn btn-secondary close3" data-dismiss="modal" hidden>Close</button>
+                <button type="button" class="btn btn-danger" onclick="delet()">Summit</button>
+            </div>
+
+
+        </div>
+    </div>
+</div>
 
 @section scripts{
 
+    <link href="~/Style_Sheets/FaFaHover.css" rel="stylesheet" />
     <link href="~/Style_Sheets/Sitebar.css" rel="stylesheet" />
     @*--------  site bar ----------*@
     <script>
@@ -215,6 +260,50 @@
         });
 
 
+    </script>
+
+    <script>
+        $('#DeleteModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget) // Button that triggered the modal
+            var recipient = button.data('whatever') // Extract info from data-* attributes
+            // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+            // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+            var modal = $(this)
+            var name = button.data('name')
+            modal.find('.modal-body').text('Do You Want to Delete Event Name - " ' + name + ' "   ?')
+            modal.find('.modal-footer input').val(recipient)
+        })
+    </script>
+    <script>
+
+        $(document).ready(function () {
+            $('#exampleModal').on('show.bs.modal', function (event) {
+                var button = $(event.relatedTarget) // Button that triggered the modal
+                var recipient = button.data('whatever') // Extract info from data-* attributes
+                // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+                // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+                var modal = $(this)
+
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("_LookupEditEvent","Event")',
+                    dataType: "html",
+                    data: { EID: recipient },
+                    success: function (data) {
+
+                        modal.find('.modal-body').html(data);
+
+                    }
+
+
+
+                });
+            });
+
+
+
+
+        });
     </script>
 
     <script>
@@ -398,12 +487,76 @@
                 dataType: "json",
                 data: JSON.stringify({ ID }),
                 success: function (result) {
-                     window.location.href=result.Url;
+                     location.href=result.Url;
                 }
 
 
 
             });
+        }
+
+    </script>
+
+    <script>
+        function Edit() {
+             var Name = $("#Name").val();
+            if (Name == "") {
+                Name = $("#SubName").val();
+            }
+            var ID = $("#id").val();
+            var S = $("#Start").val();
+            var E = $("#End").val();
+
+            if (E == "") {
+                E = $("#SubEnd").val();
+
+            }
+             var ET = E;
+             $("#resultEditDate").text("");
+             if (ET == "") {
+                  $("#resultEditDate").text("Your end date is expired. Please update your end date.");
+                 $("#resultEditDate").css("color", "red");
+                 return false;
+            }
+             var Code = $("#Code").val();
+            if (Code == "") {
+                Code = $("#SubCode").val();
+            }
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("EDITEvent","Event")',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                data: JSON.stringify({ Name: Name , Event_Code : Code, Start_Date :S , End_Date:E ,ID :ID  }),
+                success: function (alerte) {
+                    alert(alerte.Result);
+                     location.reload();
+                },
+                error: function () {
+                    console.log("Error Again.")
+                }
+            })
+        }
+
+    </script>
+
+    <script>
+        function delet() {
+            var DEID = $("#DeleteEI").val();
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("DeletEvent","Event")',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                data: JSON.stringify({ EventID: DEID }),
+                 success: function (alerte) {
+                     alert(alerte.Result);
+                     location.reload();
+                },
+                error: function () {
+                    console.log("Error Again.")
+                }
+            })
         }
 
     </script>

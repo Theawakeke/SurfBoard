@@ -8,9 +8,9 @@ using System.Web;
 
 namespace SurfBoard.Business
 {
-    public class CheckDupe
+    public class  CheckDupe
     {
-        public bool CheckDupicate(string CodeUpperCase, DateTime startDate, DateTime endDate)
+        public  bool CheckDupicate(string CodeUpperCase, DateTime startDate, DateTime endDate)
         {
             bool result = false;
             using (ProjectJobEntities db = new ProjectJobEntities())
