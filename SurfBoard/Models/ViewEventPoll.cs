@@ -5,7 +5,7 @@ using System.Web;
 
 namespace SurfBoard.Models
 {
-    public class EventViewModel
+    public class ViewEventPoll
     {
         public int Event_ID { get; set; }
         public string Event_Code { get; set; }
@@ -14,5 +14,7 @@ namespace SurfBoard.Models
         public System.DateTime End_Date { get; set; }
         public string Event_Password { get; set; }
 
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
     }
 }

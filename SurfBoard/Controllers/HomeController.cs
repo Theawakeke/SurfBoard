@@ -12,6 +12,7 @@ namespace SurfBoard.Controllers
     {
         public ActionResult Index()
         {
+          
             return View();
         }
 
@@ -59,7 +60,7 @@ namespace SurfBoard.Controllers
                 var chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
                 var random = new Random();
                 var RandomID = new string(Enumerable.Repeat(chars, 13).Select(s => s[random.Next(s.Length)]).ToArray());
-
+                
                 db.Users.Add(new Users()
                 {
 

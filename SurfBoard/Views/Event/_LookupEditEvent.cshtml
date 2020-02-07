@@ -1,18 +1,18 @@
-﻿<div class="Inputs" autocomplete="off">
+﻿<div class="Inputs" autocomplete="off" style="margin:auto">
 
     @foreach (var vb in ViewBag.EditView)
     {
         <div class="form-group">
-            <div class="col-md-10">
-                <label style="color:#9F614D">Event Name</label>
+            <div class="col-md-10" style="margin:auto">
+                <label style="color:#e4b666">Event Name</label>
                 <div class="input-group mb-3">
                     <span class="input-group-prepend">
-                        <span class="input-group-text" style="border-color:#9F614D">
+                        <span class="input-group-text" style="border-color:#e4b666">
                             <span class="fa fa-window-maximize"></span>
                         </span>
                     </span>
                     <input type='text' class='form-control' id='id' name='id' value='@vb.Event_ID' hidden />
-                    <input type='text' class='form-control' id='Name' name='Name' autocomplete="off" placeholder="@vb.Event_Name" style="border-color:#9F614D" />
+                    <input type='text' class='form-control' id='Name' name='Name' autocomplete="off" placeholder="@vb.Event_Name" style="border-color:#e4b666" />
                     <input type='text' class='form-control' id='SubName' name='SubName' autocomplete="off" value="@vb.Event_Name" hidden />
 
                 </div>
@@ -20,16 +20,16 @@
         </div>
 
         <div class="form-group">
-            <div class="col-md-10">
-                <label style="color:#9F614D">Event Code</label>
+            <div class="col-md-10" style="margin:auto">
+                <label style="color:#e4b666">Event Code</label>
                 <div class="input-group mb-3">
                     <span class="input-group-prepend">
-                        <span class="input-group-text" style="border-color:#9F614D">
+                        <span class="input-group-text" style="border-color:#e4b666">
                             <span class="fa fa-hashtag"></span>
                         </span>
                     </span>
 
-                    <input type='text' class='form-control text-uppercase' id='Code' name='Code' maxlength='4' autocomplete="off" placeholder="@vb.Event_Code" style="border-color:#9F614D" />
+                    <input type='text' class='form-control text-uppercase' id='Code' name='Code' maxlength='4' autocomplete="off" placeholder="@vb.Event_Code" style="border-color:#e4b666" />
                     <input type='text' class='form-control text-uppercase' id='SubCode' name='SubCode' maxlength='4' autocomplete="off" value="@vb.Event_Code" hidden />
 
                 </div>
@@ -39,36 +39,74 @@
         </div>
 
         <div class="form-group">
-            <div class="col-md-10">
-                <label style="color:#9F614D">Start Date</label>
+            <div class="col-md-10" style="margin:auto">
+                <label style="color:#e4b666">Start Date</label>
                 <div class="input-group mb-3">
                     <span class="input-group-prepend">
-                        <span class="input-group-text" style="border-color:#9F614D">
+                        <span class="input-group-text" style="border-color:#e4b666">
                             <span class="fa fa-calendar"></span>
                         </span>
                     </span>
-                    <input type='text' class="form-control datepicker Start" id='Start' name='Start' autocomplete="off" value="@vb.Start_Date.ToString("dd/MM/yyyy")" readonly style="border-color:#9F614D" />
+                    <input type='text' class="form-control datepicker Start" id='Start' name='Start' autocomplete="off" value="@vb.Start_Date.ToString("dd/MM/yyyy")" readonly style="border-color:#e4b666" />
                 </div>
             </div>
         </div>
 
 
         <div class="form-group">
-            <div class="col-md-10">
-                <label style="color:#9F614D">Last Date</label>
+            <div class="col-md-10" style="margin:auto">
+                <label style="color:#e4b666">Last Date</label>
                 <div class="input-group mb-3">
                     <span class="input-group-prepend">
-                        <span class="input-group-text" style="border-color:#9F614D">
+                        <span class="input-group-text" style="border-color:#e4b666">
                             <span class="fa fa-calendar"></span>
                         </span>
                     </span>
-                    <input type='text' class="form-control datepicker End" id='End' name='End' autocomplete="off" placeholder="@vb.End_Date.ToString("dd/MM/yyyy")" style="border-color:#9F614D" />
+                    <input type='text' class="form-control datepicker End" id='End' name='End' autocomplete="off" placeholder="@vb.End_Date.ToString("dd/MM/yyyy")" style="border-color:#e4b666" />
                     <input type='text' class="form-control datepicker End" id='SubEnd' name='SubEnd' autocomplete="off" value="@vb.End_Date.ToString("dd/MM/yyyy")" hidden />
 
                 </div>
                 <h6 id='resultEditDate'></h6>
             </div>
         </div>
+        if (ViewBag.EventPassword[0] == null)
+        {
+
+            <div class="col-md-10" style="margin:auto">
+                <label style="color:#e4b666">Event Password</label>
+                <div class="input-group mb-3">
+
+                    <input type='text' class="form-control  " id='Password' name='Password' autocomplete="off" placeholder="If You need Password , Text Here" style="border-color:#e4b666" />
+                    <input type='text' class="form-control  " id='SubPassword' name='SubPassword' autocomplete="off" value="@vb.Event_Password" hidden />
+
+                </div>
+
+            </div>
+
+
+        }
+        else
+        {
+            <div class="form-group" id="PasswordShow">
+                <div class="col-md-10" style="margin:auto">
+                    <label style="color:#e4b666">Event Password</label>
+                    <div class="input-group mb-3">
+
+                        <input type='text' class="form-control  " id='Password' name='Password' autocomplete="off" placeholder="@vb.Event_Password" style="border-color:#e4b666" />
+                        <input type='text' class="form-control  " id='SubPassword' name='SubPassword' autocomplete="off" value="@vb.Event_Password" hidden />
+
+                    </div>
+
+                </div>
+            </div>
+            <div class="col-md-10 mt-0" style="margin:auto">
+                <label for="SetPassword" class="pt-2">
+                    <input type="checkbox" id="SetPassword" />
+                    <span style="color:#e4b666">None Password</span>
+                </label>
+            </div>
+        }
+
     }
 
 </div>
@@ -84,8 +122,8 @@
             });
             $('.End').datetimepicker({
                 useCurrent: false
-                ,format: 'DD/MM/YYYY'
-                ,minDate: moment()
+                , format: 'DD/MM/YYYY'
+                , minDate: moment()
             });
             $(".Start").on("dp.change", function (e) {
 
@@ -97,6 +135,20 @@
 
         });
 
+        $(function () {
+            $("#SetPassword").click(function () {
+                if ($(this).is(":checked")) {
+                    $("#SetPassword").attr("checked", true);
+                    $("#SetPassword").prop("checked", true);
+                    $("#PasswordShow").hide();
+
+                } else {
+                    $("#SetPassword").attr("checked", false);
+                    $("#SetPassword").prop("checked", false);
+                    $("#PasswordShow").show();
+                }
+            });
+        });
     </script>
 
 

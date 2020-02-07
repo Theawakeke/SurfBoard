@@ -212,6 +212,8 @@
       <DependentUpon>SQLData.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\UserView.cs" />
+    <Compile Include="Models\ViewEventPoll.cs" />
+    <Compile Include="Models\ViewNameEvent.cs" />
     <Compile Include="MyHub.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />

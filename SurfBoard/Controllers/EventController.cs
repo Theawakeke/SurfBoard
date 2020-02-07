@@ -18,11 +18,11 @@ namespace SurfBoard.Controllers
             {
                 List<Event> eventlist = new List<Event>();
 
-                eventlist = db.Event.Where(x => x.Users_ID == ID).OrderByDescending(q => q.Event_ID)
-                    .ToList();
+                eventlist = db.Event.Where(x => x.Users_ID == ID).OrderByDescending(q => q.Event_ID).ToList();
 
                 //viewbagdata
                 ViewBag.MyEventlist = eventlist;
+
                 ViewBag.CountList = eventlist.Count();
                 return View();
             }
@@ -728,16 +728,16 @@ namespace SurfBoard.Controllers
             using (ProjectJobEntities db = new ProjectJobEntities())
             {
 
-                var EditView = db.Event.Where(x => x.Event_ID == EID).Select(x => new EventViewModel() { Event_ID = x.Event_ID, Event_Code = x.Event_Code, Event_Name = x.Event_Name, End_Date = x.End_Date, Start_Date = x.Start_Date }).ToList();
-
+                var EditView = db.Event.Where(x => x.Event_ID == EID).Select(x => new EventViewModel() { Event_ID = x.Event_ID, Event_Code = x.Event_Code, Event_Name = x.Event_Name, End_Date = x.End_Date, Start_Date = x.Start_Date, Event_Password = x.Event_Password }).ToList();
+                var EventPassword = EditView.Select(x => x.Event_Password).ToArray();
                 ViewBag.EditView = EditView;
-
+                ViewBag.EventPassword = EventPassword;
 
                 return View();
             }
 
         }
-        public ActionResult EDITEvent(string Name, string Event_Code, DateTime Start_Date, DateTime End_Date, int ID)
+        public ActionResult EDITEvent(string Name, string Event_Code, DateTime Start_Date, DateTime End_Date, int ID, string Password)
         {
             using (ProjectJobEntities db = new ProjectJobEntities())
             {
@@ -753,7 +753,7 @@ namespace SurfBoard.Controllers
                     EditView.Start_Date = Start_Date;
                     EditView.End_Date = End_Date;
                     EditView.Event_Name = Name;
-
+                    EditView.Event_Password = Password;
                     db.SaveChanges();
 
                     var alerte = new { Result = "Event have been updated." };
@@ -776,27 +776,28 @@ namespace SurfBoard.Controllers
             {
 
 
-                var EditViewPoll = db.Polls.Where(x => x.Polls_ID == PID).Select(x => new PollView() { Polls_ID = x.Polls_ID, Polls_Type_ID = x.Polls_Type_ID, Polls_Name = x.Polls_Name, Event_ID = x.Event_ID, Rating = x.Rating, IsMulti = x.IsMulti, MaxMulti = x.MaxMulti }).ToList();
+                var EditViewPoll = db.Polls.Where(x => x.Polls_ID == PID).Select(x => new PollView() { Polls_ID = x.Polls_ID, Polls_Type_ID = x.Polls_Type_ID, Polls_Name = x.Polls_Name, Event_ID = x.Event_ID, Rating = x.Rating, IsMulti = x.IsMulti, MaxMulti = x.MaxMulti , LimitPerson = x.LimitPerson }).ToList();
                 var typePoll = EditViewPoll.Select(x => x.Polls_Type_ID).ToArray();
+                var LimitPoll = EditViewPoll.Select(x => x.LimitPerson).ToArray();
 
                 var EditViewOption = db.Options.Where(x => x.Polls_ID == PID).Select(x => new OptionView() { Polls_ID = x.Polls_ID, Options_ID = x.Options_ID, Options_Name = x.Options_Name }).ToList();
                 ViewBag.OptionsLength = EditViewOption.Count();
                 ViewBag.EditViewOption = EditViewOption;
                 ViewBag.EditViewRate = EditViewPoll;
                 ViewBag.EditViewType = typePoll;
-
+                ViewBag.EditLimitPoll = LimitPoll;
                 return View();
             }
 
         }
-        public ActionResult EDITEPoll(string Name, int rating, int ID, int Type, string ID_Options, string Options, int NumMulti, string Ismulti)
+        public ActionResult EDITEPoll(string Name, int rating, int ID, int Type, string ID_Options, string Options, int NumMulti, string Ismulti, int Limit)
         {
             using (ProjectJobEntities db = new ProjectJobEntities())
             {
                 var EditPollView = db.Polls.Where(x => x.Polls_ID == ID).SingleOrDefault();
 
                 EditPollView.Polls_Name = Name;
-
+                EditPollView.LimitPerson = Limit;
                 if (Type == 4)
                 {
                     if (EditPollView.Rating != rating)
@@ -813,6 +814,7 @@ namespace SurfBoard.Controllers
                 }
                 if (Type == 1)
                 {
+
                     string[] CheckID_Options = ID_Options.Trim().Split('|');
                     string[] CheckOptions = Options.Trim().Split('|');
                     var IDLength = CheckID_Options.Length;

@@ -22,8 +22,16 @@ namespace SurfBoard.Controllers
             using (ProjectJobEntities db = new ProjectJobEntities())
             {
                 var code = Code.ToUpper();
-                var eventlist = db.Event.Where(x => x.Event_Code.Contains(code)).ToList();
-                var list = eventlist.Select(x => new EventViewModel() { Event_ID = x.Event_ID, Event_Code = x.Event_Code, Event_Name = x.Event_Name, End_Date = x.End_Date, Start_Date = x.Start_Date }).OrderByDescending(q => q.Event_ID).ToList();
+                var eventlist = from ev in db.Event
+                                join us in db.Users on ev.Users_ID equals us.User_ID
+                                where ev.Event_Code.Contains(code)
+                                select new ViewNameEvent
+                                {
+                                    Event = ev,
+                                    Users = us
+                                };
+                var eventlist2 = eventlist.ToList();
+                var list = eventlist2.Select(x => new ViewEventPoll() { LastName = x.Users.LastName, FirstName = x.Users.FirstName, Event_ID = x.Event.Event_ID, Event_Code = x.Event.Event_Code, Event_Name = x.Event.Event_Name, End_Date = x.Event.End_Date, Start_Date = x.Event.Start_Date, Event_Password = x.Event.Event_Password }).OrderByDescending(q => q.Event_ID).ToList();
 
 
 
@@ -34,7 +42,6 @@ namespace SurfBoard.Controllers
         [HttpPost]
         public ActionResult LinkQuestionPage(int ID)
         {
-            var code = Convert.ToString(Session["Event_Code"]);
             using (ProjectJobEntities db = new ProjectJobEntities())
 
             {
@@ -310,6 +317,36 @@ namespace SurfBoard.Controllers
 
             return RedirectToAction("Index", "Home");
         }
+        public ActionResult BackEvent()
+        {
+            return RedirectToAction("Home", "Event");
 
+        }
+
+        public ActionResult validatePassword(int EventID, string Password)
+        {
+
+            using (ProjectJobEntities db = new ProjectJobEntities())
+
+            {
+
+                var model = db.Event.Where(x => x.Event_ID == EventID).SingleOrDefault();
+                var dbPassword = model.Event_Password.ToString();
+
+                if (Password != dbPassword)
+                {
+                    var results = new { Result = "Event Password is wrong  " + "\r\n" + "รหัสผ่านกิจกรรมผิด", Pascheck = "" };
+                    return Json(results);
+                }
+                else
+                {
+                    var results = new { evnet_ID = EventID, Pascheck = "1" };
+
+                    return Json(results);
+                }
+            }
+                
+
+        }
     }
 }

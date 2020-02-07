@@ -6,6 +6,7 @@
     {
         Response.Redirect("~/Home/Index");
     }
+
 }
 
 
@@ -132,31 +133,75 @@
                 {
                     foreach (var ev in ViewBag.MyEventlist)
                     {
+                        if (ev.Event_Password == null)
+                        {
+                           
 
-                        <div class="list-group">
+                               
 
-                            <div class="card border-0 shadow-sm " style="height:auto;">
 
-                                <div class="card-body flex-column ">
-                                    <div class="" style="position:absolute; right:1px;">
-                                        <span class="fa fa-pencil-square-o btn  mt-3 mr-2" style="font-size:25px;" data-toggle="modal" data-target="#exampleModal" data-whatever="@ev.Event_ID"></span>
+                                <div class="list-group">
 
-                                        <span class='fa fa-trash-o btn rounded-circle mt-3 mr-5' style='font-size:25px' data-toggle='modal' data-target='#DeleteModal' data-whatever='@ev.Event_ID' data-Name='@ev.Event_Name'></span>
+                                    <div class="card border-0 shadow-sm " style="height:auto;">
+
+                                        <div class="card-body flex-column  ">
+                                            <div class="" style="position:absolute; right:1px;">
+                                                <span class="fa fa-pencil-square-o btn  mt-3 mr-2" style="font-size:25px;" data-toggle="modal" data-target="#exampleModal" data-whatever="@ev.Event_ID"></span>
+
+                                                <span class='fa fa-trash-o btn rounded-circle mt-3 mr-5' style='font-size:25px' data-toggle='modal' data-target='#DeleteModal' data-whatever='@ev.Event_ID' data-Name='@ev.Event_Name'></span>
+                                            </div>
+
+                                            <div class="align-items-start list-group-item-action pl-2 " onclick="MainPage(@ev.Event_ID)" id="@ev.Event_ID">
+
+                                                <div class="form-inline">
+                                                    <h4 class="card-title " style="color:#9F614D">@ev.Event_Name</h4>
+                                                    <small class="card-title d-xl-inline-flex text-uppercase" style="font-size:medium; color:lightgrey">&nbsp; #@ev.Event_Code</small>
+                                                </div>
+
+                                                <p class="card-text">@ev.Start_Date.ToString("dd/MM/yyyy")   To   @ev.End_Date.ToString("dd/MM/yyyy")</p>
+                                            </div>
+
+
+
+                                        </div>
+                                        
                                     </div>
-                                    <div class="align-items-start list-group-item-action pl-2 " onclick="MainPage(@ev.Event_ID)" id="@ev.Event_ID">
-                                        <div class="form-inline">
-                                            <h4 class="card-title " style="color:#9F614D">@ev.Event_Name</h4>
-                                            <small class="card-title d-xl-inline-flex text-uppercase" style="font-size:medium; color:lightgrey">&nbsp; #@ev.Event_Code</small>
+                                </div>
+                            
+                        }
+                        else
+                        {
+
+                            <div class="list-group">
+
+                                <div class="card border-0 shadow-sm " style="height:auto;">
+
+                                    <div class="card-body flex-column ">
+                                        <div class="" style="position:absolute; right:1px;">
+                                            <span class="fa fa-pencil-square-o btn  mt-3 mr-2" style="font-size:25px;" data-toggle="modal" data-target="#exampleModal" data-whatever="@ev.Event_ID"></span>
+
+                                            <span class='fa fa-trash-o btn rounded-circle mt-3 mr-5' style='font-size:25px' data-toggle='modal' data-target='#DeleteModal' data-whatever='@ev.Event_ID' data-Name='@ev.Event_Name'></span>
                                         </div>
 
-                                        <p class="card-text">@ev.Start_Date.ToString("dd/MM/yyyy")   To   @ev.End_Date.ToString("dd/MM/yyyy")</p>
+                                        <div class="align-items-start list-group-item-action pl-2 " onclick="MainPage(@ev.Event_ID)" id="@ev.Event_ID">
+
+                                            <div class="form-inline">
+                                                <h4 class="card-title " style="color:#9F614D">@ev.Event_Name</h4>
+                                                <span class="fa fa-lock pb-2 pl-2" style='font-size:25px;color:gray'></span>
+                                                <small class="card-title d-xl-inline-flex text-uppercase" style="font-size:medium; color:lightgrey">&nbsp; #@ev.Event_Code</small>
+
+                                            </div>
+
+                                            <p class="card-text">@ev.Start_Date.ToString("dd/MM/yyyy")   To   @ev.End_Date.ToString("dd/MM/yyyy")</p>
+                                        </div>
+
+
                                     </div>
 
-
                                 </div>
-
                             </div>
-                        </div>
+                        }
+
                     }
                 }
                 else
@@ -164,7 +209,7 @@
                     <div class="list-group">
                         <div class="card border-0 shadow-sm " style="height:105px;width:auto">
                             <div class="text-center">
-                                <h3 style="color:#F7E3CA;padding-top:30px">Don't have any Event</h3>
+                                <h3 style="color:#F7E3CA;padding-top:30px"> Don't have any Event</h3>
                             </div>
                         </div>
                     </div>
@@ -210,7 +255,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body">
+            <div class="modal-body" style="margin:auto">
 
             </div>
             <div class="modal-footer">
@@ -440,21 +485,40 @@
                             $('.close').click();
                             var eventlist = data.Event;
                             var enddate = moment(eventlist.End_Date).add(543, 'year').add(1,'day').format('DD/MM/YYYY');
-                            var startdate = moment(eventlist.Start_Date).add(543, 'year').add(1,'day').format('DD/MM/YYYY');
-                            var rows ="<div class='card-body flex-column '>"
-                                +"<div class='' style='position:absolute; right:1px;'>"
-                                + "<span class='fa fa-pencil-square-o btn  mt-3 mr-2' style='font-size:25px;' data-toggle='modal' data-target='#exampleModal' data-whatever='" + eventlist.Event_ID + "'></span>"
-                                + "<span class='fa fa-trash-o btn rounded-circle mt-3 mr-5' style='font-size:25px' data-toggle='modal' data-target='#DeleteModal' data-whatever='" + eventlist.Event_ID + "' data-Name='" + eventlist.Event_Name + "'></span>"
-                                +"</div>"
-                                + "<div class='align-items-start list-group-item-action pl-2 ' onclick='MainPage(" + eventlist.Event_ID + ")' id='" + eventlist.Event_ID + "'>"
-                                + "<div class='form-inline'>"
-                                + "<h4 class='card-title ' style='color:#9F614D'>" + eventlist.Event_Name + "</h4>"
-                                + "<small class='card-title d-xl-inline-flex' style='font-size:medium; color:lightgrey'>&nbsp; # " + eventlist.Event_Code + "</small>"
-                                + "</div>"
-                                + "<p class='card-text'>" + startdate + " " + "To" + " " + enddate + "</p>"
-                                + "</div>"
-                                + "</div>";
+                            var startdate = moment(eventlist.Start_Date).add(543, 'year').add(1, 'day').format('DD/MM/YYYY');
+                            var checkpss = eventlist.Event_Password;
+                            if (checkpss == null) {
+                                var rows = "<div class='card-body flex-column '>"
+                                    + "<div class='' style='position:absolute; right:1px;'>"
+                                    + "<span class='fa fa-pencil-square-o btn  mt-3 mr-2' style='font-size:25px;' data-toggle='modal' data-target='#exampleModal' data-whatever='" + eventlist.Event_ID + "'></span>"
+                                    + "<span class='fa fa-trash-o btn rounded-circle mt-3 mr-5' style='font-size:25px' data-toggle='modal' data-target='#DeleteModal' data-whatever='" + eventlist.Event_ID + "' data-Name='" + eventlist.Event_Name + "'></span>"
+                                    + "</div>"
+                                    + "<div class='align-items-start list-group-item-action pl-2 ' onclick='MainPage(" + eventlist.Event_ID + ")' id='" + eventlist.Event_ID + "'>"
+                                    + "<div class='form-inline'>"
+                                    + "<h4 class='card-title ' style='color:#9F614D'>" + eventlist.Event_Name + "</h4>"
+                                    + "<small class='card-title d-xl-inline-flex' style='font-size:medium; color:lightgrey'>&nbsp; # " + eventlist.Event_Code + "</small>"
+                                    + "</div>"
+                                    + "<p class='card-text'>" + startdate + " " + "To" + " " + enddate + "</p>"
+                                    + "</div>"
+                                    + "</div>";
+                            }
+                            else {
+                                 var rows = "<div class='card-body flex-column '>"
+                                    + "<div class='' style='position:absolute; right:1px;'>"
+                                    + "<span class='fa fa-pencil-square-o btn  mt-3 mr-2' style='font-size:25px;' data-toggle='modal' data-target='#exampleModal' data-whatever='" + eventlist.Event_ID + "'></span>"
+                                    + "<span class='fa fa-trash-o btn rounded-circle mt-3 mr-5' style='font-size:25px' data-toggle='modal' data-target='#DeleteModal' data-whatever='" + eventlist.Event_ID + "' data-Name='" + eventlist.Event_Name + "'></span>"
+                                    + "</div>"
+                                    + "<div class='align-items-start list-group-item-action pl-2 ' onclick='MainPage(" + eventlist.Event_ID + ")' id='" + eventlist.Event_ID + "'>"
+                                    + "<div class='form-inline'>"
+                                    + "<h4 class='card-title ' style='color:#9F614D'>" + eventlist.Event_Name + "</h4>"
+                                    + "<span class='fa fa-lock pb-2 pl-2' style='font-size:25px;color:gray'></span>"
+                                    + "<small class='card-title d-xl-inline-flex' style='font-size:medium; color:lightgrey'>&nbsp; # " + eventlist.Event_Code + "</small>"
+                                    + "</div>"
+                                    + "<p class='card-text'>" + startdate + " " + "To" + " " + enddate + "</p>"
+                                    + "</div>"
+                                    + "</div>";
 
+                            }
                             $('#announcement').append(rows);
 
 
@@ -503,6 +567,22 @@
             if (Name == "") {
                 Name = $("#SubName").val();
             }
+
+             var SetPassword = $("#SetPassword").is(':checked') ? 'true' : 'false';
+            if (SetPassword == 'false') {
+                var Password = $("#Password").val();
+                if (Password == "") {
+                    Password = $("#SubPassword").val();
+                    var checkwhitespace = $("#SubPassword").val();
+                    if (checkwhitespace == "") {
+                        Password = null
+
+                    }
+                }
+            }
+            else {
+                var Password = null;
+            }
             var ID = $("#id").val();
             var S = $("#Start").val();
             var E = $("#End").val();
@@ -527,7 +607,7 @@
                 url: '@Url.Action("EDITEvent","Event")',
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
-                data: JSON.stringify({ Name: Name , Event_Code : Code, Start_Date :S , End_Date:E ,ID :ID  }),
+                data: JSON.stringify({ Name: Name , Event_Code : Code, Start_Date :S , End_Date:E ,ID :ID , Password:Password }),
                 success: function (alerte) {
                     alert(alerte.Result);
                      location.reload();

@@ -15,5 +15,6 @@ namespace SurfBoard.Models
         public Nullable<int> Rating { get; set; }
         public bool IsMulti { get; set; }
         public Nullable<int> MaxMulti { get; set; }
+        public Nullable<int> LimitPerson { get; set; }
     }
 }
