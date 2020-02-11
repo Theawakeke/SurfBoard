@@ -11,9 +11,6 @@
     </nav>
 
 
-    <div>
-
-    </div>
     <div class="container d-inline-block">
         <form class="form-inline form-group" style="padding-left:10px">
             @if (@Session["User_ID"] != null)
@@ -24,6 +21,10 @@
             {
                 <a href="@Url.Action("Back", "Outer")" class="fa fa-home" style="font-size:40px;"></a>
             }
+
+
+
+
             <label for="Code" style="margin-left:25px">
                 <span class="input-group-prepend">
                     <span class="input-group-text bg-light border-light form-control ">
@@ -32,7 +33,19 @@
                 </span>
             </label>
             <input class="form-control text-uppercase" style="border-color:  #92a8d1;" autocomplete="off" id="Code" type="text" placeholder="Search New Code" maxlength="4">
-            <button class="btn example_c" style="margin-left:20px;" onclick="CheckNewEnter()" type="button">Search</button>
+
+            @if (@Session["Ses_ID"] == null)
+            {
+                <button class="btn example_c" style="margin-left:20px;" onclick="CheckOuter()" type="button">Search</button>
+
+            }
+            @if (@Session["Ses_ID"] != null)
+            {
+                <button class="btn example_c" style="margin-left:20px;" onclick="CheckNewEnter()" type="button">Search</button>
+
+            }
+
+
         </form>
 
         <div class="list-group m-2" id="announcement">
@@ -61,6 +74,24 @@
         </div>
     </div>
 </div>
+
+<div class="modal" id="CreateSessionModal" tabindex="-1" role="dialog" aria-labelledby="CreateSessionModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content" style="height:auto;width:400px;align-items:center;">
+
+            <div class="modal-body input-group" autocomplete="off" style="">
+
+                <input class="form-control-plaintext " id="OuterName" placeholder="Please Text Your Name" />&nbsp;
+
+
+                <button type="button" class="btn btn-secondary close2" data-dismiss="modal" hidden>Close</button>
+
+                <button type="button" class="btn btn-secondary" style="width:60px;height:auto" onclick="SetOuterSession()">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 @section scripts{
     <link href="~/Style_Sheets/FaFaHover.css" rel="stylesheet" />
     <link href="~/Style_Sheets/EnterStyle.css" rel="stylesheet" />
@@ -76,7 +107,7 @@
 
             modal.find('.modal-footer input').val(recipient)
         })
-      
+
     </script>
     @*---Block Input Enter---*@
     <script>
@@ -89,6 +120,61 @@
             });
         });
     </script>
+
+    <script>
+         $(document).ready(function () {
+
+
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("FindSession","Outer")',
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+
+                    success: function (data) {
+                        if (data.CheckSes_ID == "1") {
+                            $('#CreateSessionModal').modal('show');
+                        }
+                    },
+                    error: function () {
+                        console.log("Error Again.")
+                    }
+                })
+
+         });
+
+        function SetOuterSession() {
+                 var OuterName = $("#OuterName").val();
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("SetSessionOuter","Outer")',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                data: JSON.stringify({ OuterName : OuterName }),
+                success: function (data) {
+                    location.reload();
+                }
+            })
+        }
+        
+        function CheckOuter() {
+                
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("FindSession","Outer")',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                
+                success: function (data) {
+                     if (data.CheckSes_ID == "1") {
+                            $('#CreateSessionModal').modal('show');
+                        }
+                }
+            })
+        }
+    </script>
+
+
     <script>
         function CheckNewEnter() {
             var Code = $("#Code").val();

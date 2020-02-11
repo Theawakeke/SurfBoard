@@ -80,6 +80,39 @@ namespace SurfBoard.Controllers
 
             }
         }
+        public ActionResult FindSession()
+        {
+            var Ses_ID = Convert.ToString(Session["Ses_ID"]);
+
+            if (Ses_ID != "")
+            {
+                var FindSes_ID = new { CheckSes_ID = "0" };
+                return Json(FindSes_ID, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                var FindSes_ID = new { CheckSes_ID = "1" };
+                return Json(FindSes_ID, JsonRequestBehavior.AllowGet);
+            }
+
+
+        }
+
+        public ActionResult SetSessionOuter(string OuterName)
+        {
+            var Name = OuterName;
+
+            var chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            var random = new Random();
+            var NewOuterID = new string(Enumerable.Repeat(chars, 13).Select(s => s[random.Next(s.Length)]).ToArray());
+
+            Session["FirstName"] = Name;
+            Session["Ses_ID"] = NewOuterID;
+
+            var React = new { clear = "0" };
+            return Json(React, JsonRequestBehavior.AllowGet);
+
+        }
         public JsonResult FindIsActive(int EventID)
         {
             using (ProjectJobEntities db = new ProjectJobEntities())
@@ -255,8 +288,8 @@ namespace SurfBoard.Controllers
                         Polls_ID = PollID,
                         Outer_Text = Text,
                         Outer_Rating = Rate,
-                        Outer_Name = null,
-                        OuterSes_ID = Convert.ToString('1')
+                        Outer_Name = Convert.ToString(Session["FirstName"]),
+                        OuterSes_ID = Convert.ToString(Session["Ses_ID"])
 
                     };
                     db.Outer.Add(Pmodel);
@@ -345,7 +378,7 @@ namespace SurfBoard.Controllers
                     return Json(results);
                 }
             }
-                
+
 
         }
     }

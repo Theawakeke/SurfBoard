@@ -27,7 +27,7 @@
 
 /*Labels*/
 .QTT {
-    color: #F7E3CA;
+    color: #cc8a4d;
     font-size: 16px;
     pointer-events: none;
     position: absolute;
@@ -37,7 +37,7 @@
 }
 
 .QT:focus ~ label, .QT:valid ~ label {
-    color: #F7E3CA;
+    color: #cc8a4d;
     font-size: 12px;
     top: -16px;
 }

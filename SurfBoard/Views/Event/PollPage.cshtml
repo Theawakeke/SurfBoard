@@ -142,7 +142,7 @@
 
                                                 <div id="LimitCount" style="display: none;padding-bottom:10px">
 
-                                                    <input type="number" class="form-control " style="border-color:#92a8d1;width:100px" id="PollLimit" name="PollLimit" min="0" value="0" onKeyPress="if(this.value.length==4) return false;" onkeypress='return event.charCode >= 48 && event.charCode <= 57'/>
+                                                    <input type="number" class="form-control " style="border-color:#92a8d1;width:100px" id="PollLimit" name="PollLimit" min="0" value="0" onKeyPress="if(this.value.length==4) return false;" onkeypress='return event.charCode >= 48 && event.charCode <= 57' />
 
                                                 </div>
                                             </div>
@@ -180,7 +180,7 @@
 
                                                     <div id="MultiNumber" style="display: none;padding-bottom:10px">
 
-                                                        <input type="number" class="form-control text-center" style="width:100px;border-color:#92a8d1" id="NumberOfAnswer" min="2" value="2"  onKeyPress="if(this.value.length==2) return false;" onkeypress='return event.charCode >= 48 && event.charCode <= 57' />
+                                                        <input type="number" class="form-control text-center" style="width:100px;border-color:#92a8d1" id="NumberOfAnswer" min="2" value="2" onKeyPress="if(this.value.length==2) return false;" onkeypress='return event.charCode >= 48 && event.charCode <= 57' />
 
                                                     </div>
                                                     <div id="port">
@@ -208,7 +208,7 @@
 
 
 
-                                            <label class="p-3"> Max Value : </label><input class="form-control text-center d-inline "onKeyPress="if(this.value.length==2) return false;" onkeypress='return event.charCode >= 48 && event.charCode <= 57' style="width:70px; font-size:medium ;border-color:#92a8d1" type='number' name='rating' id='star_input' min="0" max="10" />
+                                            <label class="p-3"> Max Value : </label><input class="form-control text-center d-inline " onKeyPress="if(this.value.length==2) return false;" onkeypress='return event.charCode >= 48 && event.charCode <= 57' style="width:70px; font-size:medium ;border-color:#92a8d1" type='number' name='rating' id='star_input' min="0" max="10" />
 
 
                                             <!-- Rating Stars Box -->
@@ -280,7 +280,7 @@
                                 </div>
 
                             </div>
-                            
+
                             @foreach (var pi in ViewBag.ThisPo)
                             {
                                 if (pi.Poll.LimitPerson == 0)
@@ -335,7 +335,7 @@
 
                                                     <i class=" card-title fa fa-user-circle-o " style='font-size:15px;color:gray;margin:auto;margin-left:1px;padding-top:2px;'>  @pi.Poll.LimitPerson person </i>
                                                 </span>
-                                                    <h5 class="card-title mt-2  p-1 m-1" style="color:darkgrey">@pi.Poll.Polls_Name</h5>
+                                                <h5 class="card-title mt-2  p-1 m-1" style="color:darkgrey">@pi.Poll.Polls_Name</h5>
 
 
 
@@ -408,7 +408,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body " >
+            <div class="modal-body ">
 
             </div>
             <div class="modal-footer">
@@ -419,6 +419,13 @@
     </div>
 </div>
 @section scripts{
+
+    <script src="~/Scripts/umd/popper-utils.min.js"></script>
+    <script src="~/Scripts/umd/popper.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
     <link href="~/Style_Sheets/Star.css" rel="stylesheet" />
     <link href="~/Style_Sheets/PollBox.css" rel="stylesheet" />
     <link href="~/Style_Sheets/SwitchButton.css" rel="stylesheet" />
@@ -600,7 +607,7 @@
 
             if (val == "1") {
                 vall = "MultipleChoice";
-               
+
             }
             if (val == "2") {
                 vall = "OpenText";
@@ -781,7 +788,7 @@
         }
 
     </script>
-  <script>
+    <script>
         function EditPollBtn() {
             var Name = $("#Name").val();
             if (Name == "") {
@@ -964,15 +971,15 @@
 
 
 
-                $("input[name='btnt']").each(function () {
-                    $("input[name='btnt']").prop("checked", false).change();
-            })
+        $("input[name='btnt']").each(function () {
+            $("input[name='btnt']").prop("checked", false).change();
+        })
 
-                $("input[data-bind~='True']").each(function callSignalR() {
-                    $("input[data-bind~='True']").prop("checked", true).change();
+        $("input[data-bind~='True']").each(function callSignalR() {
+            $("input[data-bind~='True']").prop("checked", true).change();
 
 
-            })
+        })
 
 
 

@@ -37,6 +37,27 @@
 
 @section scripts{
 
+    <script>
+         $(document).ready(function () {
+
+             var IdsD = @ViewBag.ThisActive;
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("FindIsAnswer","Outer")',
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    data: JSON.stringify({ EventID: IdsD }),
+                    success: function (data) {
+                  
+
+                    },
+                    error: function () {
+                        console.log("Error Again.")
+                    }
+                })
+
+        });
+    </script>
 
     <script>
         $(document).ready(function () {

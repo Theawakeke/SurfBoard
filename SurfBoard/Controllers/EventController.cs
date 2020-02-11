@@ -647,7 +647,7 @@ namespace SurfBoard.Controllers
                 var MA = all.Select(x => x.Outer_Text);
 
                 string[] word = MA.ToArray();
-                string[] wait = { "Dont have any Text yet." };
+                string[] wait = { "ยังไม่มีการตอบคำถามในโพลคำถามนี้" };
                 if (word.Length == 0)
                 {
                     word = wait;
