@@ -32,16 +32,16 @@
                     </span>
                 </span>
             </label>
-            <input class="form-control text-uppercase" style="border-color:  #92a8d1;" autocomplete="off" id="Code" type="text" placeholder="Search New Code" maxlength="4">
+            <input class="form-control text-uppercase" style="border-color:  #92a8d1;" autocomplete="off" id="Code" type="text" placeholder="ค้นหารหัสกิจกรรม" maxlength="4">
 
             @if (@Session["Ses_ID"] == null)
             {
-                <button class="btn example_c" style="margin-left:20px;" onclick="CheckOuter()" type="button">Search</button>
+                <button class="btn example_c" style="margin-left:20px;" onclick="CheckOuter()" type="button">ค้นหา</button>
 
             }
             @if (@Session["Ses_ID"] != null)
             {
-                <button class="btn example_c" style="margin-left:20px;" onclick="CheckNewEnter()" type="button">Search</button>
+                <button class="btn example_c" style="margin-left:20px;" onclick="CheckNewEnter()" type="button">ค้นหา</button>
 
             }
 
@@ -63,13 +63,13 @@
 
             </div>
             <div class="modal-body" autocomplete="off">
-                <input class="form-control " name="EnterPassword2" id="EnterPassword2" placeholder=" Please Text this Event Password" style="width:254px;margin-bottom:-10px;margin-top:-10px" />
+                <input class="form-control " name="EnterPassword2" id="EnterPassword2" placeholder=" กรุณาใส่รหัสผ่านของกิจกรรมนี้" style="width:254px;margin-bottom:-10px;margin-top:-10px" />
             </div>
             <div class="modal-footer border-0">
                 <input type="number" id="DeleteEID" hidden />
                 <button type="button" class="btn btn-secondary close2" data-dismiss="modal" hidden>Close</button>
 
-                <button type="button" class="btn btn-secondary" style="width:100px" onclick="validatePassword()">Enter</button>
+                <button type="button" class="btn btn-secondary" style="width:100px" onclick="validatePassword()">ยืนยัน</button>
             </div>
         </div>
     </div>
@@ -81,12 +81,12 @@
 
             <div class="modal-body input-group" autocomplete="off" style="">
 
-                <input class="form-control-plaintext " id="OuterName" placeholder="Please Text Your Name" />&nbsp;
+                <input class="form-control-plaintext " id="OuterName" placeholder="กรุณาใส่ชื่อของคุณ" />&nbsp;
 
 
                 <button type="button" class="btn btn-secondary close2" data-dismiss="modal" hidden>Close</button>
 
-                <button type="button" class="btn btn-secondary" style="width:60px;height:auto" onclick="SetOuterSession()">Save</button>
+                <button type="button" class="btn btn-secondary" style="width:80px;height:auto" onclick="SetOuterSession()">บันทึก</button>
             </div>
         </div>
     </div>

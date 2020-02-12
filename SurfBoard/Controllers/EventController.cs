@@ -43,18 +43,18 @@ namespace SurfBoard.Controllers
         {
             if (eventmodel.Event_Name == null)
             {
-                var result = new { Result = "Error in Your Information" + "\r\n" + " เกิดความผิดในการกรอกข้อมูลของคุณ", Event = "" };
+                var result = new { Result = " เกิดความผิดในการกรอกข้อมูลของคุณ", Event = "" };
                 return Json(result);
             }
             if (eventmodel.Event_Code == null)
             {
-                var result = new { Result = "Error in Your Information" + "\r\n" + " เกิดความผิดในการกรอกข้อมูลของคุณ", Event = "" };
+                var result = new { Result = " เกิดความผิดในการกรอกข้อมูลของคุณ", Event = "" };
                 return Json(result);
             }
             DateTime date = Convert.ToDateTime(@"01/01/01");
             if (eventmodel.Start_Date == date)
             {
-                var result = new { Result = "Error in Your Information" + "\r\n" + " เกิดความผิดในการกรอกข้อมูลของคุณ", Event = "" };
+                var result = new { Result = " เกิดความผิดในการกรอกข้อมูลของคุณ", Event = "" };
                 return Json(result);
             }
 
@@ -63,12 +63,12 @@ namespace SurfBoard.Controllers
             DateTime today1 = Convert.ToDateTime(today);
             if (eventmodel.Start_Date == today1)
             {
-                var result = new { Result = "Error in Your Information, Please dont set date less than today." + "\r\n" + " เกิดความผิดในการกรอกข้อมูลของคุณ กรุณาอย่าตั้งเวลาน้อยกว่าเวลาปัจจุบัน", Event = "" };
+                var result = new { Result = " เกิดความผิดในการกรอกข้อมูลของคุณ กรุณาอย่าตั้งเวลาน้อยกว่าเวลาปัจจุบัน", Event = "" };
                 return Json(result);
             }
             if (eventmodel.End_Date == date)
             {
-                var result = new { Result = "Error in Your Information" + "\r\n" + " เกิดความผิดในการกรอกข้อมูลของคุณ", Event = "" };
+                var result = new { Result = " เกิดความผิดในการกรอกข้อมูลของคุณ", Event = "" };
                 return Json(result);
             }
 
@@ -77,7 +77,7 @@ namespace SurfBoard.Controllers
             {
                 if (TestEventPass.Equals("ErrorCaseWhiteSpace"))
                 {
-                    var result = new { Result = "Please enter the password or remove the check if you do not want to enter the password. " + "\r\n" + " กรุณาใส่รหัสผ่านหรือลบเครื่องหมายหากคุณไม่ต้องการใส่รหัสผ่าน", Event = "" };
+                    var result = new { Result = " กรุณาใส่รหัสผ่านหรือลบเครื่องหมายหากคุณไม่ต้องการใส่รหัสผ่าน", Event = "" };
                     return Json(result);
                 }
             }
@@ -113,7 +113,7 @@ namespace SurfBoard.Controllers
 
 
 
-                    var result = new { Result = "Add Event Succesfully." + "\r\n" + " บันทึกกิจกรรมสำเร็จ", Event = model };
+                    var result = new { Result = "บันทึกกิจกรรมสำเร็จ", Event = model };
 
                     return Json(result);
                 }
@@ -126,8 +126,7 @@ namespace SurfBoard.Controllers
                 // TempData["msg"] = "<script>alert('Your Timeline is already Exist.');</script>";
                 var result = new
                 {
-                    Result = "Your Timeline is already exist. Plaese Change Your Timeline or Your Event Code" + "\r\n"
-                    + " ช่วงเวลาของคุณซ้ำ กรุณาเปลี่ยนช่วงเวลา หรือ รหัสกิจกรรม",
+                    Result = " ช่วงเวลาของคุณซ้ำ กรุณาเปลี่ยนช่วงเวลา หรือ รหัสกิจกรรม",
                     Event = ""
                 };
                 return Json(result);
@@ -273,7 +272,7 @@ namespace SurfBoard.Controllers
                         }
                         if (numOPcheck == i)
                         {
-                            var results = new { Result = "Please Add Your Choices." + "\r\n" + " กรุณาเพิ่มตัวเลือกของคุณ", Poll = "" };
+                            var results = new { Result = " กรุณาเพิ่มตัวเลือกของคุณ", Poll = "" };
                             return Json(results);
                         }
                     }
@@ -281,7 +280,7 @@ namespace SurfBoard.Controllers
                     {
                         if (String.IsNullOrWhiteSpace(OPtsrCheck[0]))
                         {
-                            var results = new { Result = "Please Add Your Choices." + "\r\n" + " กรุณาเพิ่มตัวเลือกของคุณ", Poll = "" };
+                            var results = new { Result = " กรุณาเพิ่มตัวเลือกของคุณ", Poll = "" };
                             return Json(results);
                         }
                     }
@@ -295,8 +294,7 @@ namespace SurfBoard.Controllers
                             {
                                 var results = new
                                 {
-                                    Result = "Please check your options, Some option is repeated to other options."
-                                     + "\r\n" + " กรุณาตรวจสอบตัวเลือกของคุณ, บางตัวเลือกซ้ำกับตัวเลือกอื่น",
+                                    Result = " กรุณาตรวจสอบตัวเลือกของคุณ, บางตัวเลือกซ้ำกับตัวเลือกอื่น",
                                     Poll = ""
                                 };
                                 return Json(results);
@@ -372,7 +370,7 @@ namespace SurfBoard.Controllers
                                  };
 
                     var view = ViewPT.ToList();
-                    var result = new { Result = "Add Poll Succesfully." + "\r\n" + " บันทึกโพลคำถามสำเร็จ", Poll = 1, Create = view };
+                    var result = new { Result = " บันทึกโพลคำถามสำเร็จ", Poll = 1, Create = view };
 
                     return Json(result);
                 }
@@ -380,7 +378,7 @@ namespace SurfBoard.Controllers
             }
             else
             {
-                var result = new { Result = "Please Enter your Poll Name." + "\r\n" + " กรุณากรอกชื่อของคำถาม", Poll = "" };
+                var result = new { Result = " กรุณากรอกชื่อของคำถาม", Poll = "" };
 
                 return Json(result);
             }
@@ -702,7 +700,7 @@ namespace SurfBoard.Controllers
 
 
 
-                var alertt = "Delete Success";
+                var alertt = "ลบเสร็จสิ้น";
                 return Json(alertt);
             }
 
@@ -717,8 +715,8 @@ namespace SurfBoard.Controllers
                 db.SaveChanges();
 
 
-                var alerte = new { Result = "Delete Success" };
-                
+                var alerte = new { Result = "ลบเสร็จสิ้น" };
+
                 return Json(alerte);
             }
 
@@ -756,7 +754,7 @@ namespace SurfBoard.Controllers
                     EditView.Event_Password = Password;
                     db.SaveChanges();
 
-                    var alerte = new { Result = "Event have been updated." };
+                    var alerte = new { Result = "กิจกรรมได้รับการอัพเดต" };
 
                     return Json(alerte);
                 }
@@ -764,7 +762,7 @@ namespace SurfBoard.Controllers
                 {
 
                     // TempData["msg"] = "<script>alert('Your Timeline is already Exist.');</script>";
-                    var alerte = new { Result = "Your Event Code and Timeline is already exist." };
+                    var alerte = new { Result = "ช่วงระเวลากิจกรรมของคุณเกิดความซ้ำซ้อน" };
                     return Json(alerte);
 
                 }
@@ -776,7 +774,7 @@ namespace SurfBoard.Controllers
             {
 
 
-                var EditViewPoll = db.Polls.Where(x => x.Polls_ID == PID).Select(x => new PollView() { Polls_ID = x.Polls_ID, Polls_Type_ID = x.Polls_Type_ID, Polls_Name = x.Polls_Name, Event_ID = x.Event_ID, Rating = x.Rating, IsMulti = x.IsMulti, MaxMulti = x.MaxMulti , LimitPerson = x.LimitPerson }).ToList();
+                var EditViewPoll = db.Polls.Where(x => x.Polls_ID == PID).Select(x => new PollView() { Polls_ID = x.Polls_ID, Polls_Type_ID = x.Polls_Type_ID, Polls_Name = x.Polls_Name, Event_ID = x.Event_ID, Rating = x.Rating, IsMulti = x.IsMulti, MaxMulti = x.MaxMulti, LimitPerson = x.LimitPerson }).ToList();
                 var typePoll = EditViewPoll.Select(x => x.Polls_Type_ID).ToArray();
                 var LimitPoll = EditViewPoll.Select(x => x.LimitPerson).ToArray();
 
@@ -825,7 +823,7 @@ namespace SurfBoard.Controllers
                         {
                             if (Repeatedoptions.ContainsKey(CheckOptions[i])) // Check if word already exist in dictionary update the count  
                             {
-                                var alertes = new { Result = "Please check your options, Some option is repeated to other options.", Get = 1 };
+                                var alertes = new { Result = "กรุณาตรวจสอบตัวเลือกของคุณ เนื่องจากเกิดความซ้ำซ้อน", Get = 1 };
                                 return Json(alertes);
                             }
                             else
@@ -942,7 +940,7 @@ namespace SurfBoard.Controllers
                 var signalID = db.Polls.Where(x => x.Polls_ID == ID).Select(x => x.Polls_ID).SingleOrDefault();
                 var signalType = db.Polls.Where(x => x.Polls_ID == ID).Select(x => x.Polls_Type_ID).SingleOrDefault();
                 var Signal = new { signalID, signalType };
-                var alerte = new { Result = "Poll have been Updated.", Get = 0, s = Signal };
+                var alerte = new { Result = "โพลคำถามอัพเดตแล้ว", Get = 0, s = Signal };
 
                 return Json(alerte);
 
@@ -950,7 +948,40 @@ namespace SurfBoard.Controllers
 
         }
 
+        public ActionResult _SettingUser()
+        {
+            var ID = Convert.ToInt32(Session["User_ID"]);
+            using (ProjectJobEntities db = new ProjectJobEntities())
+            {
+               
 
+               var userlist = db.Users.Where(x => x.User_ID == ID).ToList();
+
+                //viewbagdata
+                ViewBag.Userlist = userlist;
+
+              
+                return View();
+            }
+           
+        }
+        public ActionResult UpdateUser( string FirstName, string LastName, int User_ID)
+        {
+            
+            using (ProjectJobEntities db = new ProjectJobEntities())
+            {
+
+                var UpdateUser = db.Users.Where(x => x.User_ID == User_ID).SingleOrDefault();
+
+                UpdateUser.FirstName = FirstName;
+                UpdateUser.LastName = LastName;
+
+                db.SaveChanges();
+
+                return Json(JsonRequestBehavior.AllowGet);
+            }
+
+        }
 
     }
 }

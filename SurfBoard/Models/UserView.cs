@@ -10,11 +10,11 @@ namespace SurfBoard.Models
     {
 
 
-        [Display(Name = "FirstName")]
+        [Display(Name = "First Name")]
         [Required(AllowEmptyStrings = false, ErrorMessage = "First Name Required")]
         public string FirstName { get; set; }
 
-        [Display(Name = "LastName")]
+        [Display(Name = "Last Name")]
         [Required(AllowEmptyStrings = false, ErrorMessage = "Last Name Required")]
         public string LastName { get; set; }
 

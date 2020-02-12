@@ -34,26 +34,26 @@
             <div class="sidebar-menu">
                 <ul>
                     <li class="header-menu">
-                        <span>General</span>
+                        <span>เมนู</span>
                     </li>
 
                     <li>
                         <a href="@Url.Action("Home", "Event")">
                             <i class="fa fa-folder"></i>
-                            <span>Documentation</span>
+                            <span>ข้อมูลทั่วไป</span>
 
                         </a>
                     </li>
                     <li>
                         <a href="@Url.Action("DashBoard", "Dashboard")">
                             <i class="fa fa-bar-chart"></i>
-                            <span>Analytics</span>
+                            <span>การควบคุมข้อมูล</span>
                         </a>
                     </li>
                     <li>
                         <a href="@Url.Action("EnterEvent", "Outer")">
                             <i class="fa fa-search"></i>
-                            <span>Go Survey</span>
+                            <span>เข้าสู่การสำรวจ</span>
                         </a>
                     </li>
                 </ul>
@@ -68,7 +68,7 @@
             <a href="#">
 
             </a>
-            <a href="#">
+            <a data-toggle="modal" data-target="#SettingUserModal">
                 <i class="fa fa-cog"></i>
 
             </a>
@@ -80,11 +80,11 @@
     <!-- sidebar-wrapper  -->
     <main class="page-content">
         <div class="container-fluid">
-            <h2 style="text-align:center">EVENT</h2>
+            <h2 style="text-align:center">กิจกรรม</h2>
             <hr>
             <div class="container">
 
-                <button class="btn btn-outline-info" data-toggle="modal" data-target="#Modal_Create">Create Event</button>
+                <button class="btn btn-outline-info" data-toggle="modal" data-target="#Modal_Create">สร้างกิจกรรม</button>
 
 
                 <div class="modal" role="dialog" id="Modal_Create">
@@ -92,7 +92,7 @@
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header" style="background-color:cornflowerblue">
-                                <h5 class="modal-title" style="color:white;">Create Event</h5>
+                                <h5 class="modal-title" style="color:white;">สร้างกิจกรรม</h5>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
@@ -105,7 +105,7 @@
                             </div>
                             <div class="modal-footer">
 
-                                <button type="button" onclick="validate()" class="btn btn-primary" style="width:auto">Create</button>
+                                <button type="button" onclick="validate()" class="btn btn-primary" style="width:auto">สร้าง</button>
                             </div>
 
                         </div>
@@ -135,39 +135,39 @@
                     {
                         if (ev.Event_Password == null)
                         {
-                           
-
-                               
-
-
-                                <div class="list-group">
-
-                                    <div class="card border-0 shadow-sm " style="height:auto;">
-
-                                        <div class="card-body flex-column  ">
-                                            <div class="" style="position:absolute; right:1px;">
-                                                <span class="fa fa-pencil-square-o btn  mt-3 mr-2" style="font-size:25px;" data-toggle="modal" data-target="#exampleModal" data-whatever="@ev.Event_ID"></span>
-
-                                                <span class='fa fa-trash-o btn rounded-circle mt-3 mr-5' style='font-size:25px' data-toggle='modal' data-target='#DeleteModal' data-whatever='@ev.Event_ID' data-Name='@ev.Event_Name'></span>
-                                            </div>
-
-                                            <div class="align-items-start list-group-item-action pl-2 " onclick="MainPage(@ev.Event_ID)" id="@ev.Event_ID">
-
-                                                <div class="form-inline">
-                                                    <h4 class="card-title " style="color:#9F614D">@ev.Event_Name</h4>
-                                                    <small class="card-title d-xl-inline-flex text-uppercase" style="font-size:medium; color:lightgrey">&nbsp; #@ev.Event_Code</small>
-                                                </div>
-
-                                                <p class="card-text">@ev.Start_Date.ToString("dd/MM/yyyy")   To   @ev.End_Date.ToString("dd/MM/yyyy")</p>
-                                            </div>
 
 
 
+
+
+                            <div class="list-group">
+
+                                <div class="card border-0 shadow-sm " style="height:auto;">
+
+                                    <div class="card-body flex-column  ">
+                                        <div class="" style="position:absolute; right:1px;">
+                                            <span class="fa fa-pencil-square-o btn  mt-3 mr-2" style="font-size:25px;" data-toggle="modal" data-target="#exampleModal" data-whatever="@ev.Event_ID"></span>
+
+                                            <span class='fa fa-trash-o btn rounded-circle mt-3 mr-5' style='font-size:25px' data-toggle='modal' data-target='#DeleteModal' data-whatever='@ev.Event_ID' data-Name='@ev.Event_Name'></span>
                                         </div>
-                                        
+
+                                        <div class="align-items-start list-group-item-action pl-2 " onclick="MainPage(@ev.Event_ID)" id="@ev.Event_ID">
+
+                                            <div class="form-inline">
+                                                <h4 class="card-title " style="color:#9F614D">@ev.Event_Name</h4>
+                                                <small class="card-title d-xl-inline-flex text-uppercase" style="font-size:medium; color:lightgrey">&nbsp; #@ev.Event_Code</small>
+                                            </div>
+
+                                            <p class="card-text">@ev.Start_Date.ToString("dd/MM/yyyy")   To   @ev.End_Date.ToString("dd/MM/yyyy")</p>
+                                        </div>
+
+
+
                                     </div>
+
                                 </div>
-                            
+                            </div>
+
                         }
                         else
                         {
@@ -209,7 +209,7 @@
                     <div class="list-group">
                         <div class="card border-0 shadow-sm " style="height:105px;width:auto">
                             <div class="text-center">
-                                <h3 style="color:#F7E3CA;padding-top:30px"> Don't have any Event</h3>
+                                <h3 style="color:#F7E3CA;padding-top:30px"> ไม่มีกิจกรรม</h3>
                             </div>
                         </div>
                     </div>
@@ -228,7 +228,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header" style="background-color:#ffd800">
-                <h5 class="modal-title" id="exampleModalLabel" style="color:white">Edit Action</h5>
+                <h5 class="modal-title" id="exampleModalLabel" style="color:white">การตั้งค่ากิจกรรม</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -239,7 +239,7 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary close2" data-dismiss="modal" hidden>Close</button>
 
-                <button type="button" class="btn btn-secondary" style="width:100px" onclick="validateEditBtn()">Save</button>
+                <button type="button" class="btn btn-secondary" style="width:100px" onclick="validateEditBtn()">ยืนยัน</button>
             </div>
         </div>
     </div>
@@ -250,7 +250,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header" style="background-color:#ff3535">
-                <h5 class="modal-title" id="DeleteModalLabel" style="color:white">Delete Action</h5>
+                <h5 class="modal-title" id="DeleteModalLabel" style="color:white">การลบอีเว้นท์</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -261,10 +261,31 @@
             <div class="modal-footer">
                 <input type="number" id="DeleteEI" hidden />
                 <button type="button" class="btn btn-secondary close3" data-dismiss="modal" hidden>Close</button>
-                <button type="button" class="btn btn-danger" onclick="delet()">Summit</button>
+                <button type="button" class="btn btn-danger" onclick="delet()">ยืนยัน</button>
             </div>
 
 
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="SettingUserModal" tabindex="-1" role="dialog" aria-labelledby="SettingUserModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color:#ffd800">
+                <h5 class="modal-title" id="SettingUserModalLabel" style="color:white">การตั้งค่า</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" autocomplete="off">
+                <div id="InputUser"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary close2" data-dismiss="modal" hidden>Close</button>
+
+                <button type="button" class="btn btn-secondary" style="width:100px" onclick="UpdateUser()">ยืนยัน</button>
+            </div>
         </div>
     </div>
 </div>
@@ -315,7 +336,7 @@
             // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
             var modal = $(this)
             var name = button.data('name')
-            modal.find('.modal-body').text('Do You Want to Delete Event Name - " ' + name + ' "   ?')
+            modal.find('.modal-body').text('คุณต้องการที่จะลบกิจกรรม  " ' + name + ' " หรือไม่  ?')
             modal.find('.modal-footer input').val(recipient)
         })
     </script>
@@ -344,10 +365,30 @@
 
                 });
             });
+        });
+          $(document).ready(function () {
+            $('#SettingUserModal').on('show.bs.modal', function (event) {
+                var button = $(event.relatedTarget) // Button that triggered the modal
+               // Extract info from data-* attributes
+                // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+                // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+                var modal = $(this)
+
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("_SettingUser","Event")',
+                    dataType: "html",
+
+                    success: function (data) {
+
+                        modal.find('.modal-body').html(data);
+
+                    }
 
 
 
-
+                });
+            });
         });
     </script>
 
@@ -410,7 +451,7 @@
                 Crea();
             } else {
 
-                $("#result").text("Event Code is Not Valid. Need 4 letters");
+                $("#result").text("รหัสกิจกรรมไม่ถูกต้อง, ต้องการ 4 ตัวอักษร ");
                 $("#result").css("color", "red");
             }
             return false;
@@ -435,7 +476,7 @@
                 Edit();
             } else {
 
-                $("#resultEdit").text("Event Code is Not Valid. Need 4 letters");
+                $("#resultEdit").text("รหัสกิจกรรมไม่ถูกต้อง, ต้องการ 4 ตัวอักษร");
                 $("#resultEdit").css("color", "red");
             }
             return false;
@@ -594,7 +635,7 @@
              var ET = E;
              $("#resultEditDate").text("");
              if (ET == "") {
-                  $("#resultEditDate").text("Your end date is expired. Please update your end date.");
+                  $("#resultEditDate").text("วันสิ้นสุดของกิจกรรมของคุณเลยเวลาที่กำหนดแล้ว กรุณาอัพเดตวันสิ้นสุด");
                  $("#resultEditDate").css("color", "red");
                  return false;
             }
@@ -631,6 +672,35 @@
                 data: JSON.stringify({ EventID: DEID }),
                  success: function (alerte) {
                      alert(alerte.Result);
+                     location.reload();
+                },
+                error: function () {
+                    console.log("Error Again.")
+                }
+            })
+        }
+
+    </script>
+
+    <script>
+        function UpdateUser() {
+             var FirstName = $("#FirstName").val();
+            if (FirstName == "") {
+                FirstName = $("#SubFirstName").val();
+            }
+           var LastName = $("#LastName").val();
+            if (LastName == "") {
+                LastName = $("#SubLastName").val();
+            }
+          var ID = $("#User_ID").val();
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("UpdateUser","Event")',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                data: JSON.stringify({ User_ID: ID,FirstName:FirstName, LastName:LastName}),
+                success: function () {
+                   
                      location.reload();
                 },
                 error: function () {

@@ -235,25 +235,25 @@ namespace SurfBoard.Controllers
 
             if (PollTypes == 1 && Options == "0")
             {
-                var result = new { Result = "Add Answer Failed." + "\r\n" + " การเพิ่มคำตอบไม่สำเร็จ", Check = 0 };
+                var result = new { Result = " การเพิ่มคำตอบไม่สำเร็จ", Check = 0 };
 
                 return Json(result);
             }
             if (PollTypes == 4 && Rate == 0)
             {
-                var result = new { Result = "Add Answer Failed." + "\r\n" + " การเพิ่มคำตอบไม่สำเร็จ", Check = 0 };
+                var result = new { Result = " การเพิ่มคำตอบไม่สำเร็จ", Check = 0 };
 
                 return Json(result);
             }
             if (PollTypes == 2 && Text == null)
             {
-                var result = new { Result = "Add Answer Failed." + "\r\n" + " การเพิ่มคำตอบไม่สำเร็จ", Check = 0 };
+                var result = new { Result = " การเพิ่มคำตอบไม่สำเร็จ", Check = 0 };
 
                 return Json(result);
             }
             if (PollTypes == 3 && Text == null)
             {
-                var result = new { Result = "Add Answer Failed." + "\r\n" + " การเพิ่มคำตอบไม่สำเร็จ", Check = 0 };
+                var result = new { Result = " การเพิ่มคำตอบไม่สำเร็จ", Check = 0 };
 
                 return Json(result);
             }
@@ -263,7 +263,7 @@ namespace SurfBoard.Controllers
                 int CheckMax = OPtsr.Length;
                 if (CheckMax > MaxMulti)
                 {
-                    var result = new { Result = "Please Choose only " + MaxMulti + " Answers", Check = 0 };
+                    var result = new { Result = "กรุณาเลือกตัวเลือกแค่ " + MaxMulti + " ตัวเลือก", Check = 0 };
 
                     return Json(result);
                 }
@@ -312,13 +312,13 @@ namespace SurfBoard.Controllers
                     db.SaveChanges();
 
 
-                    var result = new { Result = "Add Answer Succesfully." + "\r\n" + " การเพิ่มคำตอบสำเร็จ", id = Pmodel.Polls_ID, type = PollTypes, Check = 1 };
+                    var result = new { Result = " การเพิ่มคำตอบสำเร็จ", id = Pmodel.Polls_ID, type = PollTypes, Check = 1 };
 
                     return Json(result);
                 }
                 else
                 {
-                    var result = new { Result = "This Event is no longer active. Please find another Event" + "\r\n" + " กิจกรรมนี้ปิดไปแล้ว, กรุณาหากิจกรรมอื่น", Check = 2 };
+                    var result = new { Result = " กิจกรรมนี้ปิดไปแล้ว, กรุณาหากิจกรรมอื่น", Check = 2 };
 
                     return Json(result);
                 }
@@ -368,7 +368,7 @@ namespace SurfBoard.Controllers
 
                 if (Password != dbPassword)
                 {
-                    var results = new { Result = "Event Password is wrong  " + "\r\n" + "รหัสผ่านกิจกรรมผิด", Pascheck = "" };
+                    var results = new { Result = "รหัสผ่านกิจกรรมผิด", Pascheck = "" };
                     return Json(results);
                 }
                 else

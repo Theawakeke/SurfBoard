@@ -27,24 +27,24 @@ namespace SurfBoard.Controllers
         {
             if (FirstName == "" )
             {
-                var results = new { Result = "Please fill out all information." + "\r\n"+ "กรุณากรอกข้อมูลทั้งหมด", Poll = "" };
+                var results = new { Result = "กรุณากรอกข้อมูลทั้งหมด", Poll = "" };
                 return Json(results);
             }
             if (LastName == "")
             {
-                var results = new { Result = "Please fill out all information." + "\r\n" + "กรุณากรอกข้อมูลทั้งหมด", Poll = "" };
+                var results = new { Result = "กรุณากรอกข้อมูลทั้งหมด", Poll = "" };
                 return Json(results);
             }
             if (Email == "")
             {
-                var results = new { Result = "Please fill out all information." + "\r\n" + "กรุณากรอกข้อมูลทั้งหมด", Poll = "" };
+                var results = new { Result = "กรุณากรอกข้อมูลทั้งหมด", Poll = "" };
                 return Json(results);
             }
             if (password != ConfirmPassword)
             {
 
                
-                var results = new { Result = "Your password in both fields is different."+"\r\n"+"รหัสผ่านของคุณทั้งสองช่องไม่เหมือนกัน", Poll = "" };
+                var results = new { Result = "รหัสผ่านของคุณทั้งสองช่องไม่เหมือนกัน", Poll = "" };
                 return Json(results);
             }
             using (ProjectJobEntities db = new ProjectJobEntities())
@@ -53,7 +53,7 @@ namespace SurfBoard.Controllers
                 if (db.Users.Any(x => x.Email == Email))
                 {
                    
-                    var results = new { Result = "Your email has been used."+"\r\n"+"อีเมลของคุณถูกใช้แล้ว", Poll = "" };
+                    var results = new { Result = "อีเมลของคุณถูกใช้แล้ว", Poll = "" };
                     return Json(results);
                 }
                 password = PasswordStorage.CreateHash(password);
@@ -78,7 +78,7 @@ namespace SurfBoard.Controllers
             }
 
             ModelState.Clear();
-            var result = new { Result = "Register Successful" + "\r\n"+"การสมัครสมาชิกสำเร็จ", Poll = 1 };
+            var result = new { Result = "การสมัครสมาชิกสำเร็จ", Poll = 1 };
             return Json(result);
         }
         public ActionResult _Login()
@@ -100,7 +100,7 @@ namespace SurfBoard.Controllers
                     if (model == null)
                     {
                         
-                        var results = new { Result = "This account is not registered in the system, Please Register  " + "\r\n"+ "บัญชีนี้ไม่ได้ถูกลงทะเบียนในระบบ, กรุณาสมัครสมาชิก ", Poll = "" };
+                        var results = new { Result = "บัญชีนี้ไม่ได้ถูกลงทะเบียนในระบบ, กรุณาสมัครสมาชิก ", Poll = "" };
                         return Json(results);
                     }
 
@@ -117,13 +117,13 @@ namespace SurfBoard.Controllers
                         Session["LastName"] = model.LastName;
                         Session["Email"] = model.Email;
                         Session["Ses_ID"] = model.Ses_ID;
-                        var results = new { Result = "Login Successful " + "\r\n" + "เข้าสู่ระบบสำเร็จ", Poll = 1 };
+                        var results = new { Result = "เข้าสู่ระบบสำเร็จ", Poll = 1 };
                         return Json(results);
                     }
                     else
                     {
 
-                        var results = new { Result = "Your Email or Password was wrong" + "\r\n" + " อีเมลหรือรหัสผ่านของคุณผิด", Poll = "" };
+                        var results = new { Result = "อีเมลหรือรหัสผ่านของคุณผิด", Poll = "" };
                         return Json(results); ;
 
 

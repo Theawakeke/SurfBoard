@@ -1,0 +1,39 @@
+﻿<form class="form-horizontal" autocomplete="off">
+    @foreach (var user in ViewBag.Userlist)
+    {
+        <div class="form-group">
+            <div class="col-md-10" style="margin:auto">
+                <label style="color:#92a8d1">ชื่อ</label>
+                <div class="input-group mb-3">
+
+                    <input type='text' class='form-control' id='User_ID' name='User_ID' value='@user.User_ID' hidden />
+                    <input type='text' class='form-control' id='FirstName' name='FirstName' autocomplete="off" placeholder="@user.FirstName" style="border-color:#e4b666" />
+                    <input type='text' class='form-control' id='SubFirstName' name='SubFirstName' autocomplete="off" value="@user.FirstName" hidden />
+
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-10" style="margin:auto">
+                <label style="color:#92a8d1">นามสกุล</label>
+                <div class="input-group mb-3">
+
+                    <input type='text' class='form-control' id='LastName' name='LastName' autocomplete="off" placeholder="@user.LastName" style="border-color:#e4b666" />
+                    <input type='text' class='form-control' id='SubLastName' name='SubLastName' autocomplete="off" value="@user.LastName" hidden />
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-10" style="margin:auto">
+                <label style="color:#92a8d1">อีเมล</label>
+                <div class="input-group mb-3">
+
+                    <input type='text' class='form-control' id='Email' name='Email' autocomplete="off" placeholder="@user.Email" style="border-color:#e4b666" readonly />
+                    
+                </div>
+            </div>
+        </div>
+
+    }
+</form>

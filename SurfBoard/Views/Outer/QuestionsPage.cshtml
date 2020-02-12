@@ -24,7 +24,7 @@
                 <div class="card " id="QuestionsBox" style="width:800px;height:auto;align-self:center;border-color:  #92a8d1;">
                     <div class="card-body ">
 
-                        <h4 class="card-title text-center p-5" style="color:  #92a8d1">Don't Have Any Poll Active.<span class="text-uppercase"> @Session["Event_Code"]</span> </h4>
+                        <h4 class="card-title text-center p-5" style="color:  #92a8d1">ไม่มีข้อมูลโพลคำถามที่เปิดใช้งาน.<span class="text-uppercase"> @Session["Event_Code"]</span> </h4>
 
 
                     </div>
@@ -191,7 +191,7 @@
 
                     },
                 error: function () {
-                        alert("Can't Send Anything. Please Wait until Admin Active Some Polls. ")
+                        alert(" ไม่สามารถส่งคำตอบได้. กรุณารอจนกว่าผู้จัดตั้งจะเปลี่ยนโพลคำตอบ ")
                         console.log("Error Again.")
                     }
                 });

@@ -2596,6 +2596,7 @@
     <Content Include="Scripts\popper-utils.js.map" />
     <Content Include="Views\Event\_LookupEditEvent.cshtml" />
     <Content Include="Views\Event\_LookupEditPoll.cshtml" />
+    <Content Include="Views\Event\_SettingUser.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -28,31 +28,30 @@
                 </div>
             </div>
 
-
             <!-- sidebar-search  -->
             <div class="sidebar-menu">
                 <ul>
                     <li class="header-menu">
-                        <span>General</span>
+                        <span>เมนู</span>
                     </li>
 
                     <li>
                         <a href="@Url.Action("Home", "Event")">
                             <i class="fa fa-folder"></i>
-                            <span>Documentation</span>
+                            <span>ข้อมูลทั่วไป</span>
 
                         </a>
                     </li>
                     <li>
                         <a href="@Url.Action("DashBoard", "Dashboard")">
                             <i class="fa fa-bar-chart"></i>
-                            <span>Analytics</span>
+                            <span>การควบคุมข้อมูล</span>
                         </a>
                     </li>
                     <li>
                         <a href="@Url.Action("EnterEvent", "Outer")">
                             <i class="fa fa-search"></i>
-                            <span>Go Survey</span>
+                            <span>เข้าสู่การสำรวจ</span>
                         </a>
                     </li>
                 </ul>
@@ -67,7 +66,7 @@
             <a href="#">
 
             </a>
-            <a href="#">
+            <a data-toggle="modal" data-target="#SettingUserModal">
                 <i class="fa fa-cog"></i>
 
             </a>
@@ -79,18 +78,18 @@
     <!-- sidebar-wrapper  -->
     <main class="page-content">
         <div class="container-fluid">
-            <h2 style="text-align:center">POLL</h2>
+            <h2 style="text-align:center">โพลคำถาม</h2>
             <hr>
             <div class="container">
 
-                <input type="button" onclick="window.location.href = 'Home';" value="Back" name="button" class="btn example_c">
+                <input type="button" onclick="window.location.href = 'Home';" value="กลับ" name="button" class="btn example_c">
 
 
                 @*---dropdownbutton---*@
 
                 <div class="btn-group" role="group">
                     <button id="btnGroupDrop1" data-toggle="dropdown" type="button" class="btn btn-primary-outline dropdown-toggle " style="color:#6d8db6;" aria-haspopup="true" aria-expanded="false">
-                        Create Poll<span class="caret" style="color:#92a8d1;"></span>
+                        สร้างคำถาม<span class="caret" style="color:#92a8d1;"></span>
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="btnGroupDrop1">
                         @foreach (var item in ViewBag.MyPolist)
@@ -113,7 +112,7 @@
                         <!-- Modal content-->
                         <div class="modal-content">
                             <div class="modal-header" style="background-color:cornflowerblue">
-                                <h5 class="modal-title" style="color:white">Create Poll</h5>
+                                <h5 class="modal-title" style="color:white">สร้างโพลคำถาม</h5>
                                 <button type="button" class="close" data-dismiss="modal">&times;</button>
 
                             </div>
@@ -121,7 +120,7 @@
                                 <form class="form-horizontal" autocomplete="off">
                                     <div class="form-group">
                                         <div class="col-md-10">
-                                            <label style="color:#92a8d1">Selected Type</label>
+                                            <label style="color:#92a8d1">เลือกประเภทคำถาม</label>
                                             <select id="myselect" class="form-control mb-3" style="border-color:#92a8d1">
 
                                                 @foreach (var item in ViewBag.MyPolist)
@@ -131,30 +130,30 @@
                                                 }
                                             </select>
 
-                                            <label style="color:#92a8d1">Name</label>
-                                            <input type="text" id="PollName" name="PollName" class="form-control mb-2" maxlength="40" placeholder=" Your Poll Question Name" style="border-color:#92a8d1" required>
+                                            <label style="color:#92a8d1">ชื่อโพลคำถาม</label>
+                                            <input type="text" id="PollName" name="PollName" class="form-control mb-2" maxlength="40" placeholder=" ใส่ชื่อโพลคำถาม" style="border-color:#92a8d1" required>
 
                                             <div id="CheckSetLimit" style="padding-top:10px">
                                                 <label for="SetLimit" style="color:#92a8d1">
                                                     <input type="checkbox" id="SetLimit" />
-                                                    <span>Set Limit</span>
+                                                    <span>ลิมิตคำตอบ</span>
                                                 </label>
 
                                                 <div id="LimitCount" style="display: none;padding-bottom:10px">
 
-                                                    <input type="number" class="form-control " style="border-color:#92a8d1;width:100px" id="PollLimit" name="PollLimit" min="0" value="0" onKeyPress="if(this.value.length==4) return false;" onkeypress='return event.charCode >= 48 && event.charCode <= 57' />
+                                                    <input type="number" class="form-control " style="border-color:#92a8d1;width:100px" id="PollLimit" name="PollLimit" min="0" value="0" onKeyPress="if(this.value.length==3) return false;" onkeypress='return event.charCode >= 48 && event.charCode <= 57' />
 
                                                 </div>
                                             </div>
 
                                             <div id="MultipleChoice" class="hide_first">
 
-                                                <small style="color: gray">Your Options (Max 10 Options)</small><br />
+                                                <small style="color: gray">ตัวเลือกของคุณ (สูงสุด 10 ตัวเลือก)</small><br />
                                                 <div class="input_fields_container_part mb-2">
 
                                                     <div class="input-group abc" style="height:auto">
 
-                                                        <input type="text" class="form-control" id="NumOptions" name="Options" placeholder="Add Options" maxlength="30" style="border-color:#92a8d1" />
+                                                        <input type="text" class="form-control" id="NumOptions" name="Options" placeholder="เพิ่มตัวเลือก" maxlength="30" style="border-color:#92a8d1" />
 
                                                         <span class="input-group-addon remove_field " style="font-size: 2em; color: Tomato; margin-left:10px">
                                                             <i class="fa fa-remove "></i>
@@ -163,19 +162,19 @@
                                                 </div>
                                                 <div class="form-inline">
                                                     <button type="button" class="add_more_button btn btn-outline-secondary m-1">Add Field</button>
-                                                    <small id="Limit" style="color:red;display:none">Can't Add More Options</small><br />
+                                                    <small id="Limit" style="color:red;display:none"> ไม่สามารถเพิ่มัตวเลือกได้แล้ว</small><br />
                                                 </div>
 
                                                 <br />
                                                 <label for="checkMulti" class="pt-2" style="color:#92a8d1">
                                                     <input type="checkbox" id="checkMulti" />
-                                                    <span>Allow to select multiple options</span>
+                                                    <span>อนุญาตให้เลือกหลายตัวเลือก</span>
                                                 </label>
 
                                                 <div id="CheckLimit" style="display: none">
                                                     <label for="SetMulti" style="color:#92a8d1">
                                                         <input type="checkbox" id="SetMulti" />
-                                                        <span>Limit max number of answers</span>
+                                                        <span> ลิมิตการเลือกสูงสุด</span>
                                                     </label>
 
                                                     <div id="MultiNumber" style="display: none;padding-bottom:10px">
@@ -208,7 +207,7 @@
 
 
 
-                                            <label class="p-3"> Max Value : </label><input class="form-control text-center d-inline " onKeyPress="if(this.value.length==2) return false;" onkeypress='return event.charCode >= 48 && event.charCode <= 57' style="width:70px; font-size:medium ;border-color:#92a8d1" type='number' name='rating' id='star_input' min="0" max="10" />
+                                            <label class="p-3"> เรตสูงสุด : </label><input class="form-control text-center d-inline " onKeyPress="if(this.value.length==2) return false;" onkeypress='return event.charCode >= 48 && event.charCode <= 57' style="width:70px; font-size:medium ;border-color:#92a8d1" type='number' name='rating' id='star_input' min="0" max="10" />
 
 
                                             <!-- Rating Stars Box -->
@@ -252,7 +251,7 @@
                                 </form>
                                 <div class="modal-footer">
 
-                                    <input type="button" class="btn btn-primary" onclick="AddPoll()" value="Submit" />
+                                    <input type="button" class="btn btn-primary" onclick="AddPoll()" value="ยืนยัน" />
 
                                 </div>
                             </div>
@@ -333,7 +332,7 @@
 
                                                     <span class="card-title text-uppercase m-1 " style="@pi.Polls_Type.Type_Color;font-size:15px;font-weight:bolder">@pi.Polls_Type.Polls_Type_Name</span>
 
-                                                    <i class=" card-title fa fa-user-circle-o " style='font-size:15px;color:gray;margin:auto;margin-left:1px;padding-top:2px;'>  @pi.Poll.LimitPerson person </i>
+                                                    <i class=" card-title fa fa-user-circle-o " style='font-size:15px;color:gray;margin:auto;margin-left:1px;padding-top:2px;'>  @pi.Poll.LimitPerson คน </i>
                                                 </span>
                                                 <h5 class="card-title mt-2  p-1 m-1" style="color:darkgrey">@pi.Poll.Polls_Name</h5>
 
@@ -359,7 +358,7 @@
                             <div class="card shadow-sm border-0 " id="data_place" style="max-width:555px;height:456px">
                                 <div class="card-body ">
 
-                                    <h4 class="card-title text-center p-5" style="color:mediumseagreen">Don't Have Any Poll Active.</h4>
+                                    <h4 class="card-title text-center p-5" style="color:mediumseagreen">ไม่มีโพลที่ถูกเปิดใช้งาน</h4>
 
                                 </div>
                             </div>
@@ -381,7 +380,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header" style="background-color:#ff3535">
-                <h5 class="modal-title" id="exampleModalLabel" style="color:white">Delete Action</h5>
+                <h5 class="modal-title" id="exampleModalLabel" style="color:white">ลบโพลคำถาม</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -392,7 +391,7 @@
             <div class="modal-footer">
                 <input type="number" id="DeletePI" hidden />
                 <button type="button" class="btn btn-secondary close2" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-danger" onclick="delet()">Summit</button>
+                <button type="button" class="btn btn-danger" onclick="delet()">ยืนยัน</button>
             </div>
         </div>
     </div>
@@ -403,7 +402,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header" style="background-color:#ffd800">
-                <h5 class="modal-title" style="color:white">Edit Mode</h5>
+                <h5 class="modal-title" style="color:white">โหมดแก้ไข</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -413,11 +412,33 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary close2" data-dismiss="modal" hidden>Close</button>
-                <button type="button" class="btn btn-secondary" onclick="CheckEditPollBtn()">Save changes</button>
+                <button type="button" class="btn btn-secondary" onclick="CheckEditPollBtn()">ยืนยันการเปลี่ยน</button>
             </div>
         </div>
     </div>
 </div>
+
+<div class="modal" id="SettingUserModal" tabindex="-1" role="dialog" aria-labelledby="SettingUserModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color:#ffd800">
+                <h5 class="modal-title" id="SettingUserModalLabel" style="color:white">การตั้งค่า</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" autocomplete="off">
+                <div id="InputUser"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary close2" data-dismiss="modal" hidden>Close</button>
+
+                <button type="button" class="btn btn-secondary" style="width:100px" onclick="UpdateUser()">ยืนยัน</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 @section scripts{
 
     <script src="~/Scripts/umd/popper-utils.min.js"></script>
@@ -437,6 +458,28 @@
     <script src="~/signalr/hubs"></script>
 
     <script>
+          $(document).ready(function () {
+            $('#SettingUserModal').on('show.bs.modal', function (event) {
+                var button = $(event.relatedTarget) // Button that triggered the modal
+               // Extract info from data-* attributes
+                // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+                // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+                var modal = $(this)
+
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("_SettingUser","Event")',
+                    dataType: "html",
+
+                    success: function (data) {
+
+                        modal.find('.modal-body').html(data);
+
+                    }
+
+                });
+            });
+        });
         $('#exampleModal').on('show.bs.modal', function (event) {
             var button = $(event.relatedTarget) // Button that triggered the modal
             var recipient = button.data('whatever') // Extract info from data-* attributes
@@ -444,7 +487,7 @@
             // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
             var modal = $(this)
             var name = $("input[name='DeleteTHis']").val();
-            modal.find('.modal-body').text('Do You Want to Delete Event ID - ' + name + ' ?')
+            modal.find('.modal-body').text('คุณต้องการที่จะลบโพลคำถาม  ' + name + ' หรือไม่ ?')
             modal.find('.modal-footer input').val(recipient)
         })
     </script>
@@ -569,7 +612,7 @@
                             if (data.CheckAct == "3") {
                                 var rows = '<div class="card-body ">'
 
-                                    + '<h4 class="card-title text-center p-5" style="color:mediumseagreen">'+"Please Active One Poll. "+'</h4>'
+                                    + '<h4 class="card-title text-center p-5" style="color:mediumseagreen">'+"กรุณาเปิดใช้งานกิจกรรม "+'</h4>'
 
                             +'</div>'
 
@@ -660,7 +703,7 @@
                 e.preventDefault();
                 if (x < max_fields_limit) { //check conditions
                     x++; //counter increment
-                    $('.input_fields_container_part').append('<div class="input-group"><input type="text" class="form-control" name="Options" placeholder="Add Options" maxlength="30" style="width:100px;border-color:#92a8d1"/><span class="input-group-addon remove_field" style="font-size: 2em; color: Tomato;margin-left:10px;"><i class="fa fa-remove " ></i></span>'); //add input field
+                    $('.input_fields_container_part').append('<div class="input-group"><input type="text" class="form-control" name="Options" placeholder="ใส่ตัวเลือก" maxlength="30" style="width:100px;border-color:#92a8d1"/><span class="input-group-addon remove_field" style="font-size: 2em; color: Tomato;margin-left:10px;"><i class="fa fa-remove " ></i></span>'); //add input field
                     $("#Limit").hide();
                 }
                 else {
@@ -773,12 +816,12 @@
         function CheckEditPollBtn() {
             var rating = $("#rating").val();
             if (rating != "" && rating != 0 && rating != undefined) {
-                var Ornot = window.confirm("If you Change your max rating, The previous survey will be change.")
+                var Ornot = window.confirm("ถ้าจะเปลี่ยนเรตสูงสุด ข้อมูลที่ผ่านมาทั้งหมดจะถูกเปลี่ยน")
                 if (Ornot) {
                     EditPollBtn()
                 }
                 else {
-                    alert("Please Set max rating to 0 ")
+                    alert("กรุณาตั้งเรตสูงสุดเป็น 0 ")
                     return false;
                 }
             }
@@ -1111,4 +1154,32 @@
 
     </script>
 
+    <script>
+        function UpdateUser() {
+             var FirstName = $("#FirstName").val();
+            if (FirstName == "") {
+                FirstName = $("#SubFirstName").val();
+            }
+           var LastName = $("#LastName").val();
+            if (LastName == "") {
+                LastName = $("#SubLastName").val();
+            }
+          var ID = $("#User_ID").val();
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("UpdateUser","Event")',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                data: JSON.stringify({ User_ID: ID,FirstName:FirstName, LastName:LastName}),
+                success: function () {
+
+                     location.reload();
+                },
+                error: function () {
+                    console.log("Error Again.")
+                }
+            })
+        }
+
+    </script>
 }

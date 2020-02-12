@@ -12,7 +12,7 @@
 
                     @if (ViewBag.IsMulti[0] == true && ViewBag.MaxLimit[0] <= 10)
                     {
-                        <p> Allowed answers: &nbsp;&nbsp;&nbsp;&nbsp; @ViewBag.MaxLimit[0]</p>
+                    <p> สามารถเลือกตัวเลือกได้ : &nbsp;&nbsp; @ViewBag.MaxLimit[0] &nbsp;&nbsp;ตัวเลือก</p>
 
                         foreach (var mult in ViewBag.MyChoose)
                         {
@@ -32,7 +32,7 @@
 
                     @if (ViewBag.IsMulti[0] == true && ViewBag.MaxLimit[0] > 10)
                     {
-                        <p> Allowed answers more than one.</p>
+                        <p>สามารถเลือกตัวเลือกได้มากกว่าหนึ่ง</p>
                         foreach (var mult in ViewBag.MyChoose)
                         {
 
@@ -51,7 +51,7 @@
 
                     @if (ViewBag.IsMulti[0] == false)
                     {
-                        <p> Select one option what you want.</p>
+                        <p>เลือกตัวเลือกที่ต้องการได้แค่ 1 ตัวเลือก</p>
                         foreach (var mult in ViewBag.MyChoose)
                         {
 
@@ -71,7 +71,7 @@
             </div>
         </div>
 
-        <button type="button" style="width:765px;height:auto;align-self:center;background-color:  #92a8d1;color:white;" class="btn " onclick="AddThis()">Send</button>
+        <button type="button" style="width:765px;height:auto;align-self:center;background-color:  #92a8d1;color:white;" class="btn " onclick="AddThis()">ส่งคำตอบ</button>
     </div>
 </form>
 
