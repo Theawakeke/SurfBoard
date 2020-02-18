@@ -1,63 +1,53 @@
 ﻿<form class="form-horizontal" autocomplete="off">
     <div class="my-0 p-3 bg-white rounded shadow-sm">
-        @foreach (var t in ViewBag.MyQRate)
+        @if (ViewBag.Limitcheck == 0)
         {
-            <h4 class="border-bottom border-gray pb-2 mb-0 text-center" id="test" data-id="@t.Polls_ID" data-bind="@t.Polls_Type_ID">@t.Polls_Name</h4>
+            foreach (var t in ViewBag.MyQRate)
+            {
+                <h4 class="border-bottom border-gray pb-2 mb-0 text-center" id="test" data-id="@t.Polls_ID" data-bind="@t.Polls_Type_ID">@t.Polls_Name</h4>
 
 
-            <div class="media text-muted pt-3">
+                <div class="media text-muted pt-3">
 
-                <div class="media-body pb-2 mb-0 lh-125 ">
-                    <div class=" m-lg-3 align-content-center">
-                        <div class='rating-stars text-center' id="starr">
+                    <div class="media-body pb-2 mb-0 lh-125 ">
+                        <div class=" m-lg-3 align-content-center">
+                            <div class='rating-stars text-center' id="starr">
 
-                            <ul id='stars'>
-                                @for (int i = 1; i < ViewBag.whatRate.Rating + 1; i++)
-                                {
-                                    <li class='star' style="font-size:medium" id="rate" data-value='@i'>
-                                        <i class='fa fa-star fa-fw'></i>
-                                    </li>
-                                }
+                                <ul id='stars'>
+                                    @for (int i = 1; i < ViewBag.whatRate.Rating + 1; i++)
+                                    {
+                                        <li class='star' style="font-size:medium" id="rate" data-value='@i'>
+                                            <i class='fa fa-star fa-fw'></i>
+                                        </li>
+                                    }
 
-                            </ul>
+                                </ul>
+                            </div>
                         </div>
+                        <label class="p-3 " hidden> You rated this </label><input class=" text-center d-inline " readonly style="width:70px; font-size:medium; visibility:hidden;" name='rating' id='star_input' min="1" max="10" />
+
+
                     </div>
-                    <label class="p-3 " hidden> You rated this </label><input class=" text-center d-inline " readonly style="width:70px; font-size:medium; visibility:hidden;" name='rating' id='star_input' min="1" max="10" />
-
-
                 </div>
-            </div>
+
+            }
+            <button type="button" style="width:735px;height:auto;align-self:center;background-color:  #92a8d1;color:white;" class="btn " onclick="AddThis()">ส่งคำตอบ</button>
+        }
+        else
+        {
+
+            <h4 class="card-title text-center p-5" style="color:  #92a8d1">การสำรวจครั้งนี้ได้ดำเนินการครบการจำนวนที่กำหนดแล้ว</h4>
 
         }
-        <button type="button" style="width:735px;height:auto;align-self:center;background-color:  #92a8d1;color:white;" class="btn " onclick="AddThis()">ส่งคำตอบ</button>
+
 
     </div>
+
 
 </form>
 
 @section scripts{
 
-    <script>
-         $(document).ready(function () {
-
-             var IdsD = @ViewBag.ThisActive;
-                $.ajax({
-                    type: "POST",
-                    url: '@Url.Action("FindIsAnswer","Outer")',
-                    contentType: "application/json; charset=utf-8",
-                    dataType: "json",
-                    data: JSON.stringify({ EventID: IdsD }),
-                    success: function (data) {
-
-
-                    },
-                    error: function () {
-                        console.log("Error Again.")
-                    }
-                })
-
-        });
-    </script>
 
     <script>
         $(document).ready(function () {

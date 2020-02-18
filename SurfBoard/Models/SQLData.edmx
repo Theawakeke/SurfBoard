@@ -116,6 +116,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_OuterOptions_Outer">
+          <End Role="Outer" Type="Self.Outer" Multiplicity="0..1" />
+          <End Role="OuterOptions" Type="Self.OuterOptions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Outer">
+              <PropertyRef Name="Outer_ID" />
+            </Principal>
+            <Dependent Role="OuterOptions">
+              <PropertyRef Name="Outer_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Polls_Event">
           <End Role="Event" Type="Self.Event" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -170,18 +182,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_SurveyOptions_Survey">
-          <End Role="Outer" Type="Self.Outer" Multiplicity="0..1" />
-          <End Role="OuterOptions" Type="Self.OuterOptions" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Outer">
-              <PropertyRef Name="Outer_ID" />
-            </Principal>
-            <Dependent Role="OuterOptions">
-              <PropertyRef Name="Outer_ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityContainer Name="ProjectJobModelStoreContainer">
           <EntitySet Name="Event" EntityType="Self.Event" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Options" EntityType="Self.Options" Schema="dbo" store:Type="Tables" />
@@ -199,6 +199,10 @@
             <End Role="Polls" EntitySet="Polls" />
             <End Role="Options" EntitySet="Options" />
           </AssociationSet>
+          <AssociationSet Name="FK_OuterOptions_Outer" Association="Self.FK_OuterOptions_Outer">
+            <End Role="Outer" EntitySet="Outer" />
+            <End Role="OuterOptions" EntitySet="OuterOptions" />
+          </AssociationSet>
           <AssociationSet Name="FK_Polls_Event" Association="Self.FK_Polls_Event">
             <End Role="Event" EntitySet="Event" />
             <End Role="Polls" EntitySet="Polls" />
@@ -213,10 +217,6 @@
           </AssociationSet>
           <AssociationSet Name="FK_SurveyOptions_Options" Association="Self.FK_SurveyOptions_Options">
             <End Role="Options" EntitySet="Options" />
-            <End Role="OuterOptions" EntitySet="OuterOptions" />
-          </AssociationSet>
-          <AssociationSet Name="FK_SurveyOptions_Survey" Association="Self.FK_SurveyOptions_Survey">
-            <End Role="Outer" EntitySet="Outer" />
             <End Role="OuterOptions" EntitySet="OuterOptions" />
           </AssociationSet>
         </EntityContainer>

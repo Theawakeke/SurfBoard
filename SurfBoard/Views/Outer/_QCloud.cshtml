@@ -1,27 +1,38 @@
 ﻿
 <form class="form-horizontal" autocomplete="off">
     <div class="my-0 p-3 bg-white rounded shadow-sm">
-        @foreach (var t in ViewBag.MyQCloud)
+        @if (ViewBag.Limitcheck == 0)
         {
-            <h4 class="border-bottom border-gray pb-2 mb-0 text-center" id="test" data-id="@t.Polls_ID" data-bind="@t.Polls_Type_ID">@t.Polls_Name</h4>
+            foreach (var t in ViewBag.MyQCloud)
+            {
+                <h4 class="border-bottom border-gray pb-2 mb-0 text-center" id="test" data-id="@t.Polls_ID" data-bind="@t.Polls_Type_ID">@t.Polls_Name</h4>
 
 
-            <div class="media text-muted pt-3">
+                <div class="media text-muted pt-3">
 
-                <div class="media-body pb-2 mb-0 lh-125">
-                    <div class=" m-lg-3 align-content-center">
-                        <div class="mat-in">
-                            <input type="text" id="Text" class="QT" style="padding-left:30px;" required />
-                            <span class="bar"></span>
-                            <label class="QTT">เขียนคำตอบ</label>
+                    <div class="media-body pb-2 mb-0 lh-125">
+                        <div class=" m-lg-3 align-content-center">
+                            <div class="mat-in">
+                                <input type="text" id="Text" class="QT" style="padding-left:30px;" required />
+                                <span class="bar"></span>
+                                <label class="QTT">เขียนคำตอบ</label>
+                            </div>
+
                         </div>
 
                     </div>
-
                 </div>
-            </div>
+            }
+            <button type="button" style="width:765px;height:auto;align-self:center;background-color:  #92a8d1;color:white;" class="btn " onclick="AddThis()">ส่งคำตอบ</button>
+
         }
-        <button type="button" style="width:765px;height:auto;align-self:center;background-color:  #92a8d1;color:white;" class="btn " onclick="AddThis()">ส่งคำตอบ</button>
+        else
+        {
+
+            <h4 class="card-title text-center p-5" style="color:  #92a8d1">การสำรวจครั้งนี้ได้ดำเนินการครบการจำนวนที่กำหนดแล้ว</h4>
+
+        }
+
     </div>
 
 

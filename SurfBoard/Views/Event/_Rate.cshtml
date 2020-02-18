@@ -22,8 +22,8 @@
         </center>
         @foreach (KeyValuePair<int?, decimal> kvp in ViewBag.obj)
         {
-
-            <h5><strong class="pl-2 text-dark mb-3 pt-1 pb-1">  @kvp.Key Stars. </strong></h5>
+           
+            <p class="mb-1 mt-1"><strong class="pl-2 text-dark  pt-1 pb-1" style="font-size:larger">  @kvp.Key Star </strong></p>
             <div class="progress">
 
                 <div class="progress-bar progress-bar-striped bg-warning progress-bar-animated" role="progressbar" style="width: @kvp.Value%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">&nbsp; @kvp.Value%</div>

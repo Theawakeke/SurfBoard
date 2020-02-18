@@ -11,31 +11,31 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-    <div class="container">
-        <nav class="navbar navbar-fixed-top " style="padding-top:20px;padding-bottom:20px">
-            <a class="navbar-brand"></a>
-        </nav>
+<div class="container">
+    <nav class="navbar navbar-fixed-top " style="padding-top:20px;padding-bottom:20px">
+        <a class="navbar-brand"></a>
+    </nav>
 
-        <div>
-            <span onclick="window.location.href ='EnterEvent';" style="font-size:35px" class="fa fa-arrow-left"></span>
+    <div>
+        <span onclick="window.location.href ='EnterEvent';" style="font-size:35px" class="fa fa-arrow-left"></span>
 
-            <div class="list-group ">
+        <div class="list-group ">
 
-                <div class="card " id="QuestionsBox" style="width:800px;height:auto;align-self:center;border-color:  #92a8d1;">
-                    <div class="card-body ">
+            <div class="card " id="QuestionsBox" style="width:800px;height:auto;align-self:center;border-color:  #92a8d1;">
+                <div class="card-body ">
 
-                        <h4 class="card-title text-center p-5" style="color:  #92a8d1">ไม่มีข้อมูลโพลคำถามที่เปิดใช้งาน.<span class="text-uppercase"> @Session["Event_Code"]</span> </h4>
+                    <h4 class="card-title text-center p-5" style="color:  #92a8d1">ไม่มีข้อมูลโพลคำถามที่เปิดใช้งาน.<span class="text-uppercase"> @Session["Event_Code"]</span> </h4>
 
-
-                    </div>
 
                 </div>
 
-
             </div>
 
+
         </div>
+
     </div>
+</div>
 @section scripts{
     <script src="~/Scripts/jquery.signalR-2.4.1.min.js"></script>
     <script src="~/signalr/hubs"></script>
@@ -71,6 +71,7 @@
                             var id = data.ID;
                             var type = data.Type;
                             returnQuestionPartial(id, type);
+
                         }
 
                     },
@@ -79,7 +80,8 @@
                     }
                 })
 
-        });
+         });
+
     </script>
 
     <script>
@@ -109,7 +111,7 @@
                 dataType: 'html',
                 success: function (data) {
                     $('#QuestionsBox').html(data);
-
+                    CheckHasSessionID()
                 },
                 error: function () {
                     alert("Hey! Something Eorror.");
@@ -132,6 +134,31 @@
 
             });
         })
+    </script>
+    <script>
+         function CheckHasSessionID() {
+
+
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("FindHasSession","Outer")',
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+
+                    success: function (data) {
+                        if (data.Checksession == "1") {
+                            var id = data.ID;
+                            var type = data.Type;
+                            SetShowAnswer(id, type);
+                        }
+
+                    },
+                    error: function () {
+                        console.log("Error Again.")
+                    }
+                })
+
+         };
     </script>
     <script>
 
@@ -175,7 +202,7 @@
                         alert(data.Result)
 
                         CallSignalR(data)
-
+                        Location.reload();
                     }
                      if (data.Check == 2) {
                         alert(data.Result)
@@ -221,16 +248,16 @@
             var url = "";
 
             if (type == 1) {
-                url = "/Outer/_SetMulti"
+                url = "/Outer/_SetshowMulti"
             }
             if (type == 2) {
-                url = "/Outer/_SetText"
+                url = "/Outer/_SetshowText"
             }
             if (type == 3) {
-                url = "/Outer/_SetCloud"
+                url = "/Outer/_SetshowCloud"
             }
             if (type == 4) {
-                url = "/Outer/_SetRate"
+                url = "/Outer/_SetshowRate"
             }
 
 
@@ -238,7 +265,7 @@
                 type: "GET",
                 url: url,
                 data: {
-                    pid: id
+                    checkid: id
                 },
                 dataType: 'html',
                 success: function (data) {

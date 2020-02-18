@@ -56,30 +56,6 @@ namespace SurfBoard.Controllers
 
         }
 
-        public ActionResult QuestionsPage()
-        {
-            var eid = Convert.ToInt32(Session["Event_ID"]);
-
-            using (ProjectJobEntities db = new ProjectJobEntities())
-            {
-                var findActive = from ev in db.Event
-                                 join po in db.Polls on ev.Event_ID equals po.Event_ID
-                                 where ev.Event_ID == eid
-                                 select new Eventpoll
-                                 {
-                                     Event = ev,
-                                     Poll = po
-                                 };
-                //var PollActive = findActive.SingleOrDefault(x => x.Poll.IsActive == true);
-
-                //ViewBag.Active = PollActive;
-                ViewBag.ThisActive = eid;
-
-                return View();
-
-
-            }
-        }
         public ActionResult FindSession()
         {
             var Ses_ID = Convert.ToString(Session["Ses_ID"]);
@@ -113,8 +89,35 @@ namespace SurfBoard.Controllers
             return Json(React, JsonRequestBehavior.AllowGet);
 
         }
+        public ActionResult QuestionsPage()
+        {
+            var eid = Convert.ToInt32(Session["Event_ID"]);
+
+            using (ProjectJobEntities db = new ProjectJobEntities())
+            {
+                var findActive = from ev in db.Event
+                                 join po in db.Polls on ev.Event_ID equals po.Event_ID
+                                 where ev.Event_ID == eid
+                                 select new Eventpoll
+                                 {
+                                     Event = ev,
+                                     Poll = po
+                                 };
+                //var PollActive = findActive.SingleOrDefault(x => x.Poll.IsActive == true);
+
+                //ViewBag.Active = PollActive;
+                ViewBag.ThisActive = eid;
+               
+                return View();
+
+
+            }
+        }
         public JsonResult FindIsActive(int EventID)
         {
+
+            var session = Convert.ToString(Session["Ses_ID"]);
+
             using (ProjectJobEntities db = new ProjectJobEntities())
             {
 
@@ -128,12 +131,17 @@ namespace SurfBoard.Controllers
                                  };
                 var numActive = findActive.Where(x => x.Poll.IsActive == true).ToList();
                 var CountActive = numActive.Count();
+                
+
+
                 if (CountActive == 1)
                 {
                     var PollActive = findActive.FirstOrDefault(x => x.Poll.IsActive == true);
+                
 
                     if (PollActive != null)
                     {
+
                         var React = new { CheckAct = "1", ID = PollActive.Poll.Polls_ID, Type = PollActive.Poll.Polls_Type_ID };
                         return Json(React, JsonRequestBehavior.AllowGet);
                     }
@@ -145,29 +153,75 @@ namespace SurfBoard.Controllers
                 }
                 else
                 {
-                    var React = new { CheckAct = "3" };
+                    var React = new { CheckAct = "0" };
                     return Json(React, JsonRequestBehavior.AllowGet);
                 }
             }
 
 
         }
+        public JsonResult FindHasSession()
+        {
 
+            var session = Convert.ToString(Session["Ses_ID"]);
+            var SessionPollID = Convert.ToInt32(Session["Poll_ID"]);
+            using (ProjectJobEntities db = new ProjectJobEntities())
+            {
+
+                var HasSession = db.Outer.Where(x => x.OuterSes_ID == session && x.Polls_ID == SessionPollID).Count();
+
+                var PollActive = db.Polls.FirstOrDefault(x => x.Polls_ID == SessionPollID);
+
+                if (HasSession != 0)
+                {
+                    var React = new { Checksession = "1", ID = PollActive.Polls_ID, Type = PollActive.Polls_Type_ID };
+                    return Json(React, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    var React = new { Checksession = "2" };
+                    return Json(React, JsonRequestBehavior.AllowGet);
+                }
+
+
+            }
+
+
+        }
 
 
         public ActionResult _QRate(int? pid)
         {
             var ID = Convert.ToInt32(Session["Event_ID"]);
 
+
             using (ProjectJobEntities db = new ProjectJobEntities())
             {
+
+
+
                 var pol = db.Polls.Where(x => x.Polls_ID == pid).SingleOrDefault();
                 ViewBag.whatRate = pol;
+
+                var numLimit = pol.LimitPerson;
+                var numusercount = db.Outer.Where(x => x.Polls_ID == pid).Count();
+                if (numLimit == numusercount)
+                {
+                    ViewBag.Limitcheck = 1;
+                }
+                else
+                {
+                    ViewBag.Limitcheck = 0;
+                }
 
                 List<Polls> QRate = new List<Polls>();
                 QRate = db.Polls.Where(x => x.Event_ID == ID && x.Polls_ID == pid).ToList();
 
+                
+                Session["Poll_ID"] = pid;
+
                 //viewbagdata
+
                 ViewBag.MyQRate = QRate;
 
                 return View();
@@ -191,6 +245,18 @@ namespace SurfBoard.Controllers
                 var Multi = db.Options.Where(x => x.Polls_ID == pid).ToList();
                 ViewBag.MyChoose = Multi;
 
+                var numLimit = QMulti.Select(x => x.LimitPerson).Single();
+                var numusercount = db.Outer.Where(x => x.Polls_ID == pid).Count();
+                if (numLimit == numusercount)
+                {
+                    ViewBag.Limitcheck = 1;
+                }
+                else
+                {
+                    ViewBag.Limitcheck = 0;
+                }
+
+                Session["Poll_ID"] = pid;
 
                 return PartialView();
             }
@@ -203,8 +269,20 @@ namespace SurfBoard.Controllers
                 List<Polls> QText = new List<Polls>();
                 QText = db.Polls.Where(x => x.Event_ID == ID && x.Polls_ID == pid).ToList();
 
+                var numLimit = QText.Select(x => x.LimitPerson).Single();
+                var numusercount = db.Outer.Where(x => x.Polls_ID == pid).Count();
+                if (numLimit == numusercount)
+                {
+                    ViewBag.Limitcheck = 1;
+                }
+                else
+                {
+                    ViewBag.Limitcheck = 0;
+                }
                 //viewbagdata
                 ViewBag.MyQText = QText;
+
+                Session["Poll_ID"] = pid;
 
                 return PartialView();
             }
@@ -218,8 +296,21 @@ namespace SurfBoard.Controllers
                 List<Polls> QCloud = new List<Polls>();
                 QCloud = db.Polls.Where(x => x.Event_ID == ID && x.Polls_ID == pid).ToList();
 
+                var numLimit = QCloud.Select(x => x.LimitPerson).Single();
+                var numusercount = db.Outer.Where(x => x.Polls_ID == pid).Count();
+                if (numLimit == numusercount)
+                {
+                    ViewBag.Limitcheck = 1;
+                }
+                else
+                {
+                    ViewBag.Limitcheck = 0;
+                }
                 //viewbagdata
+
                 ViewBag.MyQCloud = QCloud;
+
+                Session["Poll_ID"] = pid;
 
                 return PartialView();
             }
@@ -380,6 +471,83 @@ namespace SurfBoard.Controllers
             }
 
 
+        }
+        public ActionResult _SetshowRate(int? checkid)
+        {
+            var ID = Convert.ToInt32(Session["Event_ID"]);
+
+
+            using (ProjectJobEntities db = new ProjectJobEntities())
+            {
+
+
+
+                var pol = db.Polls.Where(x => x.Polls_ID == checkid).SingleOrDefault();
+                ViewBag.whatRate = pol;
+
+
+
+                List<Polls> QRate = new List<Polls>();
+                QRate = db.Polls.Where(x => x.Event_ID == ID && x.Polls_ID == checkid).ToList();
+
+                //viewbagdata
+                ViewBag.MyQRate = QRate;
+
+                return View();
+            }
+        }
+        public ActionResult _SetshowMulti(int? checkid)
+        {
+            var ID = Convert.ToInt32(Session["Event_ID"]);
+            using (ProjectJobEntities db = new ProjectJobEntities())
+            {
+                List<Polls> QMulti = new List<Polls>();
+                QMulti = db.Polls.Where(x => x.Event_ID == ID && x.Polls_ID == checkid).ToList();
+
+                //viewbagdata
+                ViewBag.MyQMulti = QMulti;
+                var Is = db.Polls.Where(x => x.Polls_ID == checkid).Select(x => x.IsMulti).ToArray();
+                ViewBag.IsMulti = Is;
+                var Max = db.Polls.Where(x => x.Polls_ID == checkid).Select(x => x.MaxMulti).ToArray();
+                ViewBag.MaxLimit = Max;
+
+                var Multi = db.Options.Where(x => x.Polls_ID == checkid).ToList();
+                ViewBag.MyChoose = Multi;
+
+
+                return PartialView();
+            }
+        }
+        public ActionResult _SetshowText(int? checkid)
+        {
+            var ID = Convert.ToInt32(Session["Event_ID"]);
+            using (ProjectJobEntities db = new ProjectJobEntities())
+            {
+                List<Polls> QText = new List<Polls>();
+                QText = db.Polls.Where(x => x.Event_ID == ID && x.Polls_ID == checkid).ToList();
+
+
+                //viewbagdata
+                ViewBag.MyQText = QText;
+
+                return PartialView();
+            }
+        }
+        public ActionResult _SetshowCloud(int? checkid)
+        {
+
+            var ID = Convert.ToInt32(Session["Event_ID"]);
+            using (ProjectJobEntities db = new ProjectJobEntities())
+            {
+                List<Polls> QCloud = new List<Polls>();
+                QCloud = db.Polls.Where(x => x.Event_ID == ID && x.Polls_ID == checkid).ToList();
+
+
+                //viewbagdata
+                ViewBag.MyQCloud = QCloud;
+
+                return PartialView();
+            }
         }
     }
 }

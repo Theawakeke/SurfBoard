@@ -119,7 +119,7 @@
                             <div class="modal-body">
                                 <form class="form-horizontal" autocomplete="off">
                                     <div class="form-group">
-                                        <div class="col-md-10">
+                                        <div class="col-md-10" style="margin:auto">
                                             <label style="color:#92a8d1">เลือกประเภทคำถาม</label>
                                             <select id="myselect" class="form-control mb-3" style="border-color:#92a8d1">
 
@@ -202,12 +202,10 @@
 
                                             </div>
                                         </div>
-                                        <div id="Rating" style="display:none" class="hide_first">
+                                        <div id="Rating" style="display:none;" class="hide_first">
 
 
-
-
-                                            <label class="p-3"> เรตสูงสุด : </label><input class="form-control text-center d-inline " onKeyPress="if(this.value.length==2) return false;" onkeypress='return event.charCode >= 48 && event.charCode <= 57' style="width:70px; font-size:medium ;border-color:#92a8d1" type='number' name='rating' id='star_input' min="0" max="10" />
+                                            <label class="p-3" style="color:#92a8d1;"> เรตสูงสุด : </label><input class="form-control text-center d-inline " onKeyPress="if(this.value.length==2) return false;" onkeypress='return event.charCode >= 48 && event.charCode <= 57' style="width:70px; font-size:medium ;border-color:#92a8d1" type='number' name='rating' id='star_input' min="0" max="10" />
 
 
                                             <!-- Rating Stars Box -->
@@ -703,7 +701,7 @@
                 e.preventDefault();
                 if (x < max_fields_limit) { //check conditions
                     x++; //counter increment
-                    $('.input_fields_container_part').append('<div class="input-group"><input type="text" class="form-control" name="Options" placeholder="ใส่ตัวเลือก" maxlength="30" style="width:100px;border-color:#92a8d1"/><span class="input-group-addon remove_field" style="font-size: 2em; color: Tomato;margin-left:10px;"><i class="fa fa-remove " ></i></span>'); //add input field
+                    $('.input_fields_container_part').append('<div class="input-group"><input type="text" class="form-control" name="Options" placeholder="เพิ่มตัวเลือก" maxlength="30" style="width:100px;border-color:#92a8d1"/><span class="input-group-addon remove_field" style="font-size: 2em; color: Tomato;margin-left:10px;"><i class="fa fa-remove " ></i></span>'); //add input field
                     $("#Limit").hide();
                 }
                 else {

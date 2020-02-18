@@ -1,78 +1,92 @@
 ﻿<form class="form-horizontal" autocomplete="off">
     <div class="my-0 p-3 bg-white rounded shadow-sm">
-        @foreach (var t in ViewBag.MyQMulti)
+        @if (ViewBag.Limitcheck == 0)
         {
-            <h4 class="border-bottom border-gray pb-2 mb-0 text-center" id="test" name="Name" data-id="@t.Polls_ID" data-bind="@t.Polls_Type_ID">@t.Polls_Name</h4>
+            foreach (var t in ViewBag.MyQMulti)
+            {
+                <h4 class="border-bottom border-gray pb-2 mb-0 text-center" id="test" name="Name" data-id="@t.Polls_ID" data-bind="@t.Polls_Type_ID">@t.Polls_Name</h4>
 
-        }
-        <div class="media text-muted pt-3 " style="margin-left:100px;margin-right:100px;">
+            }
+            <div class="media text-muted pt-3 " style="margin-left:100px;margin-right:100px;">
 
-            <div class="media-body pb-2 mb-0 lh-125 ">
-                <div class=" m-lg-3 align-content-center container">
+                <div class="media-body pb-2 mb-0 lh-125 ">
+                    <div class=" m-lg-3 align-content-center container">
 
-                    @if (ViewBag.IsMulti[0] == true && ViewBag.MaxLimit[0] <= 10)
-                    {
-                    <p> สามารถเลือกตัวเลือกได้ : &nbsp;&nbsp; @ViewBag.MaxLimit[0] &nbsp;&nbsp;ตัวเลือก</p>
-
-                        foreach (var mult in ViewBag.MyChoose)
+                        @if (ViewBag.IsMulti[0] == true && ViewBag.MaxLimit[0] <= 10)
                         {
+                            <p> สามารถเลือกตัวเลือกได้ : &nbsp;&nbsp; @ViewBag.MaxLimit[0] &nbsp;&nbsp;ตัวเลือก</p>
 
-                            <div class="pb-1">
-                                <label class="text-center" id="check" data-Multi=" @ViewBag.MaxLimit[0]">
-                                    <input type="checkbox" id="cb" name="BtnSelect" class="option-input checkbox " data-id="@mult.Options_ID" />
-                                    <span class="checkbox" for="cd"> @mult.Options_Name</span>
-                                </label>
+                            foreach (var mult in ViewBag.MyChoose)
+                            {
 
-                            </div>
+                                <div class="pb-1">
+                                    <label class="text-center" id="check" data-Multi=" @ViewBag.MaxLimit[0]">
+                                        <input type="checkbox" id="cb" name="BtnSelect" class="option-input checkbox " data-id="@mult.Options_ID" />
+                                        <span class="checkbox" for="cd"> @mult.Options_Name</span>
+                                    </label>
+
+                                </div>
+
+                            }
+
 
                         }
 
-
-                    }
-
-                    @if (ViewBag.IsMulti[0] == true && ViewBag.MaxLimit[0] > 10)
-                    {
-                        <p>สามารถเลือกตัวเลือกได้มากกว่าหนึ่ง</p>
-                        foreach (var mult in ViewBag.MyChoose)
+                        @if (ViewBag.IsMulti[0] == true && ViewBag.MaxLimit[0] > 10)
                         {
+                            <p>สามารถเลือกตัวเลือกได้มากกว่าหนึ่ง</p>
+                            foreach (var mult in ViewBag.MyChoose)
+                            {
 
 
-                            <div class="pb-1">
-                                <label class="text-center" id="check">
-                                    <input type="checkbox" id="cb" name="BtnSelect" class="option-input checkbox" data-id="@mult.Options_ID" />
-                                    <span class="checkbox" for="cd"> @mult.Options_Name</span>
-                                </label>
+                                <div class="pb-1">
+                                    <label class="text-center" id="check">
+                                        <input type="checkbox" id="cb" name="BtnSelect" class="option-input checkbox" data-id="@mult.Options_ID" />
+                                        <span class="checkbox" for="cd"> @mult.Options_Name</span>
+                                    </label>
 
-                            </div>
+                                </div>
+                            }
+
+
                         }
 
-
-                    }
-
-                    @if (ViewBag.IsMulti[0] == false)
-                    {
-                        <p>เลือกตัวเลือกที่ต้องการได้แค่ 1 ตัวเลือก</p>
-                        foreach (var mult in ViewBag.MyChoose)
+                        @if (ViewBag.IsMulti[0] == false)
                         {
+                            <p>เลือกตัวเลือกที่ต้องการได้แค่ 1 ตัวเลือก</p>
+                            foreach (var mult in ViewBag.MyChoose)
+                            {
 
 
-                            <div class="pb-1">
-                                <label class="text-center" id="check">
-                                    <input type="radio" id="cb" name="BtnSelect" class="option-input radio" data-id="@mult.Options_ID" />
-                                    <span class="radio" for="cd"> @mult.Options_Name</span>
-                                </label>
+                                <div class="pb-1">
+                                    <label class="text-center" id="check">
+                                        <input type="radio" id="cb" name="BtnSelect" class="option-input radio" data-id="@mult.Options_ID" />
+                                        <span class="radio" for="cd"> @mult.Options_Name</span>
+                                    </label>
 
-                            </div>
+                                </div>
+                            }
+
                         }
 
-                    }
-
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <button type="button" style="width:765px;height:auto;align-self:center;background-color:  #92a8d1;color:white;" class="btn " onclick="AddThis()">ส่งคำตอบ</button>
+            <button type="button" style="width:765px;height:auto;align-self:center;background-color:  #92a8d1;color:white;" class="btn " onclick="AddThis()">ส่งคำตอบ</button>
+
+
+        }
+        else
+        {
+
+            <h4 class="card-title text-center p-5" style="color:  #92a8d1">การสำรวจครั้งนี้ได้ดำเนินการครบการจำนวนที่กำหนดแล้ว</h4>
+
+        }
+
     </div>
+
+
 </form>
 
 
