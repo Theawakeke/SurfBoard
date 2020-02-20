@@ -6,23 +6,20 @@
             <h4 class="border-bottom border-gray pb-2 mb-0 text-center" id="test" data-id="@t.Polls_ID" data-bind="@t.Polls_Type_ID">@t.Polls_Name</h4>
 
 
-            <div class="media text-muted pt-3 ">
+            <div class="media text-muted pt-3 " >
 
                 <div class="media-body pb-2 mb-0 lh-125 ">
-                    <div class=" m-lg-3 ">
+                    <div class=" m-lg-3  align-content-center container">
+                        @foreach(var ans in ViewBag.ShowText)
+                        {
+                            <p style="font-size:16px">คำตอบของคุณคือ @ans.Outer_Text</p>
+                        }
 
-
-                        <div class="mat-in">
-                            <input type="text" id="Text" class="QT border-0" style="padding-left:30px;" required />
-                            <span class="bar"></span>
-                            <label class="QTT" style="font-size:large;">แก้ไขคำตอบ</label>
-                        </div>
                     </div>
 
                 </div>
             </div>
         }
-        <button type="button" style="width:765px;height:auto;align-self:center;background-color:  #f2ab39;color:white;" class="btn " onclick="EditThis()">แก้ไขคำตอบ</button>
         
 
     </div>

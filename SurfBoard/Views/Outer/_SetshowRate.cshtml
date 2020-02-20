@@ -6,21 +6,24 @@
             <h4 class="border-bottom border-gray pb-2 mb-0 text-center" id="test" data-id="@t.Polls_ID" data-bind="@t.Polls_Type_ID">@t.Polls_Name</h4>
 
 
-            <div class="media text-muted pt-3">
+            <div class="media text-muted pt-3" >
 
                 <div class="media-body pb-2 mb-0 lh-125 ">
-                    <div class=" m-lg-3 align-content-center">
-                        
+                    <div class=" m-lg-3 align-content-center container">
+                        @foreach (var ans in ViewBag.ShowRate)
+                        {
+                            <label class="p-3 "> คุณได้ให้เรตคำถามนี้ @ans.Outer_Rating ดาว  </label>
+
+                        }
+
+
                     </div>
-                    <label class="p-3 " hidden> You rated this </label><input class=" text-center d-inline " readonly style="width:70px; font-size:medium; visibility:hidden;" name='rating' id='star_input' min="1" max="10" />
-
-
                 </div>
             </div>
 
         }
-        <button type="button" style="width:765px;height:auto;align-self:center;background-color:  #f2ab39;color:white;" class="btn " onclick="EditThis()">แก้ไขคำตอบ</button>
-        
+       
+
 
 
     </div>

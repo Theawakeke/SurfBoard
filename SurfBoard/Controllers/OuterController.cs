@@ -129,6 +129,7 @@ namespace SurfBoard.Controllers
                                      Event = ev,
                                      Poll = po
                                  };
+
                 var numActive = findActive.Where(x => x.Poll.IsActive == true).ToList();
                 var CountActive = numActive.Count();
                 
@@ -482,13 +483,17 @@ namespace SurfBoard.Controllers
 
 
 
-                var pol = db.Polls.Where(x => x.Polls_ID == checkid).SingleOrDefault();
-                ViewBag.whatRate = pol;
-
-
-
                 List<Polls> QRate = new List<Polls>();
                 QRate = db.Polls.Where(x => x.Event_ID == ID && x.Polls_ID == checkid).ToList();
+
+
+               
+                var SesID = Convert.ToString(Session["Ses_ID"]);
+
+                List<Outer> ShowRate = new List<Outer>();
+                ShowRate = db.Outer.Where(x => x.Polls_ID == checkid && x.OuterSes_ID == SesID).ToList();
+
+                ViewBag.ShowRate = ShowRate;
 
                 //viewbagdata
                 ViewBag.MyQRate = QRate;
@@ -506,14 +511,20 @@ namespace SurfBoard.Controllers
 
                 //viewbagdata
                 ViewBag.MyQMulti = QMulti;
-                var Is = db.Polls.Where(x => x.Polls_ID == checkid).Select(x => x.IsMulti).ToArray();
-                ViewBag.IsMulti = Is;
-                var Max = db.Polls.Where(x => x.Polls_ID == checkid).Select(x => x.MaxMulti).ToArray();
-                ViewBag.MaxLimit = Max;
+                var SesID = Convert.ToString(Session["Ses_ID"]);
 
-                var Multi = db.Options.Where(x => x.Polls_ID == checkid).ToList();
-                ViewBag.MyChoose = Multi;
+                var ShowOption = from Outer in db.Outer
+                                 join Outerop in db.OuterOptions on Outer.Outer_ID equals Outerop.Outer_ID
+                                 join OptionID in db.Options on Outerop.Options_ID equals OptionID.Options_ID
+                                 where Outer.Polls_ID == checkid
+                                 select new OuterOption
+                                 {
+                                     Outer = Outer,
+                                     OuterOptions = Outerop,
+                                     Options = OptionID
+                                 };
 
+                ViewBag.ShowOption = ShowOption.Where(x=>x.Outer.OuterSes_ID == SesID).ToList();
 
                 return PartialView();
             }
@@ -526,6 +537,13 @@ namespace SurfBoard.Controllers
                 List<Polls> QText = new List<Polls>();
                 QText = db.Polls.Where(x => x.Event_ID == ID && x.Polls_ID == checkid).ToList();
 
+               
+                var SesID = Convert.ToString(Session["Ses_ID"]);
+
+                List<Outer> ShowText = new List<Outer>();
+                ShowText = db.Outer.Where(x => x.Polls_ID == checkid && x.OuterSes_ID == SesID).ToList();
+
+                ViewBag.ShowText = ShowText;
 
                 //viewbagdata
                 ViewBag.MyQText = QText;
@@ -542,7 +560,12 @@ namespace SurfBoard.Controllers
                 List<Polls> QCloud = new List<Polls>();
                 QCloud = db.Polls.Where(x => x.Event_ID == ID && x.Polls_ID == checkid).ToList();
 
+                var SesID = Convert.ToString(Session["Ses_ID"]);
 
+                List<Outer> ShowCloud = new List<Outer>();
+                ShowCloud = db.Outer.Where(x => x.Polls_ID == checkid && x.OuterSes_ID == SesID).ToList();
+
+                ViewBag.ShowCloud = ShowCloud;
                 //viewbagdata
                 ViewBag.MyQCloud = QCloud;
 

@@ -10,15 +10,17 @@
 
             <div class="media-body pb-2 mb-0 lh-125 ">
                 <div class=" m-lg-3 align-content-center container">
-
-
+                    <p style="font-size:16px">คำตอบของคุณคือ</p>
+                    @foreach (var ans in ViewBag.ShowOption)
+                    {
+                        <p style="font-size:16px"> &minus; &nbsp; @ans.Options.Options_Name </p>
+                    }
 
                 </div>
             </div>
         </div>
 
-        <button type="button" style="width:765px;height:auto;align-self:center;background-color:  #f2ab39;color:white;" class="btn " onclick="EditThis()">แก้ไขคำตอบ</button>
-
+       
 
 
 

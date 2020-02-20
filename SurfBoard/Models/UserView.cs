@@ -23,7 +23,7 @@ namespace SurfBoard.Models
         [Required(AllowEmptyStrings = false, ErrorMessage = "Email Required")]
         [DataType(DataType.EmailAddress)]
         [RegularExpression(@"^[_a-zA-Z0-9-]+(\.[_a-zA-Z0-9-]+)*@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.(([0-9]{1,3})|([a-zA-Z]{2,3})|(aero|coop|info|museum|name))$",
-                            ErrorMessage = "Please enter a valid email address")]
+                            ErrorMessage = "Please enter a valid email address.")]
         public string Email { get; set; }
 
         [Required(AllowEmptyStrings = false, ErrorMessage = "Password is Required")]

@@ -205,7 +205,7 @@
                                         <div id="Rating" style="display:none;" class="hide_first">
 
 
-                                            <label class="p-3" style="color:#92a8d1;"> เรตสูงสุด : </label><input class="form-control text-center d-inline " onKeyPress="if(this.value.length==2) return false;" onkeypress='return event.charCode >= 48 && event.charCode <= 57' style="width:70px; font-size:medium ;border-color:#92a8d1" type='number' name='rating' id='star_input' min="0" max="10" />
+                                            <label class="p-3" style="color:#92a8d1;"> เรตสูงสุด : </label><input class="form-control text-center d-inline "min="0" max="10"   onKeyPress="if(this.value.length==2) return false;" onkeypress='return event.charCode >= 48 && event.charCode <= 57' style="width:70px; font-size:medium ;border-color:#92a8d1" type='number' name='rating' id='star_input' />
 
 
                                             <!-- Rating Stars Box -->
@@ -732,6 +732,9 @@
             if (Rat == "") {
                 Rat = 0;
 
+            }
+            if (Rat >= 10) {
+                Rat = 10;
             }
               var PollLimit = "";
             var NumberMulti = "";

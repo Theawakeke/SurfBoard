@@ -164,6 +164,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\AnalysisData.cs" />
     <Compile Include="Models\Event.cs">
       <DependentUpon>SQLData.tt</DependentUpon>
     </Compile>
@@ -176,6 +177,7 @@
     <Compile Include="Models\Outer.cs">
       <DependentUpon>SQLData.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\OuterOption.cs" />
     <Compile Include="Models\OuterOptions.cs">
       <DependentUpon>SQLData.tt</DependentUpon>
     </Compile>
@@ -2547,6 +2549,7 @@
     <Content Include="Scripts\umd\popper.min.js" />
     <Content Include="Style_Sheets\BackColor.css" />
     <Content Include="Style_Sheets\BG.css" />
+    <Content Include="Style_Sheets\DashBox.css" />
     <Content Include="Style_Sheets\EnterStyle.css" />
     <Content Include="Style_Sheets\FaFaHover.css" />
     <Content Include="Style_Sheets\InputTextQ.css" />

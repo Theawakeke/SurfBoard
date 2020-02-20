@@ -82,12 +82,107 @@
             <h2 style="text-align:center">การควบคุม วิเคราะห์ข้อมูล</h2>
             <hr>
             <div class="container">
-                --------------------------------
+
+
+                <div class="content">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-lg-4 col-md-6 col-sm-6">
+                                <div class="card card-stats">
+                                    <div class="card-header" data-background-color="orange">
+                                        <i class=" fa fa-folder-open"></i>
+                                    </div>
+
+                                    <div class="card-content">
+                                        <p class="category">Event</p>
+                                        <h3 class="title">@ViewBag.eventlistCount</h3>
+                                    </div>
+                                    <div class="card-footer">
+                                        <div class="stats">
+                                            Total Event that created.
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-4 col-md-6 col-sm-6">
+                                <div class="card card-stats">
+                                    <div class="card-header" data-background-color="green">
+                                        <i class=" fa fa-file"></i>
+                                    </div>
+                                    <div class="card-content">
+                                        <p class="category">Poll</p>
+                                        <h3 class="title">@ViewBag.PollCount</h3>
+                                    </div>
+                                    <div class="card-footer">
+                                        <div class="stats">
+                                            Total Poll that created.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-4 col-md-6 col-sm-6">
+                                <div class="card card-stats">
+                                    <div class="card-header" data-background-color="blue">
+                                        <i class=" fa fa-users"></i>
+                                    </div>
+                                    <div class="card-content">
+                                        <p class="category">Survey</p>
+                                        <h3 class="title">@ViewBag.ConutOuter </h3>
+                                    </div>
+                                    <div class="card-footer">
+                                        <div class="stats">
+                                            Updated 24 Hours.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+                <div class="table-responsive dashboard-table">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Survey</th>
+                                <th>Event</th>
+                                <th>Poll</th>
+                                <th>Poll Type</th>
+                                <th>Result</th>
+
+
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            @foreach (var ana in ViewBag.AnalysisData)
+                            {
+
+                                <tr>
+                                    <td>@ana.Outer.Outer_Name</td>
+                                    <td>@ana.Event.Event_Name</td>
+                                    <td>@ana.Polls.Polls_Name</td>
+                                    <td>@ana.Polls_Type.Polls_Type_Name</td>
+                                    @if (@ana.Outer.Outer_Text != null)
+                                    {
+                                        <td>@ana.Outer.Outer_Text</td>
+                                    }
+                                    else
+                                    {
+                                        <td>@ana.Outer.Outer_Rating</td>
+                                    }
+                                </tr>
+
+                            }
+                        </tbody>
+                    </table>
+                </div>
             </div>
-
         </div>
-
-
     </main>
 </div>
 
@@ -116,7 +211,7 @@
 <!-- page-wrapper -->
 @section scripts{
     <link href="~/Style_Sheets/Sitebar.css" rel="stylesheet" />
-
+    <link href="~/Style_Sheets/DashBox.css" rel="stylesheet" />
     <script>
         $(".sidebar-dropdown > a").click(function () {
             $(".sidebar-submenu").slideUp(200);
