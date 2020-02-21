@@ -171,10 +171,15 @@
                                     {
                                         <td>@ana.Outer.Outer_Text</td>
                                     }
+                                    else if (@ana.Outer.Outer_Text == null && @ana.Outer.Outer_Rating == 0)
+                                    {
+                                        <td><a href="#" data-toggle="popover" title="คำตอบของ @ana.Outer.Outer_Name" data-id2="@ana.Polls.Polls_ID" data-id="@ana.Outer.Outer_ID" data-trigger="focus">ดูคำตอบ</a></td>
+                                    }
                                     else
                                     {
                                         <td>@ana.Outer.Outer_Rating</td>
                                     }
+
                                 </tr>
 
                             }
@@ -244,10 +249,7 @@
 
          $(document).ready(function () {
             $('#SettingUserModal').on('show.bs.modal', function (event) {
-                var button = $(event.relatedTarget) // Button that triggered the modal
-               // Extract info from data-* attributes
-                // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
-                // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+
                 var modal = $(this)
 
                 $.ajax({
@@ -294,5 +296,42 @@
         }
 
     </script>
+    
+    <script>
+       $(document).ready(function () {
 
+
+    $('[data-toggle]').on({
+        mouseenter: function () {
+
+            var originator = $(this);
+
+            var PollID = originator.data('id2');
+            var OuterID = originator.data('id');
+
+            $.get('@Url.Action("_FindOuterOptions","DashBoard")', { OuterID: OuterID, PollID: PollID }, function (data) {
+
+                originator.popover({
+                    html: true,
+                    placement: 'left',
+                    
+                    container: 'body',
+                    content: data,
+                }).popover('show');
+
+            })
+
+        },
+        mouseleave: function () {
+           
+            //
+            // Destroy so the data will referesh
+            //
+            
+           $(this).popover('hide');
+        }
+    });
+
+});
+    </script>
 }

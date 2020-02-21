@@ -191,6 +191,7 @@
     </Compile>
     <Compile Include="Models\PollView.cs" />
     <Compile Include="Models\SelectPolltype.cs" />
+    <Compile Include="Models\showoption.cs" />
     <Compile Include="Models\SQLData.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -221,6 +222,7 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\pics\302718.jpg" />
     <Content Include="Content\pics\Black and Turquoise Automotive Logo.png" />
     <Content Include="Content\pics\desktop-1155613.jpg" />
     <Content Include="Content\bootstrap-datetimepicker.css" />
@@ -2604,6 +2606,7 @@
     <Content Include="Views\Outer\_SetshowMulti.cshtml" />
     <Content Include="Views\Outer\_SetshowText.cshtml" />
     <Content Include="Views\Outer\_SetshowCloud.cshtml" />
+    <Content Include="Views\Dashboard\_FindOuterOptions.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

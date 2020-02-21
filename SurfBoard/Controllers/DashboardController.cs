@@ -27,32 +27,32 @@ namespace SurfBoard.Controllers
                 List<Eventpoll> countPoll = new List<Eventpoll>();
 
                 var countPollview = from po in db.Polls
-                            join ev in db.Event on po.Event_ID equals ev.Event_ID
-                            where ev.Users_ID == ID
-                            select new Eventpoll
-                            {
-                                Poll = po,
-                                Event = ev
+                                    join ev in db.Event on po.Event_ID equals ev.Event_ID
+                                    where ev.Users_ID == ID
+                                    select new Eventpoll
+                                    {
+                                        Poll = po,
+                                        Event = ev
 
 
-                            };
+                                    };
                 countPoll = countPollview.ToList();
                 ViewBag.PollCount = countPoll.Count();
 
                 List<PollEvOuter> conutouterview = new List<PollEvOuter>();
 
                 var conutouter = from po in db.Polls
-                            join ev in db.Event on po.Event_ID equals ev.Event_ID
-                            join ou in db.Outer on po.Polls_ID equals ou.Polls_ID
-                            where ev.Users_ID == ID
-                            select new PollEvOuter
-                            {
-                                Poll = po,
-                                Event = ev,
-                                Outer = ou
+                                 join ev in db.Event on po.Event_ID equals ev.Event_ID
+                                 join ou in db.Outer on po.Polls_ID equals ou.Polls_ID
+                                 where ev.Users_ID == ID
+                                 select new PollEvOuter
+                                 {
+                                     Poll = po,
+                                     Event = ev,
+                                     Outer = ou
 
 
-                            };
+                                 };
 
                 conutouterview = conutouter.ToList();
                 ViewBag.ConutOuter = conutouterview.Count();
@@ -60,29 +60,55 @@ namespace SurfBoard.Controllers
                 List<AnalysisData> AnalysisData = new List<AnalysisData>();
 
                 var find = from po in db.Polls
-                                 join ev in db.Event on po.Event_ID equals ev.Event_ID
-                                 join ou in db.Outer on po.Polls_ID equals ou.Polls_ID
-                                 join pt in db.Polls_Type on po.Polls_Type_ID equals pt.Polls_Type_ID
-                                 
-                                 
-                                 where ev.Users_ID == ID
-                                 select new AnalysisData
-                                 {
-                                     Polls = po,
-                                     Event = ev,
-                                     Outer = ou,
-                                     Polls_Type = pt
-                                  
-                                    
+                           join ev in db.Event on po.Event_ID equals ev.Event_ID
+                           join ou in db.Outer on po.Polls_ID equals ou.Polls_ID
+                           join pt in db.Polls_Type on po.Polls_Type_ID equals pt.Polls_Type_ID
 
 
-                                 };
+                           where ev.Users_ID == ID
+                           select new AnalysisData
+                           {
+                               Polls = po,
+                               Event = ev,
+                               Outer = ou,
+                               Polls_Type = pt
+
+
+
+
+                           };
 
                 AnalysisData = find.ToList();
                 ViewBag.AnalysisData = AnalysisData;
-                
+
 
                 return View();
+            }
+
+        }
+        public ActionResult _FindOuterOptions(int OuterID, int PollID)
+        {
+            using (ProjectJobEntities db = new ProjectJobEntities())
+            {
+            
+               
+
+                var ShowOption = from Outer in db.Outer
+                                 join Outerop in db.OuterOptions on Outer.Outer_ID equals Outerop.Outer_ID
+                                 join OptionID in db.Options on Outerop.Options_ID equals OptionID.Options_ID
+                                 where Outer.Polls_ID == PollID 
+                                 select new OuterOption
+                                 {
+                                     Outer = Outer,
+                                     OuterOptions = Outerop,
+                                     Options = OptionID
+                                 };
+
+               var AllOptions = ShowOption.Where(x => x.Outer.Outer_ID == OuterID).ToList();
+
+                ViewBag.AllOptions = AllOptions;
+
+                return PartialView();
             }
         }
     }
